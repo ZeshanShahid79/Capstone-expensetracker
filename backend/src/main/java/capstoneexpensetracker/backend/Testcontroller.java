@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/hello")
-public class testcontroller {
+public class Testcontroller {
 
     @GetMapping
     String hello(){
-        return "Hello Moin Moin";
+        return "Hello Moin Moin geh bitte ";
     }
 }

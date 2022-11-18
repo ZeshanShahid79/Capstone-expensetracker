@@ -1,4 +1,4 @@
-# fly.toml file generated for shmoney-tracker on 2022-11-18T16:51:33+01:00
+# fly.toml file generated for shmoney-tracker on 2022-11-18T18:51:22+01:00
 
 app = "shmoney-tracker"
 kill_signal = "SIGINT"
