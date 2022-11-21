@@ -1,15 +1,18 @@
 package capstoneexpensetracker.backend;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("api/hello")
+@RequestMapping("/api/hello")
+@RequiredArgsConstructor
 public class Testcontroller {
 
+   private final ConviatoresService conviatoresService;
     @GetMapping
-    String hello(){
-        return "Hello Moin Moin geh bitte ";
+    List<Traveler> displayConviatoresList(){
+        return conviatoresService.displayConviatoresList();
     }
 }
