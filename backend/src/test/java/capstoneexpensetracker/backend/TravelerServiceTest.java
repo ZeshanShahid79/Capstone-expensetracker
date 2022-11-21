@@ -20,7 +20,7 @@ public class TravelerServiceTest {
         travelers.add(traveler);
         //WHEN
         when(travelerRepository.findAll()).thenReturn(travelers);
-        List<Traveler> actual = travelerRepository.findAll();
+        List<Traveler> actual = travelerService.displayTravelerList();
         //THEN
         assertEquals(travelers,actual);
     }

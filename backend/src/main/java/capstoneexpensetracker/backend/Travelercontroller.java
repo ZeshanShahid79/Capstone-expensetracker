@@ -8,7 +8,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/hello")
 @RequiredArgsConstructor
-public class Testcontroller {
+public class Travelercontroller {
 
    private final TravelerService travelerService;
     @GetMapping
