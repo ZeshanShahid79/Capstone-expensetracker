@@ -19,7 +19,7 @@ public class TravelerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
+
     private ObjectMapper objectMapper;
 
     @DirtiesContext

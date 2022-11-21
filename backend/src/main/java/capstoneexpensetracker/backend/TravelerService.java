@@ -10,7 +10,7 @@ import java.util.List;
 public class TravelerService {
     private final TravelerRepository travelerRepository;
 
-    public List<Traveler> displayTravelerList() {
+    public List<Traveler> displayTravelersList() {
         return travelerRepository.findAll();
     }
 }

@@ -3,6 +3,7 @@ package capstoneexpensetracker.backend;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @RestController
@@ -13,7 +14,8 @@ public class Travelercontroller {
     private final TravelerService travelerService;
 
     @GetMapping
-    List<Traveler> displayConviatoresList() {
-        return travelerService.displayTravelerList();
+    List<Traveler> displayTravelersList() {
+        return travelerService.displayTravelersList();
     }
 }
+

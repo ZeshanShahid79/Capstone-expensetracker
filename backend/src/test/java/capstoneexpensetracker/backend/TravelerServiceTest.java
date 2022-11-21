@@ -2,7 +2,6 @@ package capstoneexpensetracker.backend;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,15 +12,16 @@ public class TravelerServiceTest {
     TravelerService travelerService = new TravelerService(travelerRepository);
 
     @Test
-    void getTravelerList(){
+    void getTravelerList() {
         //GIVEN
-        List<Traveler> travelers = new ArrayList<>();
-        Traveler traveler = new Traveler("Zeshan");
-        travelers.add(traveler);
+
+        Traveler traveler = new Traveler("Zeshan", "2");
+        List<Traveler> travelers = List.of(traveler);
+
         //WHEN
         when(travelerRepository.findAll()).thenReturn(travelers);
-        List<Traveler> actual = travelerService.displayTravelerList();
+        List<Traveler> actual = travelerService.displayTravelersList();
         //THEN
-        assertEquals(travelers,actual);
+        assertEquals(travelers, actual);
     }
 }
