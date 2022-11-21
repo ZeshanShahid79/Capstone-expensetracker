@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import TravelerOverview from "./Traveler/TravelerOverview";
 
 function App() {

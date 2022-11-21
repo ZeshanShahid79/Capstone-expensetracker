@@ -11,26 +11,11 @@ body {
 
 }
 
-@media (min-width: 600px) {
-    body {
-        width: 667px;
-        height: 100%;
-        border: black 1px solid
-    }
-}
-
-@media (min-width: 801px) {
-    body {
-        width: 1024px;
-        height: 100%;
-        border: black 1px solid
-    }
-}
-
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 li {
     text-decoration: none;
 }
