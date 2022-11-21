@@ -1,21 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './App.css';
-import axios from "axios";
+import TravelerOverview from "./Traveler/TravelerOverview";
 
 function App() {
 
-  const [message,setMessage] = useState<string>();
 
-  useEffect(() => {
-    axios.get("/api/hello")
-        .then(response => response.data)
-        .then(setMessage)
-  },[])
+    return <>
+        <h1>Shmoney Tracker</h1>
+        <h4>Traveler List:</h4>
+        <TravelerOverview/>
 
-
-  return <>
-    {message}
-  </>;
+    </>;
 }
 
 export default App;

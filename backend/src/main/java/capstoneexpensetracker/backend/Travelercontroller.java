@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/hello")
+@RequestMapping("/api/traveler")
 @RequiredArgsConstructor
 public class Travelercontroller {
 
