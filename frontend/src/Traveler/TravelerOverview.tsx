@@ -17,7 +17,7 @@ export default function TravelerOverview() {
             .then(setTravelers)
     }
     const travelerList = travelers.map(traveler => {
-        return <p key={traveler.id}>{traveler.name}</p>
+        return <li key={traveler.id}>{traveler.name}</li>
     })
     return (
         <ul>
