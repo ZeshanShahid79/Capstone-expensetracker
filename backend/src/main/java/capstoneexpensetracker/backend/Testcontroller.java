@@ -10,9 +10,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Testcontroller {
 
-   private final ConviatoresService conviatoresService;
+   private final TravelerService travelerService;
     @GetMapping
     List<Traveler> displayConviatoresList(){
-        return conviatoresService.displayConviatoresList();
+        return travelerService.displayTravelerList();
     }
 }
