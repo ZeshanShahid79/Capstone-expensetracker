@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,9 +24,9 @@ public class TravelerIntegrationTest {
 
     @DirtiesContext
     @Test
-    void getAllTravelersAndExpectEmptyList() throws Exception{
-    mockMvc.perform(MockMvcRequestBuilders.get("/api/hello"))
-            .andExpect(status().isOk())
-            .andExpect(content().json("[]"));
+    void getAllTravelersAndExpectEmptyList() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/traveler"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
     }
 }
