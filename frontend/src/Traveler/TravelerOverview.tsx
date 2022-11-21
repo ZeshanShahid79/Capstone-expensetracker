@@ -3,13 +3,13 @@ import axios from "axios";
 import {TravelerModel} from "./TravelerModel";
 
 
-export default function TravelerOverview(){
-    const [travelers,setTravelers] = useState<TravelerModel[]>([]);
+export default function TravelerOverview() {
+    const [travelers, setTravelers] = useState<TravelerModel[]>([]);
 
 
     useEffect(() => {
         fetchAllTravelers()
-    },[])
+    }, [])
 
     const fetchAllTravelers = () => {
         axios.get("/api/traveler")
@@ -17,7 +17,7 @@ export default function TravelerOverview(){
             .then(setTravelers)
     }
     const travelerList = travelers.map(traveler => {
-        return <p key={traveler.name}>{traveler.name}</p>
+        return <p key={traveler.id}>{traveler.name}</p>
     })
     return (
         <ul>

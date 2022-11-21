@@ -1,6 +1,7 @@
 package capstoneexpensetracker.backend;
 
 public record Traveler(
-        String name
+        String name,
+        String id
 ) {
 }
