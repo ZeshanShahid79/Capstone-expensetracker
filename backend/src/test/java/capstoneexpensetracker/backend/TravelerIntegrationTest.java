@@ -22,7 +22,6 @@ class TravelerIntegrationTest {
     private MockMvc mockMvc;
 
 
-
     @DirtiesContext
     @Test
     void getAllTravelersAndExpectEmptyList() throws Exception {
@@ -33,7 +32,7 @@ class TravelerIntegrationTest {
     @Test
     void addTraveler() throws Exception {
 
-         ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         //GIVEN
 
