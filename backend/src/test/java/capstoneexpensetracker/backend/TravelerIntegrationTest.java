@@ -53,4 +53,36 @@ class TravelerIntegrationTest {
                         "id": "<id>"}]
                         """.replace("<id>", traveler.id())));
     }
+
+    @Test
+    @DirtiesContext
+    void deleteGuestByIdIsSuccessful() throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/travelers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"firstName": "test",
+                                 "lastName": "test",
+                                 "email": "test@gmail.com",
+                                 "password": "SuperSecret344$$"
+                                 }
+                                """))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        Traveler traveler = objectMapper.readValue(body, Traveler.class);
+
+        mockMvc
+                .perform(MockMvcRequestBuilders.delete("/api/travelers/" + traveler.id()))
+                .andExpect(status().isOk())
+                .andExpect(content().json(body));
+    }
+    @Test
+    @DirtiesContext
+    void deleteGuestByIdNotFound() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/travelers/954ujfew90ru30rfi033")).andExpect(status().isNotFound());
+    }
 }
