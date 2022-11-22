@@ -17,5 +17,10 @@ public class TravelerController {
     List<Traveler> displayTravelersList() {
         return travelerService.displayTravelersList();
     }
+
+    @PostMapping
+    void addTraveler(@RequestBody NewTraveler newTraveler) {
+        travelerService.addTraveler(newTraveler);
+    }
 }
 

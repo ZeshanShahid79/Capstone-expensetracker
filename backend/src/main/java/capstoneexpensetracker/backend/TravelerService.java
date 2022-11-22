@@ -9,8 +9,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TravelerService {
     private final TravelerRepository travelerRepository;
+    private final TravelerUtils travelerUtils;
 
     public List<Traveler> displayTravelersList() {
         return travelerRepository.findAll();
+    }
+
+    public void addTraveler(NewTraveler newTraveler) {
+        String uuid = travelerUtils.generateUUID();
+        Traveler traveler = new Traveler(newTraveler.name(), uuid);
+        travelerRepository.save(traveler);
     }
 }
