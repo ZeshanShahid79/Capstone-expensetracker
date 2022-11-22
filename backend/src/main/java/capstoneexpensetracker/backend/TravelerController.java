@@ -23,4 +23,3 @@ public class TravelerController {
         return travelerService.addTraveler(newTraveler);
     }
 }
-
