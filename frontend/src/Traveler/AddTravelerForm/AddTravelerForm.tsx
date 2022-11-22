@@ -26,14 +26,14 @@ export default function AddTravelerForm(props: AddTravelerProps) {
 
     }
     return (
-        <div>
+        <section>
             <h2>Add Traveler to the List</h2>
             <form onSubmit={handleTravelerFrom}>
-                <label htmlFor={"name"}>Name</label>
+                <label htmlFor={"name"}>Name :</label>
                 <input type={"text"} id={"name"} value={name} onChange={(event) => setName(event.target.value)}
                        placeholder={"Zeshan"}/>
                 <button>Add Traveler</button>
             </form>
-        </div>
+        </section>
     )
 }

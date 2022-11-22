@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,5 +21,19 @@ public class TravelerService {
         String uuid = travelerUtils.generateUUID();
         Traveler traveler = new Traveler(newTraveler.name(), uuid);
         return travelerRepository.save(traveler);
+    }
+
+    public Traveler deleteTraveler(String id) {
+        Optional<Traveler> travelerToFind = travelerRepository
+                .findAll()
+                .stream()
+                .filter(traveler -> traveler.id().equals(id))
+                .findFirst();
+        if (travelerToFind.isEmpty()) {
+            throw new NoSuchElementException("Element with this Id not found");
+        }
+        Traveler traveler = travelerToFind.get();
+        travelerRepository.deleteById(id);
+        return traveler;
     }
 }

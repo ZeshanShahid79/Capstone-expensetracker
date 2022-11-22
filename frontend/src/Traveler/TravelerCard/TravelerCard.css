@@ -1,0 +1,6 @@
+section {
+    display: flex;
+    flex-direction: column;
+    border: solid black 1px;
+    margin: 12px;
+}
