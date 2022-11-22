@@ -12,7 +12,7 @@ export default function TravelerOverview() {
     }, [])
 
     const fetchAllTravelers = () => {
-        axios.get("/api/traveler")
+        axios.get("/api/travelers")
             .then(response => response.data)
             .then(setTravelers)
     }
