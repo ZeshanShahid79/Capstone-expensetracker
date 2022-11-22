@@ -15,9 +15,9 @@ public class TravelerService {
         return travelerRepository.findAll();
     }
 
-    public void addTraveler(NewTraveler newTraveler) {
+    Traveler addTraveler(NewTraveler newTraveler) {
         String uuid = travelerUtils.generateUUID();
         Traveler traveler = new Traveler(newTraveler.name(), uuid);
-        travelerRepository.save(traveler);
+        return travelerRepository.save(traveler);
     }
 }
