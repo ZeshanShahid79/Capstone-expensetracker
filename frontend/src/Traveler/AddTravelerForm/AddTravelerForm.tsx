@@ -1,7 +1,11 @@
 import axios from "axios";
+import "./AddTravelerForm.css"
 import {ChangeEvent, useState} from "react";
 
-export default function AddTravelerForm() {
+type AddTravelerProps = {
+    fetchAllTraveler: () => void;
+}
+export default function AddTravelerForm(props: AddTravelerProps) {
 
     const [name, setName] = useState("");
 
@@ -12,6 +16,7 @@ export default function AddTravelerForm() {
             .catch((error) => {
                 console.log("Error =>" + error)
             })
+            .then(props.fetchAllTraveler)
     }
 
     const handleTravelerFrom = (event: ChangeEvent<HTMLFormElement>) => {
@@ -21,7 +26,7 @@ export default function AddTravelerForm() {
 
     }
     return (
-        <>
+        <div>
             <h2>Add Traveler to the List</h2>
             <form onSubmit={handleTravelerFrom}>
                 <label htmlFor={"name"}>Name</label>
@@ -29,6 +34,6 @@ export default function AddTravelerForm() {
                        placeholder={"Zeshan"}/>
                 <button>Add Traveler</button>
             </form>
-        </>
+        </div>
     )
 }

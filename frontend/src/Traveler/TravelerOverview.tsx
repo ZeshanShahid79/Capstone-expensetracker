@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {TravelerModel} from "./TravelerModel";
+import AddTravelerForm from "./AddTravelerForm/AddTravelerForm";
 
 
 export default function TravelerOverview() {
@@ -14,7 +15,9 @@ export default function TravelerOverview() {
     const fetchAllTravelers = () => {
         axios.get("/api/travelers")
             .then(response => response.data)
-            .then(setTravelers)
+            .then((data) => {
+                setTravelers(data)
+            })
     }
     const travelerList = travelers.map(traveler => {
         return <li key={traveler.id}>{traveler.name}</li>
@@ -22,6 +25,7 @@ export default function TravelerOverview() {
     return (
         <ul>
             {travelerList}
+            <AddTravelerForm fetchAllTraveler={fetchAllTravelers}/>
         </ul>
 
     );
