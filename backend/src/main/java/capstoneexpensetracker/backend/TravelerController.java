@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/traveler")
+@RequestMapping("/api/travelers")
 @RequiredArgsConstructor
 public class TravelerController {
 
@@ -19,8 +19,8 @@ public class TravelerController {
     }
 
     @PostMapping
-    void addTraveler(@RequestBody NewTraveler newTraveler) {
-        travelerService.addTraveler(newTraveler);
+    Traveler addTraveler(@RequestBody NewTraveler newTraveler) {
+        return travelerService.addTraveler(newTraveler);
     }
 }
 

@@ -9,7 +9,8 @@ import static org.mockito.Mockito.*;
 
 class TravelerServiceTest {
     TravelerRepository travelerRepository = mock(TravelerRepository.class);
-    TravelerService travelerService = new TravelerService(travelerRepository);
+    TravelerUtils travelerUtils = mock(TravelerUtils.class);
+    TravelerService travelerService = new TravelerService(travelerRepository, travelerUtils);
 
     @Test
     void getTravelerList() {
@@ -23,5 +24,24 @@ class TravelerServiceTest {
         List<Traveler> actual = travelerService.displayTravelersList();
         //THEN
         assertEquals(travelers, actual);
+    }
+
+    @Test
+    void addNewTravelerAndAddAUuid() {
+
+        //GIVEN
+        NewTraveler newTraveler = new NewTraveler("Zeshan");
+        Traveler traveler = newTraveler.withId("1");
+
+
+        when(travelerRepository.save(traveler)).thenReturn(traveler);
+        when(travelerUtils.generateUUID()).thenReturn("1");
+
+        //WHEN
+        Traveler actual = travelerService.addTraveler(newTraveler);
+
+        //THEN
+        verify(travelerUtils).generateUUID();
+        assertEquals(traveler, actual);
     }
 }
