@@ -38,11 +38,11 @@ public class TravelerService {
     }
 
     public Traveler updateTravelerById(String id, Traveler traveler) {
-        List<Traveler> guests = travelerRepository.findAll();
-        for (Traveler person : guests) {
+        List<Traveler> travelerList = travelerRepository.findAll();
+        for (Traveler person : travelerList) {
             if (person.id().equals(id)) {
-                travelerRepository.save(person);
-                return traveler;
+                return travelerRepository.save(traveler);
+
             }
         }
         throw new NoSuchElementException("No guest was found with this id");
