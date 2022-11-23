@@ -35,4 +35,17 @@ public class TravelerController {
         }
 
     }
+
+    @PutMapping("{id}")
+    Traveler updateTraveler(@PathVariable String id, @RequestBody Traveler traveler) {
+        try {
+            if (traveler.id().equals(id)) {
+                return travelerService.updateTravelerById(id, traveler);
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 }
+

@@ -2,6 +2,7 @@ import {TravelerModel} from "../TravelerModel/TravelerModel";
 import {useState} from "react";
 import axios from "axios";
 import "./TravelerCard.css"
+import TravelerModal from "../TravelerModal";
 
 
 type TravelerCardProps = {
@@ -12,6 +13,7 @@ type TravelerCardProps = {
 export default function TravelerCard(props: TravelerCardProps) {
 
     const [messageStatus, setMessageStatus] = useState("")
+    const [editModal, setEditModal] = useState(false)
 
     const deleteTraveler = () => {
         axios.delete("/api/travelers/" + props.traveler.id)
@@ -26,12 +28,27 @@ export default function TravelerCard(props: TravelerCardProps) {
             })
             .then(() => setTimeout(() => props.fetchAllTraveler(), 2000))
     }
+
+
+
+
+    function openModal(){
+        setEditModal(true)
+    }
+
+    function closeModal(){
+        setEditModal(false)
+    }
+
+
     return (
         <div>
             {messageStatus && <p>{messageStatus}</p>}
+            {editModal && <TravelerModal closeModal={closeModal} modalIsOpen={editModal} fetchAllTraveler={props.fetchAllTraveler} traveler={props.traveler}/>}
             <section>
                 <h4>{props.traveler.name}</h4>
                 <button onClick={deleteTraveler}>delete</button>
+                <button onClick={openModal}>edit</button>
             </section>
         </div>
     )
