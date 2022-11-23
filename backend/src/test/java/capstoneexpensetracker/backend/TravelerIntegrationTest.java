@@ -79,15 +79,17 @@ class TravelerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(body));
     }
+
     @Test
     @DirtiesContext
     void deleteTravelerByIdNotFound() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/travelers/954ujfew90ru30rfi033")).andExpect(status().isNotFound());
     }
+
     @Test
     @DirtiesContext
-    void putRequestUpdateGuestData() throws Exception {
+    void putRequestUpdateTravelerData() throws Exception {
 
         // GIVEN
         ObjectMapper objectMapper = new ObjectMapper();
@@ -108,18 +110,18 @@ class TravelerIntegrationTest {
                         .content(("""
                                  {"name": "Simon",
                                  "id" :  "<id>"}
-                                """.replace("<id>",traveler.id()))))
+                                """.replace("<id>", traveler.id()))))
                 // THEN
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                                          {"name": "Simon",
                                          "id" :  "<id>"}
-                        """.replace("<id>",traveler.id())));
+                        """.replace("<id>", traveler.id())));
     }
 
     @Test
     @DirtiesContext
-    void putRequestUpdateGuestDataWithBadRequest() throws Exception {
+    void putRequestUpdateTravelerDataWithBadRequest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/api/travelers/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -132,16 +134,14 @@ class TravelerIntegrationTest {
 
     @Test
     @DirtiesContext
-    void putRequestUpdateGuestNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/guests/1337")
+    void putRequestUpdateTravelerNotFound() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/travelers/1337")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                {"firstName": "test",
-                                "lastName": "test",
-                                "email": "test@gmail.com",
-                                "password": "SuperSecret344$$",
+                                {"name": "test",
                                  "id" :  "1337"}
                                     """))
                 .andExpect(status().isNotFound());
     }
+
 }
