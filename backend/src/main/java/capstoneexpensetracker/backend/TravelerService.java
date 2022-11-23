@@ -36,4 +36,16 @@ public class TravelerService {
         travelerRepository.deleteById(id);
         return traveler;
     }
+
+    public Traveler updateTravelerById(String id, Traveler traveler) {
+        List<Traveler> guests = travelerRepository.findAll();
+        for (Traveler person : guests) {
+            if (person.id().equals(id)) {
+                travelerRepository.save(person);
+                return traveler;
+            }
+        }
+        throw new NoSuchElementException("No guest was found with this id");
+    }
 }
+
