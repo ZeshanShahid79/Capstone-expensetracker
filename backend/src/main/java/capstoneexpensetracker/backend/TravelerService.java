@@ -45,7 +45,7 @@ public class TravelerService {
 
             }
         }
-        throw new NoSuchElementException("No guest was found with this id");
+        throw new NoSuchElementException("No traveler was found with this id");
     }
 }
 
