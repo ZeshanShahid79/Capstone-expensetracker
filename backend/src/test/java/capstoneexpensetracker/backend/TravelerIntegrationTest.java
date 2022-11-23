@@ -56,7 +56,7 @@ class TravelerIntegrationTest {
 
     @Test
     @DirtiesContext
-    void deleteGuestByIdIsSuccessful() throws Exception {
+    void deleteTravelerByIdIsSuccessful() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -81,8 +81,67 @@ class TravelerIntegrationTest {
     }
     @Test
     @DirtiesContext
-    void deleteGuestByIdNotFound() throws Exception {
+    void deleteTravelerByIdNotFound() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/travelers/954ujfew90ru30rfi033")).andExpect(status().isNotFound());
+    }
+    @Test
+    @DirtiesContext
+    void putRequestUpdateGuestData() throws Exception {
+
+        // GIVEN
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/travelers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"name": "test"}
+                                """))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        Traveler traveler = objectMapper.readValue(body, Traveler.class);
+
+        // WHEN
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/travelers/" + traveler.id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(("""
+                                 {"name": "Simon",
+                                 "id" :  "<id>"}
+                                """.replace("<id>",traveler.id()))))
+                // THEN
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                                         {"name": "Simon",
+                                         "id" :  "<id>"}
+                        """.replace("<id>",traveler.id())));
+    }
+
+    @Test
+    @DirtiesContext
+    void putRequestUpdateGuestDataWithBadRequest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/travelers/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"name": "test",
+                                "id" :  "<id>"}
+                                    """))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    @DirtiesContext
+    void putRequestUpdateGuestNotFound() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/guests/1337")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"firstName": "test",
+                                "lastName": "test",
+                                "email": "test@gmail.com",
+                                "password": "SuperSecret344$$",
+                                 "id" :  "1337"}
+                                    """))
+                .andExpect(status().isNotFound());
     }
 }
