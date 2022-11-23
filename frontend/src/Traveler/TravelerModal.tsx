@@ -25,11 +25,16 @@ export default function TravelerModal(props: TravelerModalProps) {
             name
         })
             .then(response => {
-                props.fetchAllTraveler()
                 props.closeModal()
                 return response.data
             })
             .catch(error => console.log("error =>" + error))
+            .then(props.fetchAllTraveler)
+    }
+
+    function handleFormSubmit(event: ChangeEvent<HTMLFormElement>) {
+        event.preventDefault()
+        updateTraveler()
     }
 
     return (
@@ -39,11 +44,11 @@ export default function TravelerModal(props: TravelerModalProps) {
                 onRequestClose={props.closeModal}
             >
                 <div>I am a modal</div>
-                <form>
+                <form onSubmit={handleFormSubmit}>
                     <label>name:</label>
                     <input type={"text"} value={name} onChange={handleNewName}/>
                     <button onClick={props.closeModal}>close</button>
-                    <button onClick={updateTraveler}>update</button>
+                    <button>update</button>
                 </form>
             </Modal>
         </div>
