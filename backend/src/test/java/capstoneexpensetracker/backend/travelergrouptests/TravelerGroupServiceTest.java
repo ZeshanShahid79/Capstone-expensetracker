@@ -2,6 +2,8 @@ package capstoneexpensetracker.backend.travelergrouptests;
 
 
 import capstoneexpensetracker.backend.traveler.Traveler;
+import capstoneexpensetracker.backend.traveler.TravelerUtils;
+import capstoneexpensetracker.backend.travelergroup.NewTravelerGroup;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroup;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroupRepository;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroupService;
@@ -10,12 +12,12 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class TravelerGroupServiceTest {
     TravelerGroupRepository travelerGroupRepository = mock(TravelerGroupRepository.class);
-    TravelerGroupService travelerGroupService = new TravelerGroupService(travelerGroupRepository);
+    TravelerUtils travelerUtils = mock(TravelerUtils.class);
+    TravelerGroupService travelerGroupService = new TravelerGroupService(travelerGroupRepository, travelerUtils);
 
     @Test
     void getTravelerGroupList() {
@@ -32,5 +34,23 @@ class TravelerGroupServiceTest {
 
         //THEN
         assertEquals(travelerGroupList, actual);
+    }
+
+    @Test
+    void addNewTravelerWithAnId() {
+
+        //GIVEN
+        NewTravelerGroup newTravelerGroup = new NewTravelerGroup(List.of(new Traveler("Zeshan", "1")));
+        TravelerGroup travelerGroup = newTravelerGroup.withId("1");
+
+        when(travelerGroupRepository.save(travelerGroup)).thenReturn(travelerGroup);
+        when(travelerUtils.generateUUID()).thenReturn("1");
+
+        //WHEN
+        TravelerGroup actual = travelerGroupService.addTravelerGroup(newTravelerGroup);
+
+        //THEN
+        verify(travelerUtils).generateUUID();
+        assertEquals(travelerGroup, actual);
     }
 }

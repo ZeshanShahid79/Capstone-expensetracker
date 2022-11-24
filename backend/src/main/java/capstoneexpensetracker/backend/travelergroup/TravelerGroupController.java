@@ -1,9 +1,7 @@
 package capstoneexpensetracker.backend.travelergroup;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,5 +15,10 @@ public class TravelerGroupController {
     @GetMapping
     List<TravelerGroup> displayTravelerGroupList() {
         return travelerGroupService.displayTravelerGroupList();
+    }
+
+    @PostMapping
+    TravelerGroup addTravelerGroup(@RequestBody NewTravelerGroup newTravelerGroup) {
+        return travelerGroupService.addTravelerGroup(newTravelerGroup);
     }
 }

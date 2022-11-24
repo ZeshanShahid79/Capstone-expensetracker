@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,17 +24,14 @@ public class TravelerService {
     }
 
     public Traveler deleteTraveler(String id) {
-        Optional<Traveler> travelerToFind = travelerRepository
+        Traveler travelerToFind = travelerRepository
                 .findAll()
                 .stream()
                 .filter(traveler -> traveler.id().equals(id))
-                .findFirst();
-        if (travelerToFind.isEmpty()) {
-            throw new NoSuchElementException("Element with this Id not found");
-        }
-        Traveler traveler = travelerToFind.get();
+                .findFirst().orElseThrow(() -> new NoSuchElementException("Element with this Id not found"));
+
         travelerRepository.deleteById(id);
-        return traveler;
+        return travelerToFind;
     }
 
     public Traveler updateTravelerById(String id, Traveler traveler) {
