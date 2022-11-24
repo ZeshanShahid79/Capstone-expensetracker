@@ -1,4 +1,4 @@
-package capstoneexpensetracker.backend;
+package capstoneexpensetracker.backend.traveler;
 
 
 import org.springframework.data.mongodb.repository.MongoRepository;

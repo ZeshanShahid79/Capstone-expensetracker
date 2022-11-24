@@ -1,4 +1,4 @@
-package capstoneexpensetracker.backend;
+package capstoneexpensetracker.backend.traveler;
 
 public record Traveler(
         String name,

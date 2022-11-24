@@ -1,5 +1,7 @@
-package capstoneexpensetracker.backend;
+package capstoneexpensetracker.backend.travelertests;
 
+
+import capstoneexpensetracker.backend.traveler.Traveler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
