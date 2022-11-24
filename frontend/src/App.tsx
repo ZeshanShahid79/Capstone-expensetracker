@@ -1,5 +1,6 @@
 import React from 'react';
 import TravelerOverview from "./Traveler/TravelerOverview";
+import TravelerGroupOverview from "./TravelerGroup/TravelerGroupOverview";
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
         </header>
         <main>
             <TravelerOverview/>
+            <TravelerGroupOverview/>
         </main>
     </>
         ;
