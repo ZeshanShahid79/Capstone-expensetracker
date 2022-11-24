@@ -1,4 +1,5 @@
-package capstoneexpensetracker.backend;
+package capstoneexpensetracker.backend.traveler;
+
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class TravelerService {
         return travelerRepository.findAll();
     }
 
-    Traveler addTraveler(NewTraveler newTraveler) {
+    public Traveler addTraveler(NewTraveler newTraveler) {
         String uuid = travelerUtils.generateUUID();
         Traveler traveler = new Traveler(newTraveler.name(), uuid);
         return travelerRepository.save(traveler);
