@@ -4,12 +4,15 @@ import TravelerOverview from "./Traveler/TravelerOverview";
 function App() {
 
 
-    return (
-        <>
+    return <>
+        <header>
             <h1>Shmoney Tracker</h1>
+        </header>
+        <main>
             <TravelerOverview/>
-        </>
-    );
+        </main>
+    </>
+        ;
 
 }
 
