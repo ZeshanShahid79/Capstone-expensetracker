@@ -38,19 +38,17 @@ export default function TravelerModal(props: TravelerModalProps) {
     }
 
     return (
-        <div>
-            <Modal
-                isOpen={props.modalIsOpen}
-                onRequestClose={props.closeModal}
-            >
-                <div>I am a modal</div>
-                <form onSubmit={handleFormSubmit}>
-                    <label>name:</label>
-                    <input type={"text"} value={name} onChange={handleNewName}/>
-                    <button onClick={props.closeModal}>close</button>
-                    <button>update</button>
-                </form>
-            </Modal>
-        </div>
+        <Modal
+            isOpen={props.modalIsOpen}
+            onRequestClose={props.closeModal}
+        >
+            <div>I am a modal</div>
+            <form onSubmit={handleFormSubmit}>
+                <label>name:</label>
+                <input type={"text"} value={name} onChange={handleNewName}/>
+                <button onClick={props.closeModal}>close</button>
+                <button>update</button>
+            </form>
+        </Modal>
     )
 }
