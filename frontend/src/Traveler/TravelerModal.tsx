@@ -42,7 +42,7 @@ export default function TravelerModal(props: TravelerModalProps) {
             isOpen={props.modalIsOpen}
             onRequestClose={props.closeModal}
         >
-            <div>I am a modal</div>
+            <h1>I am a modal</h1>
             <form onSubmit={handleFormSubmit}>
                 <label>name:</label>
                 <input type={"text"} value={name} onChange={handleNewName}/>
