@@ -31,7 +31,7 @@ class TravelerServiceTest {
     }
 
     @Test
-    void addNewTravelerAndAddAUuid() {
+    void addNewTravelerWithAnId() {
 
         //GIVEN
         NewTraveler newTraveler = new NewTraveler("Zeshan");
@@ -53,7 +53,6 @@ class TravelerServiceTest {
     void updateTravelerByValidId() {
 
         //GIVEN
-
 
         Traveler traveler = new Traveler("Steven", "1");
         Traveler updatedTraveler = new Traveler("Robert", "1");
@@ -91,8 +90,8 @@ class TravelerServiceTest {
             travelerService.updateTravelerById("4", updatedTraveler);
             fail();
         } catch (NoSuchElementException e) {
-           verify(travelerRepository).findAll();
-           verify(travelerRepository, never()).save(updatedTraveler);
+            verify(travelerRepository).findAll();
+            verify(travelerRepository, never()).save(updatedTraveler);
         }
     }
 }
