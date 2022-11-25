@@ -1,5 +1,5 @@
 import React from 'react';
-import TravelerGroupOverview from "./TravelerGroup/TravelerGroupOverview";
+import TravelerGroupOverview from "./components/TravelerGroup/TravelerGroupOverview";
 
 
 function App() {
