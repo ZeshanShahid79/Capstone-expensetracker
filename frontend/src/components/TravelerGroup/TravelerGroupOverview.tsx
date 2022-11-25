@@ -3,7 +3,7 @@ import {TravelerGroupModel} from "./TravelerGroupModel/TravelerGroupModel";
 import AddTravelerGroupForm from "./AddTravelerGroupForm/AddTravelerGroupForm";
 import {TravelerModel} from "../Traveler/TravelerModel/TravelerModel";
 import AddTravelerForm from "../Traveler/AddTravelerForm/AddTravelerForm";
-import {fetchAllTravelerGroups, fetchAllTravelers} from "../services/travelerService";
+import {fetchAllTravelerGroups, fetchAllTravelers} from "../../services/travelerService";
 import TravelerOverview from "../Traveler/TravelerOverview";
 
 
