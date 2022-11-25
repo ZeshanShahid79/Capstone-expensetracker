@@ -41,6 +41,8 @@ export default function TravelerModal(props: TravelerModalProps) {
         <Modal
             isOpen={props.modalIsOpen}
             onRequestClose={props.closeModal}
+            ariaHideApp={false}
+            contentLabel={"update Traveler"}
         >
             <h1>I am a modal</h1>
             <form onSubmit={handleFormSubmit}>
