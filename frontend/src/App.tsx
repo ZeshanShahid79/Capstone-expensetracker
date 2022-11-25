@@ -1,6 +1,6 @@
 import React from 'react';
-import TravelerOverview from "./Traveler/TravelerOverview";
 import TravelerGroupOverview from "./TravelerGroup/TravelerGroupOverview";
+
 
 function App() {
 
@@ -10,7 +10,6 @@ function App() {
             <h1>Shmoney Tracker</h1>
         </header>
         <main>
-            <TravelerOverview/>
             <TravelerGroupOverview/>
         </main>
     </>

@@ -1,25 +1,18 @@
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useEffect} from "react";
 import {TravelerModel} from "./TravelerModel/TravelerModel";
-import AddTravelerForm from "./AddTravelerForm/AddTravelerForm";
 import TravelerCard from "./TravelerCard/TravelerCard";
 
-
-export default function TravelerOverview() {
-    const [travelers, setTravelers] = useState<TravelerModel[]>([]);
-
+type TravelerOverviewProps = {
+    fetchAllTravelers: () => void,
+    travelers: TravelerModel[]
+}
+export default function TravelerOverview({fetchAllTravelers, travelers}: TravelerOverviewProps) {
 
     useEffect(() => {
         fetchAllTravelers()
     }, [])
 
-    const fetchAllTravelers = () => {
-        axios.get("/api/travelers")
-            .then(response => response.data)
-            .then((data) => {
-                setTravelers(data)
-            })
-    }
+
     const travelerList = travelers.map(traveler => {
         return <TravelerCard key={traveler.id} fetchAllTraveler={fetchAllTravelers} traveler={traveler}/>
     })
@@ -27,7 +20,6 @@ export default function TravelerOverview() {
         <ul>
             <h3>Traveler List:</h3>
             {travelerList}
-            <AddTravelerForm fetchAllTraveler={fetchAllTravelers}/>
         </ul>
 
     );

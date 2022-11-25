@@ -2,10 +2,12 @@ import axios from "axios";
 import "./AddTravelerForm.css"
 import {ChangeEvent, useState} from "react";
 
+
 type AddTravelerProps = {
     fetchAllTraveler: () => void;
+
 }
-export default function AddTravelerForm(props: AddTravelerProps) {
+export default function AddTravelerForm({fetchAllTraveler}: AddTravelerProps) {
 
     const [name, setName] = useState("");
 
@@ -16,12 +18,14 @@ export default function AddTravelerForm(props: AddTravelerProps) {
             .catch((error) => {
                 console.log("Error =>" + error)
             })
-            .then(props.fetchAllTraveler)
+            .then(fetchAllTraveler)
     }
+
 
     const handleTravelerFrom = (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         postForm();
+
         setName("");
 
     }

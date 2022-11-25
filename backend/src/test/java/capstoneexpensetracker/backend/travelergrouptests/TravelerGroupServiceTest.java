@@ -24,7 +24,7 @@ class TravelerGroupServiceTest {
 
         //GIVEN
 
-        TravelerGroup travelerGroup = new TravelerGroup(List.of(new Traveler("zeshan", "1")), "1");
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new Traveler("zeshan", "1")), "1");
         List<TravelerGroup> travelerGroupList = List.of(travelerGroup);
 
         //WHEN
@@ -40,7 +40,7 @@ class TravelerGroupServiceTest {
     void addNewTravelerWithAnId() {
 
         //GIVEN
-        NewTravelerGroup newTravelerGroup = new NewTravelerGroup(List.of(new Traveler("Zeshan", "1")));
+        NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", List.of(new Traveler("Zeshan", "1")));
         TravelerGroup travelerGroup = newTravelerGroup.withId("1");
 
         when(travelerGroupRepository.save(travelerGroup)).thenReturn(travelerGroup);
