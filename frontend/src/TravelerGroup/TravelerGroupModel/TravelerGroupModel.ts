@@ -5,3 +5,4 @@ export type TravelerGroupModel = {
     travelerList: TravelerModel[],
     id: string
 }
+

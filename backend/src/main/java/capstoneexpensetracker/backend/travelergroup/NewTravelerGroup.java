@@ -7,6 +7,7 @@ import java.util.List;
 public record NewTravelerGroup(
         String description,
         List<Traveler> travelerList
+
 ) {
 
 
