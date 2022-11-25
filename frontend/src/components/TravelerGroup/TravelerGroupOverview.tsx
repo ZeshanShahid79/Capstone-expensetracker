@@ -23,7 +23,7 @@ export default function TravelerGroupOverview() {
 
     useEffect(() => {
         initialState().catch(err => console.log(err))
-    }, [])
+    }, [initialState])
 
 
     const travelerGroupList = travelerGroup.map(travelerGroup => {
