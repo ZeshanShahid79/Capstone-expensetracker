@@ -8,7 +8,16 @@ import {fetchAllTravelerGroups, fetchAllTravelers} from "../services/travelerSer
 
 export default function TravelerGroupOverview() {
     const [travelerGroup, setTravelerGroup] = useState<TravelerGroupModel[]>([]);
+    const [travelers, setTravelers] = useState<TravelerModel[]>([]);
 
+
+    const initialState = async () => {
+        const groups = await fetchAllTravelerGroups();
+        const travelers = await fetchAllTravelers()
+
+        setTravelerGroup(groups)
+        setTravelers(travelers)
+    }
 
     useEffect(() => {
         initialState().catch(err => console.log(err))
@@ -16,7 +25,15 @@ export default function TravelerGroupOverview() {
 
 
     const travelerGroupList = travelerGroup.map(travelerGroup => {
-        return <section key={travelerGroup.id}>{travelerGroup.travelerList}</section>
+        return <section key={travelerGroup.id}>
+            <h3>{travelerGroup.description}</h3>
+            {travelerGroup.travelerList
+                .map((traveler) => {
+                    return (<ul key={traveler.id}>
+                            <li>{traveler.name}</li>
+                        </ul>
+                    )
+                })}</section>
     })
 
     return (
