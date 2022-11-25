@@ -12,8 +12,7 @@ export default function AddTravelerGroupForm({travelers, fetchAllTravelerGroups}
     const [description, setDescription] = useState("");
     const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>([]);
 
-    console.log(travelers)
-    console.log("[Selected ]: => ", selectedTravelers)
+
     const postForm = () => {
         axios.post("/api/traveler-groups", {
             description,

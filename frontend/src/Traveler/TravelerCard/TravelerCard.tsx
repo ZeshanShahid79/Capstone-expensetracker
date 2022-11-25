@@ -40,7 +40,7 @@ export default function TravelerCard(props: TravelerCardProps) {
 
 
     return (
-        <div>
+        <li>
             {messageStatus && <p>{messageStatus}</p>}
             {editModal &&
                 <TravelerModal closeModal={closeModal} modalIsOpen={editModal} fetchAllTraveler={props.fetchAllTraveler}
@@ -50,6 +50,6 @@ export default function TravelerCard(props: TravelerCardProps) {
                 <button onClick={deleteTraveler}>delete</button>
                 <button onClick={openModal}>edit</button>
             </section>
-        </div>
+        </li>
     )
 }

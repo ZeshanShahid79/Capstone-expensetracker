@@ -18,7 +18,7 @@ export default function TravelerOverview({fetchAllTravelers, travelers}: Travele
     })
     return (
         <ul>
-            <h3>Traveler List:</h3>
+            <h3>List of Persons:</h3>
             {travelerList}
         </ul>
 
