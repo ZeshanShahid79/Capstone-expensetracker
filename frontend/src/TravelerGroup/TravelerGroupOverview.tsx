@@ -4,6 +4,7 @@ import AddTravelerGroupForm from "./AddTravelerGroupForm/AddTravelerGroupForm";
 import {TravelerModel} from "../Traveler/TravelerModel/TravelerModel";
 import AddTravelerForm from "../Traveler/AddTravelerForm/AddTravelerForm";
 import {fetchAllTravelerGroups, fetchAllTravelers} from "../services/travelerService";
+import TravelerOverview from "../Traveler/TravelerOverview";
 
 
 export default function TravelerGroupOverview() {
@@ -40,7 +41,7 @@ export default function TravelerGroupOverview() {
         <ul>
             <h3>Traveler Group </h3>
             {travelerGroupList}
-            {/*<TravelerOverview travelers={travelers} fetchAllTravelers={fetchAllTravelers}/>*/}
+            <TravelerOverview travelers={travelers} fetchAllTravelers={fetchAllTravelers}/>
             <AddTravelerGroupForm travelers={travelers} fetchAllTravelerGroups={fetchAllTravelerGroups}/>
             <AddTravelerForm fetchAllTraveler={fetchAllTravelers}/>
 
