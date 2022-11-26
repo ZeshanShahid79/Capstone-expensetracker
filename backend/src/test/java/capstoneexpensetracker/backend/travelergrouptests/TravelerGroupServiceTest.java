@@ -9,6 +9,7 @@ import capstoneexpensetracker.backend.travelergroup.TravelerGroupRepository;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroupService;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,6 +49,26 @@ class TravelerGroupServiceTest {
 
         //WHEN
         TravelerGroup actual = travelerGroupService.addTravelerGroup(newTravelerGroup);
+
+        //THEN
+        verify(travelerUtils).generateUUID();
+        assertEquals(travelerGroup, actual);
+    }
+
+    @Test
+    void addNewTravelerGroupWithouthTravelerList() {
+
+        //GIVEN
+        NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", null);
+        TravelerGroup travelerGroup = new TravelerGroup("description", new ArrayList<>(), "1");
+
+
+        when(travelerGroupRepository.save(travelerGroup)).thenReturn(travelerGroup);
+        when(travelerUtils.generateUUID()).thenReturn("1");
+
+        //WHEN
+        TravelerGroup actual = travelerGroupService.addTravelerGroup(newTravelerGroup);
+
 
         //THEN
         verify(travelerUtils).generateUUID();
