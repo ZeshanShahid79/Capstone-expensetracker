@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {TravelerGroupModel} from "./TravelerGroupModel/TravelerGroupModel";
 import AddTravelerGroupForm from "./AddTravelerGroupForm/AddTravelerGroupForm";
 import {TravelerModel} from "../Traveler/TravelerModel/TravelerModel";
@@ -12,18 +12,19 @@ export default function TravelerGroupOverview() {
     const [travelers, setTravelers] = useState<TravelerModel[]>([]);
 
 
-    const initialState = useCallback(async () => {
 
-        const groups = await fetchAllTravelerGroups();
-        const travelers = await fetchAllTravelers()
-
-        setTravelerGroup(groups)
-        setTravelers(travelers)
-    }, [])
 
     useEffect(() => {
+        const initialState = async () => {
+
+            const groups = await fetchAllTravelerGroups();
+            const travelers = await fetchAllTravelers()
+
+            setTravelerGroup(groups)
+            setTravelers(travelers)
+        }
         initialState().catch(err => console.log(err))
-    }, [fetchAllTravelers])
+    }, [])
 
 
     const travelerGroupList = travelerGroup.map(travelerGroup => {
