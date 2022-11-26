@@ -3,8 +3,8 @@ import {TravelerGroupModel} from "./TravelerGroupModel/TravelerGroupModel";
 import AddTravelerGroupForm from "./AddTravelerGroupForm/AddTravelerGroupForm";
 import {TravelerModel} from "../Traveler/TravelerModel/TravelerModel";
 import AddTravelerForm from "../Traveler/AddTravelerForm/AddTravelerForm";
-import {fetchAllTravelerGroups, fetchAllTravelers} from "../../services/travelerService";
 import TravelerOverview from "../Traveler/TravelerOverview";
+import axios from "axios";
 
 
 export default function TravelerGroupOverview() {
@@ -12,19 +12,27 @@ export default function TravelerGroupOverview() {
     const [travelers, setTravelers] = useState<TravelerModel[]>([]);
 
 
-
-
     useEffect(() => {
-        const initialState = async () => {
+        fetchAllTravelers()
+        fetchAllTravelerGroups()
 
-            const groups = await fetchAllTravelerGroups();
-            const travelers = await fetchAllTravelers()
-
-            setTravelerGroup(groups)
-            setTravelers(travelers)
-        }
-        initialState().catch(err => console.log(err))
     }, [])
+
+
+    const fetchAllTravelerGroups = () => {
+        axios.get("/api/traveler-groups")
+            .then(response => response.data)
+            .then((data) => {
+                setTravelerGroup(data)
+            })
+    }
+    const fetchAllTravelers = () => {
+        axios.get("/api/travelers")
+            .then(response => response.data)
+            .then((data) => {
+                setTravelers(data)
+            })
+    }
 
 
     const travelerGroupList = travelerGroup.map(travelerGroup => {
@@ -51,3 +59,4 @@ export default function TravelerGroupOverview() {
 
     );
 }
+
