@@ -10,7 +10,7 @@ export default function TravelerOverview({fetchAllTravelers, travelers}: Travele
 
     useEffect(() => {
         fetchAllTravelers()
-    }, [])
+    }, [fetchAllTravelers])
 
 
     const travelerList = travelers.map(traveler => {
