@@ -5,11 +5,13 @@ import {TravelerModel} from "../Traveler/TravelerModel/TravelerModel";
 import AddTravelerForm from "../Traveler/AddTravelerForm/AddTravelerForm";
 import TravelerOverview from "../Traveler/TravelerOverview";
 import axios from "axios";
+import TravelerGroupCard from "./TravelerGroupCard/TravelerGroupCard";
 
 
 export default function TravelerGroupOverview() {
     const [travelerGroup, setTravelerGroup] = useState<TravelerGroupModel[]>([]);
     const [travelers, setTravelers] = useState<TravelerModel[]>([]);
+
 
 
     useEffect(() => {
@@ -36,15 +38,9 @@ export default function TravelerGroupOverview() {
 
 
     const travelerGroupList = travelerGroup.map(travelerGroup => {
-        return <section key={travelerGroup.id}>
-            <h3>{travelerGroup.description}</h3>
-            {travelerGroup.travelerList
-                .map((traveler) => {
-                    return (<ul key={traveler.id}>
-                            <li>{traveler.name}</li>
-                        </ul>
-                    )
-                })}</section>
+        return <TravelerGroupCard key={travelerGroup.id} fetchAllTravelerGroups={fetchAllTravelerGroups}
+                                  travelerGroup={travelerGroup} travelers={travelers}
+                                  fetchAllTraveler={fetchAllTravelers}/>
     })
 
     return (
