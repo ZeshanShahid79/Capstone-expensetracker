@@ -64,10 +64,7 @@ class TravelerIntegrationTest {
         String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/travelers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                {"firstName": "test",
-                                 "lastName": "test",
-                                 "email": "test@gmail.com",
-                                 "password": "SuperSecret344$$"
+                                {"name": "test"
                                  }
                                 """))
                 .andExpect(status().isOk())
