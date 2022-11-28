@@ -43,7 +43,7 @@ public class TravelerController {
                 return travelerService.updateTravelerById(id, traveler);
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }

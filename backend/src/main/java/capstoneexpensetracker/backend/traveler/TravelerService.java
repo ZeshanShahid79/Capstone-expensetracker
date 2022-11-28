@@ -32,8 +32,8 @@ public class TravelerService {
 
     public Traveler updateTravelerById(String id, Traveler traveler) {
         List<Traveler> travelerList = travelerRepository.findAll();
-        for (Traveler person : travelerList) {
-            if (person.id().equals(id)) {
+        for (Traveler travelerToFind : travelerList) {
+            if (travelerToFind.id().equals(id)) {
                 return travelerRepository.save(traveler);
 
             }

@@ -38,4 +38,15 @@ public class TravelerGroupService {
         }
         travelerGroupRepository.deleteById(id);
     }
+
+    public TravelerGroup updateTravelerGroupById(String id, TravelerGroup travelerGroup) {
+        List<TravelerGroup> travelerGroupList = travelerGroupRepository.findAll();
+        for (TravelerGroup travelerGroupToFind : travelerGroupList) {
+            if (travelerGroupToFind.id().equals(id)) {
+                return travelerGroupRepository.save(travelerGroup);
+            }
+        }
+        throw new NoSuchElementException("No TravelerGroup was found with this id");
+    }
+
 }
