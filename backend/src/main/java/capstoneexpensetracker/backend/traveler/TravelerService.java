@@ -37,5 +37,9 @@ public class TravelerService {
         }
         throw new NoSuchElementException("No traveler was found with this id");
     }
+
+    public boolean findTravelerExistById(String id) {
+        return travelerRepository.existsById(id);
+    }
 }
 

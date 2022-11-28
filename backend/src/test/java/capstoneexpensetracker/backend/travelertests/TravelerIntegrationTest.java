@@ -39,7 +39,7 @@ class TravelerIntegrationTest {
 
         String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/travelers").contentType(MediaType.APPLICATION_JSON).content("""
                 {"name": "zeshan"}
-                """)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+                """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 
         Traveler traveler = objectMapper.readValue(body, Traveler.class);
 
@@ -67,22 +67,22 @@ class TravelerIntegrationTest {
                                 {"name": "test"
                                  }
                                 """))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
 
         Traveler traveler = objectMapper.readValue(body, Traveler.class);
 
         mockMvc
                 .perform(MockMvcRequestBuilders.delete("/api/travelers/" + traveler.id()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
-//    @Test
-//    @DirtiesContext
-//    void deleteTravelerByIdNotFound() throws Exception {
-//
-//        mockMvc.perform(MockMvcRequestBuilders.delete("/api/travelers/954ujfew90ru30rfi033")).andExpect(status().isNotFound());
-//    }
+    @Test
+    @DirtiesContext
+    void deleteTravelerByIdNotFound() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/travelers/954ujfew90ru30rfi033")).andExpect(status().isNotFound());
+    }
 
     @Test
     @DirtiesContext
@@ -96,7 +96,7 @@ class TravelerIntegrationTest {
                         .content("""
                                 {"name": "test"}
                                 """))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
 
         Traveler traveler = objectMapper.readValue(body, Traveler.class);
