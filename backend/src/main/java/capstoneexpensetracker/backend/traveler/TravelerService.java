@@ -24,6 +24,9 @@ public class TravelerService {
     }
 
     public void deleteTraveler(String id) {
+        if (!travelerRepository.existsById(id)) {
+            throw new NoSuchElementException("No such Element with this ID");
+        }
         travelerRepository.deleteById(id);
     }
 
@@ -38,8 +41,6 @@ public class TravelerService {
         throw new NoSuchElementException("No traveler was found with this id");
     }
 
-    public boolean findTravelerExistById(String id) {
-        return travelerRepository.existsById(id);
-    }
+
 }
 

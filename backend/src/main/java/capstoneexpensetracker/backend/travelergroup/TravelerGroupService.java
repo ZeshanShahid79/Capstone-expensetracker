@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -32,10 +33,9 @@ public class TravelerGroupService {
     }
 
     public void deleteTravelerGroup(String id) {
+        if (!travelerGroupRepository.existsById(id)) {
+            throw new NoSuchElementException("No such Element with this ID");
+        }
         travelerGroupRepository.deleteById(id);
-    }
-
-    public boolean findTravelerGroupExistById(String id) {
-        return travelerGroupRepository.existsById(id);
     }
 }
