@@ -29,10 +29,11 @@ public class TravelerController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
     public void deleteTraveler(@PathVariable String id) {
-        if (!travelerService.findTravelerExistById(id)) {
+        try {
+            travelerService.deleteTraveler(id);
+        } catch (NoSuchElementException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        travelerService.deleteTraveler(id);
     }
 
     @PutMapping("{id}")
