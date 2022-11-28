@@ -26,9 +26,9 @@ public class TravelerGroupController {
     }
 
     @DeleteMapping("{id}")
-    TravelerGroup deleteTravelerGroup(@PathVariable String id) {
+    public void deleteTravelerGroup(@PathVariable String id) {
         try {
-            return travelerGroupService.deleteTravelerGroup(id);
+            travelerGroupService.deleteTravelerGroup(id);
         } catch (NoSuchElementException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
         }
