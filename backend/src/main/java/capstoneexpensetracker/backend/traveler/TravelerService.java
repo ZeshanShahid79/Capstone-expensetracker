@@ -23,15 +23,8 @@ public class TravelerService {
         return travelerRepository.save(traveler);
     }
 
-    public Traveler deleteTraveler(String id) {
-        Traveler travelerToFind = travelerRepository
-                .findAll()
-                .stream()
-                .filter(traveler -> traveler.id().equals(id))
-                .findFirst().orElseThrow(() -> new NoSuchElementException("Element with this Id not found"));
-
+    public void deleteTraveler(String id) {
         travelerRepository.deleteById(id);
-        return travelerToFind;
     }
 
     public Traveler updateTravelerById(String id, Traveler traveler) {

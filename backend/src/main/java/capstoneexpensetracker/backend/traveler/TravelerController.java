@@ -26,9 +26,9 @@ public class TravelerController {
     }
 
     @DeleteMapping("{id}")
-    Traveler deleteTraveler(@PathVariable String id) {
+    public void deleteTraveler(@PathVariable String id) {
         try {
-            return travelerService.deleteTraveler(id);
+            travelerService.deleteTraveler(id);
         } catch (NoSuchElementException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
         }
