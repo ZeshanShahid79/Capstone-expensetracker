@@ -67,27 +67,21 @@ class TravelerGroupIntegrationTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                        {
-                                        "description": "test",
-                                    "travelerList": [
-                                        {
-                                            "name": "peter",
-                                            "id": "123"
-                                        }
-                                    ]
-                                }
-                                        """))
-                .andExpect(status().isCreated())
-                .andReturn().getResponse().getContentAsString();
+        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
+                        {
+                        "description": "test",
+                    "travelerList": [
+                        {
+                            "name": "peter",
+                            "id": "123"
+                        }
+                    ]
+                }
+                        """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 
         TravelerGroup travelerGroup = objectMapper.readValue(body, TravelerGroup.class);
 
-        mockMvc
-                .perform(MockMvcRequestBuilders.delete("/api/traveler-groups/" + travelerGroup.id()))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/traveler-groups/" + travelerGroup.id())).andExpect(status().isNoContent());
     }
 
     @Test
