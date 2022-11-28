@@ -38,7 +38,7 @@ class TravelerGroupIntegrationTest {
 
         String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
                 {"travelerList":[{"name":"peter","id":"123"}]}
-                """)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+                """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 
         TravelerGroup travelerGroup = objectMapper.readValue(body, TravelerGroup.class);
 
@@ -80,20 +80,20 @@ class TravelerGroupIntegrationTest {
                                     ]
                                 }
                                         """))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
 
         TravelerGroup travelerGroup = objectMapper.readValue(body, TravelerGroup.class);
 
         mockMvc
                 .perform(MockMvcRequestBuilders.delete("/api/traveler-groups/" + travelerGroup.id()))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
-//    @Test
-//    @DirtiesContext
-//    void deleteTravelerGroupByIdNotFound() throws Exception {
-//
-//        mockMvc.perform(MockMvcRequestBuilders.delete("/api/traveler-groups/954ujfew90ru30rfi0332345")).andExpect(status().isNotFound());
-//    }
+    @Test
+    @DirtiesContext
+    void deleteTravelerGroupByIdNotFound() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/traveler-groups/954ujfew90ru30rfi0332345")).andExpect(status().isNotFound());
+    }
 }

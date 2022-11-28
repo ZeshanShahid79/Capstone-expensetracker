@@ -20,19 +20,19 @@ public class TravelerController {
         return travelerService.displayTravelersList();
     }
 
+    @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping
     Traveler addTraveler(@RequestBody NewTraveler newTraveler) {
         return travelerService.addTraveler(newTraveler);
     }
 
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
     public void deleteTraveler(@PathVariable String id) {
-        try {
-            travelerService.deleteTraveler(id);
-        } catch (NoSuchElementException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
+        if (!travelerService.findTravelerExistById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-
+        travelerService.deleteTraveler(id);
     }
 
     @PutMapping("{id}")

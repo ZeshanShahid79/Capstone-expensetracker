@@ -34,4 +34,8 @@ public class TravelerGroupService {
     public void deleteTravelerGroup(String id) {
         travelerGroupRepository.deleteById(id);
     }
+
+    public boolean findTravelerGroupExistById(String id) {
+        return travelerGroupRepository.existsById(id);
+    }
 }

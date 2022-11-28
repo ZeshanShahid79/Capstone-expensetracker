@@ -74,4 +74,13 @@ class TravelerGroupServiceTest {
         verify(travelerUtils).generateUUID();
         assertEquals(travelerGroup, actual);
     }
+
+//    @Test
+//    void findTravelerExistById() {
+//        //GIVEN
+//        TravelerGroup newTravelerGroup = new TravelerGroup("test",List.of(new Traveler("zeshan","2")),"12");
+//        //WHEN
+//
+//        //THEN
+//    }
 }

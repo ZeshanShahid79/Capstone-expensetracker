@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("api/traveler-groups")
@@ -20,17 +19,18 @@ public class TravelerGroupController {
         return travelerGroupService.displayTravelerGroupList();
     }
 
+    @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping
     TravelerGroup addTravelerGroup(@RequestBody NewTravelerGroup newTravelerGroup) {
         return travelerGroupService.addTravelerGroup(newTravelerGroup);
     }
 
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
-    public void deleteTravelerGroup(@PathVariable String id) {
-        try {
-            travelerGroupService.deleteTravelerGroup(id);
-        } catch (NoSuchElementException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, exception.getMessage());
+    public void deleteTraveler(@PathVariable String id) {
+        if (!travelerGroupService.findTravelerGroupExistById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+        travelerGroupService.deleteTravelerGroup(id);
     }
 }
