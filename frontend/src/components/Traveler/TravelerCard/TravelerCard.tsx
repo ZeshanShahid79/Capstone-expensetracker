@@ -22,39 +22,30 @@ export default function TravelerCard(props: TravelerCardProps) {
           setMessageStatus("Error: traveler could not be deleted");
       })
       .then((status) => {
-        if (status === 200) {
+        if (status === 204) {
           setMessageStatus(
             "Traveler: " + props.traveler.name + " is deleted successfully"
           );
-          console.log("status=>:" + status);
         }
       })
       .then(() => setTimeout(() => props.fetchAllTraveler(), 2000));
   };
 
-  function openModal() {
-    setEditModal(true);
-  }
-
-  function closeModal() {
-    setEditModal(false);
-  }
-
   return (
     <li>
-      {messageStatus && <p>{messageStatus}</p>}
       {editModal && (
         <TravelerModal
-          closeModal={closeModal}
+          closeModal={() => setEditModal(false)}
           modalIsOpen={editModal}
           fetchAllTraveler={props.fetchAllTraveler}
           traveler={props.traveler}
         />
       )}
       <section>
+        {messageStatus && <p>{messageStatus}</p>}
         <h4>{props.traveler.name}</h4>
         <button onClick={deleteTraveler}>delete</button>
-        <button onClick={openModal}>edit</button>
+        <button onClick={() => setEditModal(true)}>edit</button>
       </section>
     </li>
   );

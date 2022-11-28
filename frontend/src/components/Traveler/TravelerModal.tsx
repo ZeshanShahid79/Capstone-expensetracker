@@ -25,10 +25,10 @@ export default function TravelerModal(props: TravelerModalProps) {
       })
       .then((response) => {
         props.closeModal();
+        props.fetchAllTraveler();
         return response.data;
       })
-      .catch((error) => console.log("error =>" + error))
-      .then(props.fetchAllTraveler);
+      .catch((error) => console.log("error =>" + error));
   }
 
   function handleFormSubmit(event: ChangeEvent<HTMLFormElement>) {
@@ -43,7 +43,7 @@ export default function TravelerModal(props: TravelerModalProps) {
       ariaHideApp={false}
       contentLabel={"update Traveler"}
     >
-      <h1>I am a modal</h1>
+      <h1>Update Traveler</h1>
       <form onSubmit={handleFormSubmit}>
         <label>name:</label>
         <input type={"text"} value={name} onChange={handleNewName} />

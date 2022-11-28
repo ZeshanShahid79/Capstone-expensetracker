@@ -20,17 +20,13 @@ export default function TravelerGroupOverview() {
     axios
       .get("/api/traveler-groups")
       .then((response) => response.data)
-      .then((data) => {
-        setTravelerGroup(data);
-      });
+      .then(setTravelerGroup);
   };
   const fetchAllTravelers = () => {
     axios
       .get("/api/travelers")
       .then((response) => response.data)
-      .then((data) => {
-        setTravelers(data);
-      });
+      .then(setTravelers);
   };
 
   const travelerGroupList = travelerGroup.map((travelerGroup) => {

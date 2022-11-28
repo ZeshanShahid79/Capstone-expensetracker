@@ -24,7 +24,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
           setMessageStatus("Error: traveler could not be deleted");
       })
       .then((status) => {
-        if (status === 200) {
+        if (status === 204) {
           setMessageStatus(
             "Traveler Group: " +
               props.travelerGroup.description +
