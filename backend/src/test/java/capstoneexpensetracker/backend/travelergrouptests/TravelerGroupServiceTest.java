@@ -11,8 +11,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 class TravelerGroupServiceTest {
@@ -75,4 +77,26 @@ class TravelerGroupServiceTest {
         assertEquals(travelerGroup, actual);
     }
 
+    @Test
+    void updateTravelerGroupByInvalidId() {
+
+        //GIVEN
+
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new Traveler("zeshan", "1")), "1");
+        TravelerGroup updatedTravelerGroup = new TravelerGroup("mallorca", List.of(new Traveler("zeshan", "1")), "1");
+        List<TravelerGroup> travelerGroupList = List.of(travelerGroup);
+
+
+        when(travelerGroupRepository.findAll()).thenReturn(travelerGroupList);
+        when(travelerGroupRepository.save(updatedTravelerGroup)).thenReturn(updatedTravelerGroup);
+
+        //WHEN
+        try {
+            travelerGroupService.updateTravelerGroupById("4", updatedTravelerGroup);
+            fail();
+        } catch (NoSuchElementException e) {
+            verify(travelerGroupRepository).findAll();
+            verify(travelerGroupRepository, never()).save(updatedTravelerGroup);
+        }
+    }
 }

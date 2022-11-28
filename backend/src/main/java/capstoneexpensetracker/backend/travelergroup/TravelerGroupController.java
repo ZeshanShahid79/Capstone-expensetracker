@@ -35,4 +35,16 @@ public class TravelerGroupController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PutMapping("{id}")
+    TravelerGroup updateTravelerGroup(@PathVariable String id, @RequestBody TravelerGroup travelerGroup) {
+        try {
+            if (travelerGroup.id().equals(id)) {
+                return travelerGroupService.updateTravelerGroupById(id, travelerGroup);
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        } catch (NoSuchElementException exception) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
 }

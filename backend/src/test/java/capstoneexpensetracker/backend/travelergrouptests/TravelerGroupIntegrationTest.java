@@ -90,4 +90,96 @@ class TravelerGroupIntegrationTest {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/traveler-groups/954ujfew90ru30rfi0332345")).andExpect(status().isNotFound());
     }
+
+    @Test
+    @DirtiesContext
+    void putRequestUpdateTravelerGroupData() throws Exception {
+
+        // GIVEN
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
+                        {
+                        "description": "test",
+                    "travelerList": [
+                        {
+                            "name": "peter",
+                            "id": "123"
+                        }
+                    ]
+                }
+                        """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+
+        TravelerGroup travelerGroup = objectMapper.readValue(body, TravelerGroup.class);
+
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/traveler-groups/" + travelerGroup.id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                                        "description": "mallorca 2022",
+                                                    "travelerList": [
+                                                        {
+                                                            "name": "peter",
+                                                            "id": "123"
+                                                        }
+                                                    ],
+                                                    "id": "<id>"
+                                                }
+                                """.replace("<id>", travelerGroup.id())))
+
+                //THEN
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                                                "description": "mallorca 2022",
+                                            "travelerList": [
+                                                {
+                                                    "name": "peter",
+                                                    "id": "123"
+                                                }
+                                            ],
+                                            "id": "<id>"
+                                        }
+                        """.replace("<id>", travelerGroup.id())));
+
+    }
+
+    @Test
+    @DirtiesContext
+    void putRequestUpdateTravelerGroupWithBadRequest() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/traveler-groups/1").contentType(MediaType.APPLICATION_JSON).content("""
+                        {
+                        "description": "test",
+                    "travelerList": [
+                        {
+                            "name": "peter",
+                            "id": "123"
+                        }
+                    ],
+                    "id": "<id>"
+                }
+                        """)).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DirtiesContext
+    void putRequestUpdateTravelerGroupIsNotFound() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/traveler-groups/1").contentType(MediaType.APPLICATION_JSON).content("""
+                        {
+                        "description": "test",
+                    "travelerList": [
+                        {
+                            "name": "peter",
+                            "id": "123"
+                        }
+                    ],
+                    "id": "1"
+                }
+                        """)).andExpect(status().isNotFound());
+    }
 }
+
