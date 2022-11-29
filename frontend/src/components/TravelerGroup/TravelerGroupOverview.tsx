@@ -1,42 +1,27 @@
-import { useEffect, useState } from "react";
-import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
-import AddTravelerGroupForm from "./AddTravelerGroupForm/AddTravelerGroupForm";
-import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
-import AddTravelerForm from "../Traveler/AddTravelerForm/AddTravelerForm";
-import TravelerOverview from "../Traveler/TravelerOverview";
-import axios from "axios";
 import TravelerGroupCard from "./TravelerGroupCard/TravelerGroupCard";
+import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
+import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
 
-export default function TravelerGroupOverview() {
-  const [travelerGroup, setTravelerGroup] = useState<TravelerGroupModel[]>([]);
-  const [travelers, setTravelers] = useState<TravelerModel[]>([]);
+import { NavLink } from "react-router-dom";
 
-  useEffect(() => {
-    fetchAllTravelers();
-    fetchAllTravelerGroups();
-  }, []);
+type TravelerGroupOverviewProps = {
+  travelerGroup: TravelerGroupModel[];
+  travelers: TravelerModel[];
+  fetchAllTravelerGroups: () => void;
+  fetchAllTravelers: () => void;
+};
 
-  const fetchAllTravelerGroups = () => {
-    axios
-      .get("/api/traveler-groups")
-      .then((response) => response.data)
-      .then(setTravelerGroup);
-  };
-  const fetchAllTravelers = () => {
-    axios
-      .get("/api/travelers")
-      .then((response) => response.data)
-      .then(setTravelers);
-  };
-
-  const travelerGroupList = travelerGroup.map((travelerGroup) => {
+export default function TravelerGroupOverview(
+  props: TravelerGroupOverviewProps
+) {
+  const travelerGroupList = props.travelerGroup.map((travelerGroup) => {
     return (
       <TravelerGroupCard
         key={travelerGroup.id}
-        fetchAllTravelerGroups={fetchAllTravelerGroups}
+        fetchAllTravelerGroups={props.fetchAllTravelerGroups}
         travelerGroup={travelerGroup}
-        travelers={travelers}
-        fetchAllTraveler={fetchAllTravelers}
+        travelers={props.travelers}
+        fetchAllTraveler={props.fetchAllTravelers}
       />
     );
   });
@@ -45,15 +30,9 @@ export default function TravelerGroupOverview() {
     <ul>
       <h3>Traveler Group </h3>
       {travelerGroupList}
-      <TravelerOverview
-        travelers={travelers}
-        fetchAllTravelers={fetchAllTravelers}
-      />
-      <AddTravelerGroupForm
-        travelers={travelers}
-        fetchAllTravelerGroups={fetchAllTravelerGroups}
-      />
-      <AddTravelerForm fetchAllTraveler={fetchAllTravelers} />
+      <NavLink to={"/AddTravelerGroupForm"}>
+        <button>Add Traveler-Group</button>
+      </NavLink>
     </ul>
   );
 }
