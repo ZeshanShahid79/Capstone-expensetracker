@@ -8,6 +8,7 @@ type TravelerModalProps = {
   traveler: TravelerModel;
   closeModal: () => void;
   fetchAllTraveler: () => void;
+  fetchAllTravelerGroups: () => void;
 };
 
 export default function TravelerModal(props: TravelerModalProps) {
@@ -26,6 +27,7 @@ export default function TravelerModal(props: TravelerModalProps) {
       .then((response) => {
         props.closeModal();
         props.fetchAllTraveler();
+        props.fetchAllTravelerGroups();
         return response.data;
       })
       .catch((error) => console.log("error =>" + error));

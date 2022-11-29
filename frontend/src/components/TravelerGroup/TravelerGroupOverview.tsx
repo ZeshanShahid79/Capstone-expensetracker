@@ -5,7 +5,7 @@ import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
 import { NavLink } from "react-router-dom";
 
 type TravelerGroupOverviewProps = {
-  travelerGroup: TravelerGroupModel[];
+  travelerGroupList: TravelerGroupModel[];
   travelers: TravelerModel[];
   fetchAllTravelerGroups: () => void;
   fetchAllTravelers: () => void;
@@ -14,7 +14,7 @@ type TravelerGroupOverviewProps = {
 export default function TravelerGroupOverview(
   props: TravelerGroupOverviewProps
 ) {
-  const travelerGroupList = props.travelerGroup.map((travelerGroup) => {
+  const GroupsList = props.travelerGroupList.map((travelerGroup) => {
     return (
       <TravelerGroupCard
         key={travelerGroup.id}
@@ -29,10 +29,15 @@ export default function TravelerGroupOverview(
   return (
     <ul>
       <h3>Traveler Group </h3>
-      {travelerGroupList}
-      <NavLink to={"/AddTravelerGroupForm"}>
-        <button>Add Traveler-Group</button>
-      </NavLink>
+      {GroupsList}
+      <nav>
+        <NavLink to={"/AddTravelerGroupForm"}>
+          <button>Create New Traveler Group</button>
+        </NavLink>
+        <NavLink to={"/AddTravelerForm"}>
+          <button>Create New Traveler</button>
+        </NavLink>
+      </nav>
     </ul>
   );
 }

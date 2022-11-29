@@ -6,15 +6,13 @@ import { TravelerModel } from "./components/Traveler/TravelerModel/TravelerModel
 import axios from "axios";
 import AddTravelerGroupForm from "./components/TravelerGroup/AddTravelerGroupForm/AddTravelerGroupForm";
 import AddTravelerForm from "./components/Traveler/AddTravelerForm/AddTravelerForm";
+import TravelerOverview from "./components/Traveler/TravelerOverview";
 
 export default function HomePage() {
-  const [travelerGroup, setTravelerGroup] = useState<TravelerGroupModel[]>([]);
+  const [travelerGroupList, setTravelerGroupList] = useState<
+    TravelerGroupModel[]
+  >([]);
   const [travelers, setTravelers] = useState<TravelerModel[]>([]);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
-    []
-  );
 
   useEffect(() => {
     fetchAllTravelers();
@@ -24,35 +22,17 @@ export default function HomePage() {
   const fetchAllTravelerGroups = () => {
     axios
       .get("/api/traveler-groups")
-      .then((response) => response.data)
-      .then(setTravelerGroup);
+      .then((response) => {
+        console.log(response.data);
+        return response.data;
+      })
+      .then(setTravelerGroupList);
   };
   const fetchAllTravelers = () => {
     axios
       .get("/api/travelers")
       .then((response) => response.data)
       .then(setTravelers);
-  };
-  const postTraveler = () => {
-    axios
-      .post("/api/travelers", {
-        name,
-      })
-      .catch((error) => {
-        console.log("Error =>" + error);
-      })
-      .then(fetchAllTravelers);
-  };
-  const postTravelerGroup = () => {
-    axios
-      .post("/api/traveler-groups", {
-        description,
-        travelerList: selectedTravelers,
-      })
-      .catch((error) => {
-        console.log("Error =>" + error);
-      })
-      .then(fetchAllTravelerGroups);
   };
 
   return (
@@ -66,37 +46,34 @@ export default function HomePage() {
           element={
             <TravelerGroupOverview
               travelers={travelers}
-              travelerGroup={travelerGroup}
+              travelerGroupList={travelerGroupList}
               fetchAllTravelers={fetchAllTravelers}
               fetchAllTravelerGroups={fetchAllTravelerGroups}
             />
           }
         />
-        <Route path={"/TravelerOverview"} />
+        <Route
+          path={"/TravelerOverview"}
+          element={
+            <TravelerOverview
+              fetchAllTravelers={fetchAllTravelers}
+              travelers={travelers}
+              fetchAllTravelerGroups={fetchAllTravelerGroups}
+            />
+          }
+        />
         <Route
           path={"/AddTravelerGroupForm"}
           element={
             <AddTravelerGroupForm
               travelers={travelers}
               fetchAllTravelerGroups={fetchAllTravelerGroups}
-              setDescription={setDescription}
-              description={description}
-              setSelectedTravelers={setSelectedTravelers}
-              selectedTravelers={selectedTravelers}
-              postTravelerGroup={postTravelerGroup}
             />
           }
         />
         <Route
           path={"/AddTravelerForm"}
-          element={
-            <AddTravelerForm
-              fetchAllTraveler={fetchAllTravelers}
-              postTraveler={postTraveler}
-              setName={setName}
-              name={name}
-            />
-          }
+          element={<AddTravelerForm fetchAllTravelers={fetchAllTravelers} />}
         />
       </Routes>
     </>

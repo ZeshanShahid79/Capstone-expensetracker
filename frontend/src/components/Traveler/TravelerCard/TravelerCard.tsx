@@ -7,6 +7,7 @@ import TravelerModal from "../TravelerModal";
 type TravelerCardProps = {
   traveler: TravelerModel;
   fetchAllTraveler: () => void;
+  fetchAllTravelerGroups: () => void;
 };
 
 export default function TravelerCard(props: TravelerCardProps) {
@@ -28,7 +29,12 @@ export default function TravelerCard(props: TravelerCardProps) {
           );
         }
       })
-      .then(() => setTimeout(() => props.fetchAllTraveler(), 2000));
+      .then(() =>
+        setTimeout(() => {
+          props.fetchAllTraveler();
+          props.fetchAllTravelerGroups();
+        }, 2000)
+      );
   };
 
   return (
@@ -39,6 +45,7 @@ export default function TravelerCard(props: TravelerCardProps) {
           modalIsOpen={editModal}
           fetchAllTraveler={props.fetchAllTraveler}
           traveler={props.traveler}
+          fetchAllTravelerGroups={props.fetchAllTravelerGroups}
         />
       )}
       <section>
