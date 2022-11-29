@@ -4,10 +4,12 @@ import TravelerCard from "./TravelerCard/TravelerCard";
 type TravelerOverviewProps = {
   fetchAllTravelers: () => void;
   travelers: TravelerModel[];
+  fetchAllTravelerGroups: () => void;
 };
 export default function TravelerOverview({
   fetchAllTravelers,
   travelers,
+  fetchAllTravelerGroups,
 }: TravelerOverviewProps) {
   const travelerList = travelers.map((traveler) => {
     return (
@@ -15,6 +17,7 @@ export default function TravelerOverview({
         key={traveler.id}
         fetchAllTraveler={fetchAllTravelers}
         traveler={traveler}
+        fetchAllTravelerGroups={fetchAllTravelerGroups}
       />
     );
   });

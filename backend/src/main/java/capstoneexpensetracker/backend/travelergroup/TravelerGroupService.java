@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Service
@@ -40,13 +41,10 @@ public class TravelerGroupService {
     }
 
     public TravelerGroup updateTravelerGroupById(String id, TravelerGroup travelerGroup) {
-        List<TravelerGroup> travelerGroupList = travelerGroupRepository.findAll();
-        for (TravelerGroup travelerGroupToFind : travelerGroupList) {
-            if (travelerGroupToFind.id().equals(id)) {
-                return travelerGroupRepository.save(travelerGroup);
-            }
+        Optional<TravelerGroup> travelerGroupToFind = travelerGroupRepository.findById(id);
+        if (travelerGroupToFind.isPresent()) {
+            return travelerGroupRepository.save(travelerGroup);
         }
         throw new NoSuchElementException("No TravelerGroup was found with this id");
     }
-
 }

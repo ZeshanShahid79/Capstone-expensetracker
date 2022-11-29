@@ -1,41 +1,55 @@
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { checkIfExists } from "../../utils";
 
 type AddTravelerProps = {
   travelers: TravelerModel[];
   fetchAllTravelerGroups: () => void;
-  setDescription: (description: string) => void;
-  setSelectedTravelers: (selectedTravelers: TravelerModel[]) => void;
-  selectedTravelers: TravelerModel[];
-  description: string;
-  postTravelerGroup: () => void;
 };
 export default function AddTravelerGroupForm(props: AddTravelerProps) {
+  const [description, setDescription] = useState("");
+  const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
+    []
+  );
   const navigate = useNavigate();
 
+  const postTravelerGroup = () => {
+    axios
+      .post("/api/traveler-groups", {
+        description,
+        travelerList: selectedTravelers,
+      })
+      .catch((error) => {
+        console.log("Error =>" + error);
+      })
+      .then(props.fetchAllTravelerGroups);
+  };
+
   const handleRemoveFromList = (id: string) => {
-    const filteredList = props.selectedTravelers.filter(
+    const filteredList = selectedTravelers.filter(
       (traveler) => traveler.id !== id
     );
-    props.setSelectedTravelers(filteredList);
+    setSelectedTravelers(filteredList);
   };
 
   const handleSelectTraveler = (event: ChangeEvent<HTMLSelectElement>) => {
     const id = event.target.value;
-    const traveler = props.travelers.find((traveler) => traveler.id === id);
-    const isExist = props.selectedTravelers.find(
-      (traveler) => traveler.id === id
+    const { check, traveler } = checkIfExists(
+      id,
+      props.travelers,
+      selectedTravelers
     );
-    if (traveler && !isExist) {
-      props.setSelectedTravelers([...props.selectedTravelers, traveler]);
+    if (check && traveler) {
+      setSelectedTravelers([...selectedTravelers, traveler]);
     }
   };
 
   const handleTravelerFrom = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    props.postTravelerGroup();
-    props.setDescription("");
+    postTravelerGroup();
+    setDescription("");
     navigate("/");
   };
   return (
@@ -43,7 +57,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
       <h2>Add TravelerGroup</h2>
       <div>
         <h3>Selected Travelers</h3>
-        {props.selectedTravelers.map((traveler) => (
+        {selectedTravelers.map((traveler) => (
           <div key={traveler.id}>
             <p>{traveler.name}</p>
             <button onClick={() => handleRemoveFromList(traveler.id)}>X</button>
@@ -55,8 +69,8 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
         <input
           type={"text"}
           id={"description"}
-          value={props.description}
-          onChange={(event) => props.setDescription(event.target.value)}
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
           placeholder={"Mallorca 2022"}
         />
         <select name="travelers" id="travelers" onChange={handleSelectTraveler}>

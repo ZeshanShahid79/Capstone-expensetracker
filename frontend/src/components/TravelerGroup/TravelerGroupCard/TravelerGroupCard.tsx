@@ -5,7 +5,6 @@ import TravelerCard from "../../Traveler/TravelerCard/TravelerCard";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import "../../Traveler/TravelerCard/TravelerCard.css";
 import TravelerGroupModal from "../TravelerGroupModal";
-import { useNavigate } from "react-router-dom";
 
 type TravelerCardProps = {
   travelerGroup: TravelerGroupModel;
@@ -17,7 +16,6 @@ type TravelerCardProps = {
 export default function TravelerGroupCard(props: TravelerCardProps) {
   const [messageStatus, setMessageStatus] = useState("");
   const [editModal, setEditModal] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   const deleteTravelerGroup = () => {
     axios
@@ -62,12 +60,10 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
               key={traveler.id}
               fetchAllTraveler={props.fetchAllTraveler}
               traveler={traveler}
+              fetchAllTravelerGroups={props.fetchAllTravelerGroups}
             />
           );
         })}
-        <button onClick={() => navigate("/AddTravelerForm")}>
-          Add Traveler
-        </button>
       </section>
     </li>
   );
