@@ -1,31 +1,22 @@
-import axios from "axios";
 import "./AddTravelerForm.css";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 type AddTravelerProps = {
   fetchAllTraveler: () => void;
+  postTraveler: () => void;
+  setName: (name: string) => void;
+  name: string;
 };
-export default function AddTravelerForm({
-  fetchAllTraveler,
-}: AddTravelerProps) {
-  const [name, setName] = useState("");
-
-  const postForm = () => {
-    axios
-      .post("/api/travelers", {
-        name,
-      })
-      .catch((error) => {
-        console.log("Error =>" + error);
-      })
-      .then(fetchAllTraveler);
-  };
+export default function AddTravelerForm(props: AddTravelerProps) {
+  const navigate = useNavigate();
 
   const handleTravelerFrom = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    postForm();
+    props.postTraveler();
 
-    setName("");
+    props.setName("");
+    navigate("/");
   };
   return (
     <section>
@@ -35,8 +26,8 @@ export default function AddTravelerForm({
         <input
           type={"text"}
           id={"name"}
-          value={name}
-          onChange={(event) => setName(event.target.value)}
+          value={props.name}
+          onChange={(event) => props.setName(event.target.value)}
           placeholder={"Zeshan"}
         />
         <button>Add Traveler</button>

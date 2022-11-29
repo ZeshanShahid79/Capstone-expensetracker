@@ -4,6 +4,8 @@ import { TravelerGroupModel } from "../TravelerGroupModel/TravelerGroupModel";
 import TravelerCard from "../../Traveler/TravelerCard/TravelerCard";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import "../../Traveler/TravelerCard/TravelerCard.css";
+import TravelerGroupModal from "../TravelerGroupModal";
+import { useNavigate } from "react-router-dom";
 
 type TravelerCardProps = {
   travelerGroup: TravelerGroupModel;
@@ -14,6 +16,8 @@ type TravelerCardProps = {
 
 export default function TravelerGroupCard(props: TravelerCardProps) {
   const [messageStatus, setMessageStatus] = useState("");
+  const [editModal, setEditModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const deleteTravelerGroup = () => {
     axios
@@ -32,15 +36,26 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
           );
         }
       })
-      .then(() => setTimeout(() => props.fetchAllTravelerGroups(), 2000));
+      .then(() => setTimeout(() => props.fetchAllTravelerGroups(), 2000))
+      .then(() => props.fetchAllTraveler);
   };
 
   return (
     <li>
+      {editModal && (
+        <TravelerGroupModal
+          closeModal={() => setEditModal(false)}
+          modalIsOpen={editModal}
+          fetchAllTravelerGroups={props.fetchAllTravelerGroups}
+          travelerGroup={props.travelerGroup}
+          travelers={props.travelers}
+        />
+      )}
       {messageStatus && <p>{messageStatus}</p>}
       <section>
         <h4>{props.travelerGroup.description}</h4>
         <button onClick={deleteTravelerGroup}>delete</button>
+        <button onClick={() => setEditModal(true)}>edit</button>
         {props.travelerGroup.travelerList.map((traveler) => {
           return (
             <TravelerCard
@@ -50,6 +65,9 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
             />
           );
         })}
+        <button onClick={() => navigate("/AddTravelerForm")}>
+          Add Traveler
+        </button>
       </section>
     </li>
   );
