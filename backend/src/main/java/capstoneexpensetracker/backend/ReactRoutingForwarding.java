@@ -11,20 +11,15 @@ import java.io.IOException;
 
 @Configuration
 public class ReactRoutingForwarding implements WebMvcConfigurer {
-
     public static final String DEFAULT_STARTING_PAGE = "static/index.html";
 
     static class ReactRoutingPathResourceResolver extends PathResourceResolver {
         @Override
         protected Resource getResource(String resourcePath, Resource location) throws IOException {
             var requestedResource = location.createRelative(resourcePath);
-
-            // Is this a request to a real file?
             if (requestedResource.exists() && requestedResource.isReadable()) {
                 return requestedResource;
             }
-
-            // It seems to be only a frontend-routing request (Single-Page-Application).
             return new ClassPathResource(DEFAULT_STARTING_PAGE);
         }
     }
