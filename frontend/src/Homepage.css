@@ -19,6 +19,7 @@ nav {
     border: solid black 1px;
     height: 48px;
     text-decoration: none;
+    cursor: pointer;
 
 }
 
