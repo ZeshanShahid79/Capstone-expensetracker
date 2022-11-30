@@ -42,5 +42,4 @@ class ReactRoutingForwardingTest {
         ClassPathResource expected = new ClassPathResource("static/index.html");
         Assertions.assertEquals(expected, actual);
     }
-
 }
