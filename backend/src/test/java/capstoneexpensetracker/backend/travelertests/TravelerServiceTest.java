@@ -3,7 +3,6 @@ package capstoneexpensetracker.backend.travelertests;
 import capstoneexpensetracker.backend.traveler.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -54,14 +53,12 @@ class TravelerServiceTest {
 
         //GIVEN
 
-        Traveler traveler = new Traveler("Steven", "1");
         Traveler updatedTraveler = new Traveler("Robert", "1");
-        List<Traveler> travelersList = new ArrayList<>(List.of(traveler));
 
 
         //WHEN
 
-        when(travelerRepository.findAll()).thenReturn(travelersList);
+        when(travelerRepository.existsById("1")).thenReturn(true);
         when(travelerRepository.save(updatedTraveler)).thenReturn(updatedTraveler);
         Traveler actual = travelerService.updateTravelerById("1", updatedTraveler);
 
@@ -76,21 +73,19 @@ class TravelerServiceTest {
         //GIVEN
 
         String id = "2";
-        List<Traveler> travelers = new ArrayList<>();
-        Traveler traveler1 = new Traveler("Steven", id);
         Traveler updatedTraveler = new Traveler("Robert", "4");
-        travelers.add(traveler1);
 
-        when(travelerRepository.findAll()).thenReturn(travelers);
+
+        when(travelerRepository.existsById(id)).thenReturn(false);
         when(travelerRepository.save(updatedTraveler)).thenReturn(updatedTraveler);
 
         //WHEN
 
         try {
-            travelerService.updateTravelerById("4", updatedTraveler);
+            travelerService.updateTravelerById(id, updatedTraveler);
             fail();
         } catch (NoSuchElementException e) {
-            verify(travelerRepository).findAll();
+            verify(travelerRepository).existsById(id);
             verify(travelerRepository, never()).save(updatedTraveler);
         }
     }

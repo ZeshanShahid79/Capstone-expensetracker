@@ -26,6 +26,7 @@ export default function HomePage() {
       .then((response) => {
         return response.data;
       })
+      .catch((error) => console.error(error))
       .then(setTravelerGroupList);
   };
   const fetchAllTravelers = () => {

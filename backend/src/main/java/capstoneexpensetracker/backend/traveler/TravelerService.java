@@ -31,16 +31,9 @@ public class TravelerService {
     }
 
     public Traveler updateTravelerById(String id, Traveler traveler) {
-        List<Traveler> travelerList = travelerRepository.findAll();
-        for (Traveler travelerToFind : travelerList) {
-            if (travelerToFind.id().equals(id)) {
-                return travelerRepository.save(traveler);
-
-            }
+        if (!travelerRepository.existsById(id)) {
+            throw new NoSuchElementException("No traveler was found with this id");
         }
-        throw new NoSuchElementException("No traveler was found with this id");
+        return travelerRepository.save(traveler);
     }
-
-
 }
-

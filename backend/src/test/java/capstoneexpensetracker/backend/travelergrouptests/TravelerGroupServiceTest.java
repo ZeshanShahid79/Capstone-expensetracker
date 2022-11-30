@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -82,12 +81,10 @@ class TravelerGroupServiceTest {
     void updateTravelerGroupByInvalidId() {
 
         //GIVEN
-
-        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new Traveler("zeshan", "1")), "1");
         TravelerGroup updatedTravelerGroup = new TravelerGroup("mallorca", List.of(new Traveler("zeshan", "1")), "1");
 
 
-        when(travelerGroupRepository.findById("1")).thenReturn(Optional.of(travelerGroup));
+        when(travelerGroupRepository.existsById("1")).thenReturn(false);
         when(travelerGroupRepository.save(updatedTravelerGroup)).thenReturn(updatedTravelerGroup);
 
         //WHEN
@@ -95,7 +92,7 @@ class TravelerGroupServiceTest {
             travelerGroupService.updateTravelerGroupById("4", updatedTravelerGroup);
             fail();
         } catch (NoSuchElementException e) {
-            verify(travelerGroupRepository).findById("4");
+            verify(travelerGroupRepository).existsById("4");
             verify(travelerGroupRepository, never()).save(updatedTravelerGroup);
         }
     }
