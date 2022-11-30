@@ -2,8 +2,6 @@ import TravelerGroupCard from "./TravelerGroupCard/TravelerGroupCard";
 import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
 import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
 
-import { NavLink } from "react-router-dom";
-
 type TravelerGroupOverviewProps = {
   travelerGroupList: TravelerGroupModel[];
   travelers: TravelerModel[];
@@ -30,14 +28,6 @@ export default function TravelerGroupOverview(
     <ul>
       <h3>Traveler Group </h3>
       {GroupsList}
-      <nav>
-        <NavLink to={"/AddTravelerGroupForm"}>
-          <button>Create New Traveler Group</button>
-        </NavLink>
-        <NavLink to={"/AddTravelerForm"}>
-          <button>Create New Traveler</button>
-        </NavLink>
-      </nav>
     </ul>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
 import TravelerGroupOverview from "./components/TravelerGroup/TravelerGroupOverview";
 import { TravelerGroupModel } from "./components/TravelerGroup/TravelerGroupModel/TravelerGroupModel";
 import { TravelerModel } from "./components/Traveler/TravelerModel/TravelerModel";
@@ -39,6 +39,7 @@ export default function HomePage() {
       <header>
         <h1>Shmoney Tracker</h1>
       </header>
+
       <Routes>
         <Route
           path={"/"}
@@ -75,6 +76,20 @@ export default function HomePage() {
           element={<AddTravelerForm fetchAllTravelers={fetchAllTravelers} />}
         />
       </Routes>
+      <nav>
+        <NavLink to={"/"}>
+          <button>Home</button>
+        </NavLink>
+        <NavLink to={"/TravelerOverview"}>
+          <button>TravelerOverview</button>
+        </NavLink>
+        <NavLink to={"/AddTravelerGroupForm"}>
+          <button>AddTravelerGroupForm</button>
+        </NavLink>
+        <NavLink to={"/AddTravelerForm"}>
+          <button>AddTravelerForm</button>
+        </NavLink>
+      </nav>
     </>
   );
 }
