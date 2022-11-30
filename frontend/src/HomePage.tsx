@@ -7,6 +7,7 @@ import axios from "axios";
 import AddTravelerGroupForm from "./components/TravelerGroup/AddTravelerGroupForm/AddTravelerGroupForm";
 import AddTravelerForm from "./components/Traveler/AddTravelerForm/AddTravelerForm";
 import TravelerOverview from "./components/Traveler/TravelerOverview";
+import "./Homepage.css";
 
 export default function HomePage() {
   const [travelerGroupList, setTravelerGroupList] = useState<
@@ -77,17 +78,17 @@ export default function HomePage() {
         />
       </Routes>
       <nav>
-        <NavLink to={"/"}>
-          <button>Home</button>
+        <NavLink className={"NavLink"} to={"/"}>
+          Home
         </NavLink>
-        <NavLink to={"/TravelerOverview"}>
-          <button>TravelerOverview</button>
+        <NavLink className={"NavLink"} to={"/TravelerOverview"}>
+          TravelerOverview
         </NavLink>
-        <NavLink to={"/AddTravelerGroupForm"}>
-          <button>AddTravelerGroupForm</button>
+        <NavLink className={"NavLink"} to={"/AddTravelerGroupForm"}>
+          AddTravelerGroupForm
         </NavLink>
-        <NavLink to={"/AddTravelerForm"}>
-          <button>AddTravelerForm</button>
+        <NavLink className={"NavLink"} to={"/AddTravelerForm"}>
+          AddTravelerForm
         </NavLink>
       </nav>
     </>
