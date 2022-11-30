@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 import { TravelerGroupModel } from "../TravelerGroupModel/TravelerGroupModel";
-import TravelerCard from "../../Traveler/TravelerCard/TravelerCard";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import "../../Traveler/TravelerCard/TravelerCard.css";
 import TravelerGroupModal from "../TravelerGroupModal";
@@ -55,14 +54,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
         <button onClick={deleteTravelerGroup}>delete</button>
         <button onClick={() => setEditModal(true)}>edit</button>
         {props.travelerGroup.travelerList.map((traveler) => {
-          return (
-            <TravelerCard
-              key={traveler.id}
-              fetchAllTraveler={props.fetchAllTraveler}
-              traveler={traveler}
-              fetchAllTravelerGroups={props.fetchAllTravelerGroups}
-            />
-          );
+          return <li key={traveler.id}>{traveler.name}</li>;
         })}
       </section>
     </li>

@@ -35,7 +35,6 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
       .then((response) => {
         props.closeModal();
         props.fetchAllTravelerGroups();
-        console.log(selectedTravelers);
         return response.data;
       })
       .catch((error) => console.log("error =>" + error));
