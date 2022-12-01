@@ -1,5 +1,6 @@
 package capstoneexpensetracker.backend.travelergrouptests;
 
+import capstoneexpensetracker.backend.traveler.Traveler;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroup;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -145,6 +146,52 @@ class TravelerGroupIntegrationTest {
                     "id": "1"
                 }
                         """)).andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DirtiesContext
+    void getTravelerlsByGroupIdAndExpectEmptyList() throws Exception {
+        // GIVEN
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+
+        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/travelers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"name": "test"}
+                                """))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        Traveler traveler = objectMapper.readValue(body, Traveler.class);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/travelers"))
+
+
+                .andExpect(status().isOk()).andExpect(content().json("""
+                        [{"name": "test",
+                        "id": "<id>"}]
+                        """.replace("<id>", traveler.id())));
+
+        String body1 = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
+                        {
+                        "description": "test",
+                    "travelerList": ["<id>"]
+                }
+                        """.replace("<id>", traveler.id()))).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+
+        TravelerGroup travelerGroup = objectMapper.readValue(body1, TravelerGroup.class);
+
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/traveler-groups/" + travelerGroup.id() + "/travelers"))
+                .andExpect(status().isOk()).andExpect(content().json("""
+                        [
+                            {
+                                "name": "test",
+                                "id": "<id>"
+                            }
+                            
+                        ]
+                        """.replace("<id>", traveler.id())));
     }
 }
 
