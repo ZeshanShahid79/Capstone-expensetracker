@@ -1,5 +1,6 @@
 package capstoneexpensetracker.backend.travelergroup;
 
+import capstoneexpensetracker.backend.traveler.Traveler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +47,10 @@ public class TravelerGroupController {
         } catch (NoSuchElementException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("{travelerGroupId}/travelers")
+    List<Traveler> getTravelersByGroupId(@PathVariable String travelerGroupId) {
+        return travelerGroupService.getTravelersByGroupId(travelerGroupId);
     }
 }

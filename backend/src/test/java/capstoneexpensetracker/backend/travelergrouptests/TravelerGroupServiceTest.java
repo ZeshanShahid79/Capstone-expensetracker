@@ -1,6 +1,8 @@
 package capstoneexpensetracker.backend.travelergrouptests;
 
 
+import capstoneexpensetracker.backend.traveler.Traveler;
+import capstoneexpensetracker.backend.traveler.TravelerRepository;
 import capstoneexpensetracker.backend.traveler.TravelerUtils;
 import capstoneexpensetracker.backend.travelergroup.NewTravelerGroup;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroup;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -19,7 +22,8 @@ import static org.mockito.Mockito.*;
 class TravelerGroupServiceTest {
     TravelerGroupRepository travelerGroupRepository = mock(TravelerGroupRepository.class);
     TravelerUtils travelerUtils = mock(TravelerUtils.class);
-    TravelerGroupService travelerGroupService = new TravelerGroupService(travelerGroupRepository, travelerUtils);
+    TravelerRepository travelerRepository = mock(TravelerRepository.class);
+    TravelerGroupService travelerGroupService = new TravelerGroupService(travelerGroupRepository, travelerRepository, travelerUtils);
 
     @Test
     void getTravelerGroupList() {
@@ -83,8 +87,7 @@ class TravelerGroupServiceTest {
         TravelerGroup updatedTravelerGroup = new TravelerGroup("mallorca", List.of("1"), "1");
 
 
-        when(travelerGroupRepository.existsById("1")).thenReturn(false);
-        when(travelerGroupRepository.save(updatedTravelerGroup)).thenReturn(updatedTravelerGroup);
+        when(travelerGroupRepository.existsById("12")).thenReturn(false);
 
         //WHEN
         try {
@@ -94,5 +97,34 @@ class TravelerGroupServiceTest {
             verify(travelerGroupRepository).existsById("4");
             verify(travelerGroupRepository, never()).save(updatedTravelerGroup);
         }
+    }
+
+    @Test
+    void getTravelersByGroupId() {
+        //GIVEN
+        TravelerGroup travelerGroup = new TravelerGroup("des", List.of("1"), "1");
+        List<String> travelerList = List.of("1");
+        List<Traveler> travelers = List.of(new Traveler("Zeshan", "1"));
+        when(travelerGroupRepository.findById("1")).thenReturn(Optional.of(travelerGroup));
+        when(travelerRepository.findAllByIdIn(travelerList)).thenReturn(travelers);
+        //WHEN
+        List<Traveler> actual = travelerGroupService.getTravelersByGroupId("1");
+        //THEN
+        assertEquals(travelers, actual);
+    }
+
+    @Test
+    void getTravelersByWrongGroupIdThrowsException() {
+
+        when(travelerGroupRepository.findById("1")).thenReturn(Optional.empty());
+        try {
+            travelerGroupService.getTravelersByGroupId("2");
+            fail();
+        } catch (NoSuchElementException e) {
+            verify(travelerGroupRepository).findById("2");
+            verify(travelerRepository, never()).findAllByIdIn(any());
+            assertEquals("No such element found with this id", e.getMessage());
+        }
+
     }
 }

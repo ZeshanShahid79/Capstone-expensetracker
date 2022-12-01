@@ -1,5 +1,7 @@
 package capstoneexpensetracker.backend.travelergroup;
 
+import capstoneexpensetracker.backend.traveler.Traveler;
+import capstoneexpensetracker.backend.traveler.TravelerRepository;
 import capstoneexpensetracker.backend.traveler.TravelerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.NoSuchElementException;
 public class TravelerGroupService {
 
     private final TravelerGroupRepository travelerGroupRepository;
+    private final TravelerRepository travelerRepository;
     private final TravelerUtils travelerUtils;
 
     public List<TravelerGroup> displayTravelerGroupList() {
@@ -43,5 +46,13 @@ public class TravelerGroupService {
             throw new NoSuchElementException("No such Element with this ID");
         }
         return travelerGroupRepository.save(travelerGroup);
+    }
+
+    public List<Traveler> getTravelersByGroupId(String travelerGroupId) {
+        List<String> travelerList = travelerGroupRepository
+                .findById(travelerGroupId)
+                .orElseThrow(() -> new NoSuchElementException("No such element found with this id"))
+                .travelerList();
+        return travelerRepository.findAllByIdIn(travelerList);
     }
 }
