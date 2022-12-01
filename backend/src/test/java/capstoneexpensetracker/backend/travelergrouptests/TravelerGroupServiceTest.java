@@ -1,7 +1,6 @@
 package capstoneexpensetracker.backend.travelergrouptests;
 
 
-import capstoneexpensetracker.backend.traveler.Traveler;
 import capstoneexpensetracker.backend.traveler.TravelerUtils;
 import capstoneexpensetracker.backend.travelergroup.NewTravelerGroup;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroup;
@@ -27,7 +26,7 @@ class TravelerGroupServiceTest {
 
         //GIVEN
 
-        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new Traveler("zeshan", "1")), "1");
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of("1"), "1");
         List<TravelerGroup> travelerGroupList = List.of(travelerGroup);
 
         //WHEN
@@ -43,7 +42,7 @@ class TravelerGroupServiceTest {
     void addNewTravelerWithAnId() {
 
         //GIVEN
-        NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", List.of(new Traveler("Zeshan", "1")));
+        NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", List.of("1"));
         TravelerGroup travelerGroup = newTravelerGroup.withId("1");
 
         when(travelerGroupRepository.save(travelerGroup)).thenReturn(travelerGroup);
@@ -81,7 +80,7 @@ class TravelerGroupServiceTest {
     void updateTravelerGroupByInvalidId() {
 
         //GIVEN
-        TravelerGroup updatedTravelerGroup = new TravelerGroup("mallorca", List.of(new Traveler("zeshan", "1")), "1");
+        TravelerGroup updatedTravelerGroup = new TravelerGroup("mallorca", List.of("1"), "1");
 
 
         when(travelerGroupRepository.existsById("1")).thenReturn(false);
