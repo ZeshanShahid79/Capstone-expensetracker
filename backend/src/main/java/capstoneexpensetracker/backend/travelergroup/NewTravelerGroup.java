@@ -1,12 +1,10 @@
 package capstoneexpensetracker.backend.travelergroup;
 
-import capstoneexpensetracker.backend.traveler.Traveler;
-
 import java.util.List;
 
 public record NewTravelerGroup(
         String description,
-        List<Traveler> travelerList
+        List<String> travelerList
 
 ) {
 

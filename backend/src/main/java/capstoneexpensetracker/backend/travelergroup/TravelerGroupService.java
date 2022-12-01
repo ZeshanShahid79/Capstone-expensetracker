@@ -1,6 +1,5 @@
 package capstoneexpensetracker.backend.travelergroup;
 
-import capstoneexpensetracker.backend.traveler.Traveler;
 import capstoneexpensetracker.backend.traveler.TravelerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ public class TravelerGroupService {
 
     public TravelerGroup addTravelerGroup(NewTravelerGroup newTravelerGroup) {
         String uuid = travelerUtils.generateUUID();
-        List<Traveler> travelerList = newTravelerGroup.travelerList();
+        List<String> travelerList = newTravelerGroup.travelerList();
         if (newTravelerGroup.travelerList() == null) {
             travelerList = new ArrayList<>();
         }
