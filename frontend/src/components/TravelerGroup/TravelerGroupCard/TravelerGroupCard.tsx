@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { TravelerGroupModel } from "../TravelerGroupModel/TravelerGroupModel";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
@@ -15,6 +15,7 @@ type TravelerCardProps = {
 export default function TravelerGroupCard(props: TravelerCardProps) {
   const [messageStatus, setMessageStatus] = useState("");
   const [editModal, setEditModal] = useState<boolean>(false);
+  const [travelerList, setTravelerList] = useState<TravelerModel[]>([]);
 
   const deleteTravelerGroup = () => {
     axios
@@ -37,6 +38,15 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
       .then(() => props.fetchAllTraveler);
   };
 
+  const fetchTravelersByGroupId = () => {
+    axios
+      .get("api/traveler-groups/" + props.travelerGroup.id + "/travelers")
+      .then((response) => response.data)
+      .then(setTravelerList)
+      .catch((error) => console.error(error));
+  };
+  useEffect(fetchTravelersByGroupId, [props.travelerGroup.id]);
+
   return (
     <li>
       {editModal && (
@@ -53,7 +63,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
         <h4>{props.travelerGroup.description}</h4>
         <button onClick={deleteTravelerGroup}>delete</button>
         <button onClick={() => setEditModal(true)}>edit</button>
-        {props.travelerGroup.travelerList.map((traveler) => {
+        {travelerList.map((traveler) => {
           return <li key={traveler.id}>{traveler.name}</li>;
         })}
       </section>
