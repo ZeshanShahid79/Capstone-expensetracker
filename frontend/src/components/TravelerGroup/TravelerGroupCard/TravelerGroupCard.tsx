@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { TravelerGroupModel } from "../TravelerGroupModel/TravelerGroupModel";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
-import "../../Traveler/TravelerCard/TravelerCard.css";
 import TravelerGroupModal from "../TravelerGroupModal";
+import "./TravelerGroupCard.css";
+import { Button, Stack } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
 
 type TravelerCardProps = {
   travelerGroup: TravelerGroupModel;
@@ -15,7 +18,9 @@ type TravelerCardProps = {
 export default function TravelerGroupCard(props: TravelerCardProps) {
   const [messageStatus, setMessageStatus] = useState("");
   const [editModal, setEditModal] = useState<boolean>(false);
-  const [travelerList, setTravelerList] = useState<TravelerModel[]>([]);
+  const [travelerListInGroup, setTravelerListInGroup] = useState<
+    TravelerModel[]
+  >([]);
 
   const deleteTravelerGroup = () => {
     axios
@@ -42,7 +47,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
     axios
       .get("api/traveler-groups/" + props.travelerGroup.id + "/travelers")
       .then((response) => response.data)
-      .then(setTravelerList)
+      .then(setTravelerListInGroup)
       .catch((error) => console.error(error));
   };
   useEffect(fetchTravelersByGroupId, [props.travelerGroup.id]);
@@ -56,16 +61,38 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
           fetchAllTravelerGroups={props.fetchAllTravelerGroups}
           travelerGroup={props.travelerGroup}
           travelers={props.travelers}
+          travelerListInGroup={travelerListInGroup}
+          fetchTravelersByGroupId={fetchTravelersByGroupId}
         />
       )}
       {messageStatus && <p>{messageStatus}</p>}
-      <section>
+      <section className={"traveler-group-card"}>
         <h4>{props.travelerGroup.description}</h4>
-        <button onClick={deleteTravelerGroup}>delete</button>
-        <button onClick={() => setEditModal(true)}>edit</button>
-        {travelerList.map((traveler) => {
+        {travelerListInGroup.map((traveler) => {
           return <li key={traveler.id}>{traveler.name}</li>;
         })}
+        <footer>
+          <Stack spacing={2} direction={"row"}>
+            <Button
+              onClick={() => setEditModal(true)}
+              size={"small"}
+              variant={"outlined"}
+              color={"success"}
+              endIcon={<EditIcon />}
+            >
+              edit
+            </Button>
+            <Button
+              onClick={deleteTravelerGroup}
+              size={"small"}
+              variant={"outlined"}
+              color={"error"}
+              endIcon={<DeleteForeverIcon />}
+            >
+              delete
+            </Button>
+          </Stack>
+        </footer>
       </section>
     </li>
   );

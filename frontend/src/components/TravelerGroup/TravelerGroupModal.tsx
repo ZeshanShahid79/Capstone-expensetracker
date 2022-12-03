@@ -4,13 +4,18 @@ import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
 import axios from "axios";
 import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
 import { checkIfExists } from "../utils";
+import { Button } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
 
 type TravelerGroupModalProps = {
   modalIsOpen: boolean;
   travelerGroup: TravelerGroupModel;
   closeModal: () => void;
   fetchAllTravelerGroups: () => void;
+  fetchTravelersByGroupId: () => void;
   travelers: TravelerModel[];
+  travelerListInGroup: TravelerModel[];
 };
 
 export default function TravelerGroupModal(props: TravelerGroupModalProps) {
@@ -18,7 +23,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
     props.travelerGroup.description
   );
   const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
-    props.travelerGroup.travelerList
+    props.travelerListInGroup
   );
 
   function handleNewDescription(event: ChangeEvent<HTMLInputElement>) {
@@ -29,12 +34,13 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
     axios
       .put("/api/traveler-groups/" + props.travelerGroup.id, {
         description,
-        travelerList: [...selectedTravelers],
+        travelerList: [...selectedTravelers.map((traveler) => traveler.id)],
         id: props.travelerGroup.id,
       })
       .then((response) => {
         props.closeModal();
         props.fetchAllTravelerGroups();
+        props.fetchTravelersByGroupId();
         return response.data;
       })
       .catch((error) => console.log("error =>" + error));
@@ -100,8 +106,25 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
             );
           })}
         </select>
-        <button>update</button>
-        <button onClick={props.closeModal}>close</button>
+
+        <Button
+          type={"submit"}
+          size={"small"}
+          variant={"outlined"}
+          color={"success"}
+          endIcon={<EditIcon />}
+        >
+          update
+        </Button>
+        <Button
+          onClick={props.closeModal}
+          size={"small"}
+          variant={"contained"}
+          color={"error"}
+          endIcon={<CloseIcon />}
+        >
+          close
+        </Button>
       </form>
     </Modal>
   );

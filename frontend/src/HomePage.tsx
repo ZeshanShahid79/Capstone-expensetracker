@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import TravelerGroupOverview from "./components/TravelerGroup/TravelerGroupOverview";
 import { TravelerGroupModel } from "./components/TravelerGroup/TravelerGroupModel/TravelerGroupModel";
 import { TravelerModel } from "./components/Traveler/TravelerModel/TravelerModel";
@@ -8,6 +8,8 @@ import AddTravelerGroupForm from "./components/TravelerGroup/AddTravelerGroupFor
 import AddTravelerForm from "./components/Traveler/AddTravelerForm/AddTravelerForm";
 import TravelerOverview from "./components/Traveler/TravelerOverview";
 import "./Homepage.css";
+import { MuiBottomNavigation } from "./MuiComponents/MuiBottomNavigation";
+import { Typography } from "@mui/material";
 
 export default function HomePage() {
   const [travelerGroupList, setTravelerGroupList] = useState<
@@ -40,7 +42,9 @@ export default function HomePage() {
   return (
     <>
       <header>
-        <h1>Shmoney Tracker</h1>
+        <Typography variant="h4" component={"h1"}>
+          Shmoney Tracker
+        </Typography>
       </header>
 
       <Routes>
@@ -79,20 +83,7 @@ export default function HomePage() {
           element={<AddTravelerForm fetchAllTravelers={fetchAllTravelers} />}
         />
       </Routes>
-      <nav>
-        <NavLink className={"NavLink"} to={"/"}>
-          Home
-        </NavLink>
-        <NavLink className={"NavLink"} to={"/TravelerOverview"}>
-          TravelerOverview
-        </NavLink>
-        <NavLink className={"NavLink"} to={"/AddTravelerGroupForm"}>
-          AddTravelerGroupForm
-        </NavLink>
-        <NavLink className={"NavLink"} to={"/AddTravelerForm"}>
-          AddTravelerForm
-        </NavLink>
-      </nav>
+      <MuiBottomNavigation />
     </>
   );
 }

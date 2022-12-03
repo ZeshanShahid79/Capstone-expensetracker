@@ -3,6 +3,9 @@ import { useState } from "react";
 import axios from "axios";
 import "./TravelerCard.css";
 import TravelerModal from "../TravelerModal";
+import { Button } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
 
 type TravelerCardProps = {
   traveler: TravelerModel;
@@ -38,22 +41,43 @@ export default function TravelerCard(props: TravelerCardProps) {
   };
 
   return (
-    <li>
-      {editModal && (
-        <TravelerModal
-          closeModal={() => setEditModal(false)}
-          modalIsOpen={editModal}
-          fetchAllTraveler={props.fetchAllTraveler}
-          traveler={props.traveler}
-          fetchAllTravelerGroups={props.fetchAllTravelerGroups}
-        />
-      )}
-      <section>
-        {messageStatus && <p>{messageStatus}</p>}
-        <h4>{props.traveler.name}</h4>
-        <button onClick={deleteTraveler}>delete</button>
-        <button onClick={() => setEditModal(true)}>edit</button>
-      </section>
-    </li>
+    <div>
+      <li>
+        {editModal && (
+          <TravelerModal
+            closeModal={() => setEditModal(false)}
+            modalIsOpen={editModal}
+            fetchAllTraveler={props.fetchAllTraveler}
+            traveler={props.traveler}
+            fetchAllTravelerGroups={props.fetchAllTravelerGroups}
+          />
+        )}
+        <section className={"traveler-card"}>
+          {messageStatus && <p>{messageStatus}</p>}
+          <h4>{props.traveler.name}</h4>
+          <footer>
+            <Button
+              onClick={() => setEditModal(true)}
+              type={"submit"}
+              size={"small"}
+              variant={"outlined"}
+              color={"success"}
+              endIcon={<EditIcon />}
+            >
+              edit
+            </Button>
+            <Button
+              onClick={deleteTraveler}
+              size={"small"}
+              variant={"outlined"}
+              color={"error"}
+              endIcon={<DeleteForeverIcon />}
+            >
+              delete
+            </Button>
+          </footer>
+        </section>
+      </li>
+    </div>
   );
 }

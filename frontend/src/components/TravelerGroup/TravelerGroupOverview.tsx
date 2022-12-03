@@ -1,6 +1,8 @@
 import TravelerGroupCard from "./TravelerGroupCard/TravelerGroupCard";
 import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
 import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
+import { Typography } from "@mui/material";
+import React from "react";
 
 type TravelerGroupOverviewProps = {
   travelerGroupList: TravelerGroupModel[];
@@ -25,9 +27,9 @@ export default function TravelerGroupOverview(
   });
 
   return (
-    <ul>
-      <h3>Traveler Group </h3>
-      {GroupsList}
-    </ul>
+    <>
+      <Typography variant="h6">Traveler Group</Typography>
+      <ul>{GroupsList}</ul>
+    </>
   );
 }

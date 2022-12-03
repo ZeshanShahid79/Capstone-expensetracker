@@ -3,6 +3,8 @@ import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { checkIfExists } from "../../utils";
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 type AddTravelerProps = {
   travelers: TravelerModel[];
@@ -83,7 +85,15 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
             );
           })}
         </select>
-        <button>Add TravelerGroup</button>
+        <Button
+          type={"submit"}
+          size={"small"}
+          variant={"outlined"}
+          color={"success"}
+          endIcon={<AddIcon />}
+        >
+          Add TravelerGroup
+        </Button>
       </form>
     </section>
   );
