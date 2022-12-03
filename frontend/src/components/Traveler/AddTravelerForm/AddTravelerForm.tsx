@@ -2,6 +2,8 @@ import "./AddTravelerForm.css";
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 type AddTravelerProps = {
   fetchAllTravelers: () => void;
@@ -40,7 +42,15 @@ export default function AddTravelerForm(props: AddTravelerProps) {
           onChange={(event) => setName(event.target.value)}
           placeholder={"Zeshan"}
         />
-        <button>Add Traveler</button>
+        <Button
+          type={"submit"}
+          size={"small"}
+          variant={"outlined"}
+          color={"success"}
+          endIcon={<AddIcon />}
+        >
+          Add Traveler
+        </Button>
       </form>
     </section>
   );
