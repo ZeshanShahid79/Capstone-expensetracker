@@ -1,6 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { checkIfExists } from "../../utils";
 import { Button, MenuItem, TextField } from "@mui/material";
@@ -15,7 +14,6 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
   const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
     []
   );
-  const navigate = useNavigate();
 
   const postTravelerGroup = () => {
     axios
@@ -52,7 +50,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
     event.preventDefault();
     postTravelerGroup();
     setDescription("");
-    navigate("/");
+    setSelectedTravelers([]);
   };
   return (
     <section>
