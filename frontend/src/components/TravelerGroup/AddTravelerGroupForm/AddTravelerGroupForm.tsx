@@ -3,7 +3,7 @@ import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { checkIfExists } from "../../utils";
-import { Button } from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 type AddTravelerProps = {
@@ -21,7 +21,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
     axios
       .post("/api/traveler-groups", {
         description,
-        travelerList: selectedTravelers,
+        travelerList: selectedTravelers.map((traveler) => traveler.id),
       })
       .catch((error) => {
         console.log("Error =>" + error);
@@ -36,7 +36,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
     setSelectedTravelers(filteredList);
   };
 
-  const handleSelectTraveler = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectTraveler = (event: ChangeEvent<HTMLInputElement>) => {
     const id = event.target.value;
     const { check, traveler } = checkIfExists(
       id,
@@ -75,16 +75,21 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
           onChange={(event) => setDescription(event.target.value)}
           placeholder={"Mallorca 2022"}
         />
-        <select name="travelers" id="travelers" onChange={handleSelectTraveler}>
-          <option value="">--Please choose a Traveler--</option>
+        <TextField
+          label={"Select Traveller"}
+          select
+          value={""}
+          onChange={handleSelectTraveler}
+          size={"small"}
+        >
           {props.travelers.map((traveler) => {
             return (
-              <option key={traveler.id} value={traveler.id}>
+              <MenuItem key={traveler.id} value={traveler.id}>
                 {traveler.name}
-              </option>
+              </MenuItem>
             );
           })}
-        </select>
+        </TextField>
         <Button
           type={"submit"}
           size={"small"}
