@@ -1,6 +1,5 @@
 import "./AddTravelerForm.css";
 import { ChangeEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -10,7 +9,6 @@ type AddTravelerProps = {
 };
 export default function AddTravelerForm(props: AddTravelerProps) {
   const [name, setName] = useState("");
-  const navigate = useNavigate();
 
   const postTraveler = () => {
     axios
@@ -28,7 +26,6 @@ export default function AddTravelerForm(props: AddTravelerProps) {
     postTraveler();
 
     setName("");
-    navigate("/TravelerOverview");
   };
   return (
     <section>
