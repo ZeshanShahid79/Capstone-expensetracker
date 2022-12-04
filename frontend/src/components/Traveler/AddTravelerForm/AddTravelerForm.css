@@ -10,4 +10,5 @@ form {
     margin: 60px;
     align-content: center;
     gap: 12px;
+    cursor: pointer;
 }

@@ -2,6 +2,9 @@ import { ChangeEvent, useState } from "react";
 import Modal from "react-modal";
 import { TravelerModel } from "./TravelerModel/TravelerModel";
 import axios from "axios";
+import { Button } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
 
 type TravelerModalProps = {
   modalIsOpen: boolean;
@@ -49,8 +52,24 @@ export default function TravelerModal(props: TravelerModalProps) {
       <form onSubmit={handleFormSubmit}>
         <label>name:</label>
         <input type={"text"} value={name} onChange={handleNewName} />
-        <button onClick={props.closeModal}>close</button>
-        <button>update</button>
+        <Button
+          type={"submit"}
+          size={"small"}
+          variant={"outlined"}
+          color={"success"}
+          endIcon={<EditIcon />}
+        >
+          update
+        </Button>
+        <Button
+          onClick={props.closeModal}
+          size={"small"}
+          variant={"contained"}
+          color={"error"}
+          endIcon={<CloseIcon />}
+        >
+          close
+        </Button>
       </form>
     </Modal>
   );

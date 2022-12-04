@@ -4,7 +4,7 @@ import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
 import axios from "axios";
 import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
 import { checkIfExists } from "../utils";
-import { Button } from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -52,7 +52,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   }
 
   const handleSelectTravelerInUpdateForm = (
-    event: ChangeEvent<HTMLSelectElement>
+    event: ChangeEvent<HTMLInputElement>
   ) => {
     const id = event.target.value;
     const { check, traveler } = checkIfExists(
@@ -92,20 +92,21 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
           value={description}
           onChange={handleNewDescription}
         />
-        <select
-          name={"travelers"}
-          id={"travelers"}
+        <TextField
+          label={"Select Traveller"}
+          select
+          value={""}
           onChange={handleSelectTravelerInUpdateForm}
+          size={"small"}
         >
-          <option value="">--Please choose a Traveler--</option>
           {props.travelers.map((traveler) => {
             return (
-              <option key={traveler.id} value={traveler.id}>
+              <MenuItem key={traveler.id} value={traveler.id}>
                 {traveler.name}
-              </option>
+              </MenuItem>
             );
           })}
-        </select>
+        </TextField>
 
         <Button
           type={"submit"}

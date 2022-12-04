@@ -28,7 +28,7 @@ export default function AddTravelerForm(props: AddTravelerProps) {
     postTraveler();
 
     setName("");
-    navigate("/");
+    navigate("/TravelerOverview");
   };
   return (
     <section>
