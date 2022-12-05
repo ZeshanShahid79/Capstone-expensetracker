@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import axios from "axios";
 import { checkIfExists } from "../../utils";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Alert, Button, MenuItem, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 type AddTravelerProps = {
@@ -14,6 +14,8 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
   const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
     []
   );
+  const [createdTravellerGroupMessage, setCreateTravellerGrroupdMessage] =
+    useState("");
 
   const postTravelerGroup = () => {
     axios
@@ -24,6 +26,11 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
       .catch((error) => {
         console.log("Error =>" + error);
       })
+      .then(() =>
+        setCreateTravellerGrroupdMessage(
+          description + " was created successfully"
+        )
+      )
       .then(props.fetchAllTravelerGroups);
   };
 
@@ -54,6 +61,15 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
   };
   return (
     <section>
+      {createdTravellerGroupMessage && (
+        <Alert
+          variant={"filled"}
+          severity={"success"}
+          onClose={() => setCreateTravellerGrroupdMessage("")}
+        >
+          {createdTravellerGroupMessage}
+        </Alert>
+      )}
       <h2>Add TravelerGroup</h2>
       <div>
         <h3>Selected Travelers</h3>

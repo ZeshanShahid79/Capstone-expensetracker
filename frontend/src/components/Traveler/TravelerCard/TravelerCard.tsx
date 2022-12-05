@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import "./TravelerCard.css";
 import TravelerModal from "../TravelerModal";
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -14,8 +14,8 @@ type TravelerCardProps = {
 };
 
 export default function TravelerCard(props: TravelerCardProps) {
-  const [messageStatus, setMessageStatus] = useState("");
   const [editModal, setEditModal] = useState<boolean>(false);
+  const [deletemessageStatus, setDeleteMessageStatus] = useState("");
 
   const deleteTraveler = () => {
     axios
@@ -23,11 +23,11 @@ export default function TravelerCard(props: TravelerCardProps) {
       .then((response) => response.status)
       .catch((error) => {
         if (error.status === 404)
-          setMessageStatus("Error: traveler could not be deleted");
+          setDeleteMessageStatus("Error: traveler could not be deleted");
       })
       .then((status) => {
         if (status === 204) {
-          setMessageStatus(
+          setDeleteMessageStatus(
             "Traveler: " + props.traveler.name + " is deleted successfully"
           );
         }
@@ -42,6 +42,11 @@ export default function TravelerCard(props: TravelerCardProps) {
 
   return (
     <div>
+      {deletemessageStatus && (
+        <Alert severity={"error"} onClose={() => setDeleteMessageStatus("")}>
+          {deletemessageStatus}
+        </Alert>
+      )}
       <li>
         {editModal && (
           <TravelerModal
@@ -53,7 +58,6 @@ export default function TravelerCard(props: TravelerCardProps) {
           />
         )}
         <section className={"traveler-card"}>
-          {messageStatus && <p>{messageStatus}</p>}
           <h4>{props.traveler.name}</h4>
           <footer>
             <Button
