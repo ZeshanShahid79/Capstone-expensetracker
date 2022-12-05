@@ -1,7 +1,7 @@
 import "./AddTravelerForm.css";
 import { ChangeEvent, useState } from "react";
 import axios from "axios";
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 type AddTravelerProps = {
@@ -9,6 +9,7 @@ type AddTravelerProps = {
 };
 export default function AddTravelerForm(props: AddTravelerProps) {
   const [name, setName] = useState("");
+  const [createdTravellerMessage, setCreateTravellerdMessage] = useState("");
 
   const postTraveler = () => {
     axios
@@ -18,6 +19,9 @@ export default function AddTravelerForm(props: AddTravelerProps) {
       .catch((error) => {
         console.log("Error =>" + error);
       })
+      .then(() =>
+        setCreateTravellerdMessage(name + " was created successfully")
+      )
       .then(props.fetchAllTravelers);
   };
 
@@ -30,6 +34,15 @@ export default function AddTravelerForm(props: AddTravelerProps) {
   return (
     <section>
       <h2>Add Traveler to the List</h2>
+      {createdTravellerMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"success"}
+          onClose={() => setCreateTravellerdMessage("")}
+        >
+          {createdTravellerMessage}
+        </Alert>
+      )}
       <form onSubmit={handleTravelerFrom}>
         <label htmlFor={"name"}>Name :</label>
         <input

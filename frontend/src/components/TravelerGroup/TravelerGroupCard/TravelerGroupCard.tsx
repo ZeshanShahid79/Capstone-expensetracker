@@ -4,7 +4,7 @@ import { TravelerGroupModel } from "../TravelerGroupModel/TravelerGroupModel";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import TravelerGroupModal from "../TravelerGroupModal";
 import "./TravelerGroupCard.css";
-import { Button, Stack } from "@mui/material";
+import { Alert, Button, Stack } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -65,7 +65,11 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
           fetchTravelersByGroupId={fetchTravelersByGroupId}
         />
       )}
-      {messageStatus && <p>{messageStatus}</p>}
+      {messageStatus && (
+        <Alert severity={"error"} onClose={() => setMessageStatus("")}>
+          {messageStatus}
+        </Alert>
+      )}
       <section className={"traveler-group-card"}>
         <h4>{props.travelerGroup.description}</h4>
         {travelerListInGroup.map((traveler) => {
