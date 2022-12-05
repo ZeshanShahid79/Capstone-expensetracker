@@ -10,10 +10,8 @@ import capstoneexpensetracker.backend.travelergroup.TravelerGroupRepository;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroupService;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -30,7 +28,7 @@ class TravelerGroupServiceTest {
 
         //GIVEN
 
-        TravelerGroup travelerGroup = new TravelerGroup("description", List.of("1"), "1");
+        TravelerGroup travelerGroup = new TravelerGroup("description", Map.of("1", BigDecimal.ZERO), "1");
         List<TravelerGroup> travelerGroupList = List.of(travelerGroup);
 
         //WHEN
@@ -46,7 +44,7 @@ class TravelerGroupServiceTest {
     void addNewTravelerWithAnId() {
 
         //GIVEN
-        NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", List.of("1"));
+        NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", Map.of("1", BigDecimal.ZERO));
         TravelerGroup travelerGroup = newTravelerGroup.withId("1");
 
         when(travelerGroupRepository.save(travelerGroup)).thenReturn(travelerGroup);
@@ -65,7 +63,7 @@ class TravelerGroupServiceTest {
 
         //GIVEN
         NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", null);
-        TravelerGroup travelerGroup = new TravelerGroup("description", new ArrayList<>(), "1");
+        TravelerGroup travelerGroup = new TravelerGroup("description", new HashMap<>(), "1");
 
 
         when(travelerGroupRepository.save(travelerGroup)).thenReturn(travelerGroup);
@@ -84,7 +82,7 @@ class TravelerGroupServiceTest {
     void updateTravelerGroupByInvalidId() {
 
         //GIVEN
-        TravelerGroup updatedTravelerGroup = new TravelerGroup("mallorca", List.of("1"), "1");
+        TravelerGroup updatedTravelerGroup = new TravelerGroup("mallorca", Map.of("1", BigDecimal.ZERO), "1");
 
 
         when(travelerGroupRepository.existsById("12")).thenReturn(false);
@@ -102,7 +100,7 @@ class TravelerGroupServiceTest {
     @Test
     void getTravelersByGroupId() {
         //GIVEN
-        TravelerGroup travelerGroup = new TravelerGroup("des", List.of("1"), "1");
+        TravelerGroup travelerGroup = new TravelerGroup("des", Map.of("1", BigDecimal.ZERO), "1");
         List<String> travelerList = List.of("1");
         List<Traveler> travelers = List.of(new Traveler("Zeshan", "1"));
         when(travelerGroupRepository.findById("1")).thenReturn(Optional.of(travelerGroup));
