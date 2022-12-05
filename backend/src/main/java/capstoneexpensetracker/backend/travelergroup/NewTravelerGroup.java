@@ -1,10 +1,11 @@
 package capstoneexpensetracker.backend.travelergroup;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Map;
 
 public record NewTravelerGroup(
         String description,
-        List<String> travelerList
+        Map<String, BigDecimal> travelerList
 
 ) {
 
