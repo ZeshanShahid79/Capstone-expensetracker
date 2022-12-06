@@ -7,7 +7,6 @@ import "./TravelerGroupCard.css";
 import { Alert, Button, Stack } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import { GroupMemberModel } from "../TravelerGroupModel/GroupMember";
 
 type TravelerCardProps = {
   travelerGroup: TravelerGroupModel;
@@ -22,7 +21,6 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
   const [travelerListInGroup, setTravelerListInGroup] = useState<
     TravelerModel[]
   >([]);
-  const [groupData, setGroupData] = useState<GroupMemberModel[]>();
 
   const deleteTravelerGroup = () => {
     axios
@@ -77,6 +75,17 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
         {travelerListInGroup.map((traveler) => {
           return <li key={traveler.id}>{traveler.name}</li>;
         })}
+        <div>
+          {props.travelerGroup.travelerList.map((traveler) => {
+            return (
+              <div key={traveler.id}>
+                <h6>{traveler.name}</h6>
+                <input readOnly={true} value={traveler.amount} />
+                <p>€</p>
+              </div>
+            );
+          })}
+        </div>
         <footer>
           <Stack spacing={2} direction={"row"}>
             <Button
