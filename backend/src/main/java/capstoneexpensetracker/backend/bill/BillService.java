@@ -17,11 +17,11 @@ public class BillService {
 
 
     public Bill getBillByGroupId(String travelerGroupId) {
-        List<BigDecimal> sum = travelerGroupRepository
+        List<BigDecimal> amountList = travelerGroupRepository
                 .findById(travelerGroupId)
                 .orElseThrow(() -> new NoSuchElementException("No such element found with this id"))
                 .travelerList().stream().map(GroupMember::amount).toList();
-        return new Bill(sum.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
+        return new Bill(amountList.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 
 }

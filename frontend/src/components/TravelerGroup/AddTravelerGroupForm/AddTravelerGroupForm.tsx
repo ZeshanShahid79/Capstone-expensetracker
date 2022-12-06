@@ -21,7 +21,10 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
     axios
       .post("/api/traveler-groups", {
         description,
-        travelerList: selectedTravelers.map((traveler) => traveler.id),
+        travelerList: selectedTravelers.map((traveler) => ({
+          id: traveler.id,
+          amount: 0,
+        })),
       })
       .catch((error) => {
         console.log("Error =>" + error);
