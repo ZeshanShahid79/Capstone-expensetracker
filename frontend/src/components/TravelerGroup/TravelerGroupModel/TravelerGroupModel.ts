@@ -1,8 +1,7 @@
-import {TravelerModel} from "../../Traveler/TravelerModel/TravelerModel";
+import { GroupMemberModel } from "./GroupMember";
 
 export type TravelerGroupModel = {
-    description: string,
-    travelerList: TravelerModel[],
-    id: string
-}
-
+  description: string;
+  travelerList: GroupMemberModel[];
+  id: string;
+};

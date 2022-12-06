@@ -1,6 +1,5 @@
 package capstoneexpensetracker.backend.travelergrouptests;
 
-import capstoneexpensetracker.backend.traveler.Traveler;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroup;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -39,7 +38,7 @@ class TravelerGroupIntegrationTest {
 
         String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
                 {"description":"mallorca",
-                "travelerList": {"123":0.1}
+                "travelerList": [{"id":"123","amount":0.1}]
                 }
                 """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 
@@ -53,7 +52,7 @@ class TravelerGroupIntegrationTest {
 
                 .andExpect(status().isOk()).andExpect(content().json("""
                         [{"description":"mallorca",
-                            "travelerList": {"123":0.1},
+                            "travelerList": [{"id":"123","amount":0.1}],
                             "id": "<id>"
                         }]
                         """.replace("<id>", travelerGroup.id())));
@@ -68,7 +67,7 @@ class TravelerGroupIntegrationTest {
         String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
                         {
                         "description": "test",
-                    "travelerList": {"123": 0.2}
+                    "travelerList": [{"id":"123","amount": 0.2}]
                 }
                         """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 
@@ -95,7 +94,7 @@ class TravelerGroupIntegrationTest {
         String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
                         {
                         "description": "test",
-                    "travelerList": {"123":0.2}
+                    "travelerList": [{"id":"123","amount": 0.2}]
                 }
                         """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 
@@ -105,7 +104,7 @@ class TravelerGroupIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/api/traveler-groups/" + travelerGroup.id()).contentType(MediaType.APPLICATION_JSON).content("""
                         {
                                                 "description": "mallorca 2022",
-                                            "travelerList": {"123":0.2},
+                                            "travelerList": [{"id":"123","amount": 0.2}],
                                             "id": "<id>"
                                         }
                         """.replace("<id>", travelerGroup.id())))
@@ -114,7 +113,7 @@ class TravelerGroupIntegrationTest {
                 .andExpect(status().isOk()).andExpect(content().json("""
                         {
                                                 "description": "mallorca 2022",
-                                            "travelerList": {"123":0.2},
+                                            "travelerList": [{"id":"123","amount": 0.2}],
                                             "id": "<id>"
                                         }
                         """.replace("<id>", travelerGroup.id())));
@@ -129,7 +128,7 @@ class TravelerGroupIntegrationTest {
                         {
                         "description": "test",
                     "travelerList": ["123"],
-                    "id": "<id>"
+                    "id": "2"
                 }
                         """)).andExpect(status().isBadRequest());
     }
@@ -141,7 +140,7 @@ class TravelerGroupIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/api/traveler-groups/1").contentType(MediaType.APPLICATION_JSON).content("""
                         {
                         "description": "test",
-                    "travelerList": {"123":0.2},
+                    "travelerList": [{"id":"123","amount":0.2}],
                     "id": "1"
                 }
                         """)).andExpect(status().isNotFound());
@@ -154,36 +153,22 @@ class TravelerGroupIntegrationTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-
-        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/travelers").contentType(MediaType.APPLICATION_JSON).content("""
-                {"name": "test"}
-                """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-        Traveler traveler = objectMapper.readValue(body, Traveler.class);
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/travelers"))
-
-
-                .andExpect(status().isOk()).andExpect(content().json("""
-                        {"name": "test",
-                        "id": "<id>"}
-                        """.replace("<id>", traveler.id())));
-
         String body1 = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
                         {
-                        "description": "test",
-                    "travelerList": {}
+                     "description": "test",
+                    "travelerList": []
                 }
                         """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 
         TravelerGroup travelerGroup = objectMapper.readValue(body1, TravelerGroup.class);
 
         //WHEN
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/traveler-groups/" + travelerGroup.id() + "/travelers")).andExpect(status().isOk()).andExpect(content().json("""                   
-                                    {
-                                        "name": "test",
-                                        "travelerList":{}
-                                        "id": "<id>"
-                                    }
-                """.replace("<id>", traveler.id())));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/traveler-groups/" + travelerGroup.id() + "/travelers"))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .json("""
+                                []
+                                """));
     }
 }
 
