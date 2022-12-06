@@ -127,10 +127,11 @@ class TravelerGroupIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/api/traveler-groups/1").contentType(MediaType.APPLICATION_JSON).content("""
                         {
                         "description": "test",
-                    "travelerList": ["123"],
+                    "travelerList": [{"id":"123","amount": 0}],
                     "id": "2"
                 }
-                        """)).andExpect(status().isBadRequest());
+                        """)).andExpect(status().isBadRequest()).andExpect(status().reason("ID does not exist"));
+
     }
 
     @Test
