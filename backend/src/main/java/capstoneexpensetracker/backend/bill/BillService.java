@@ -1,11 +1,12 @@
 package capstoneexpensetracker.backend.bill;
 
+import capstoneexpensetracker.backend.travelergroup.GroupMember;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -16,10 +17,10 @@ public class BillService {
 
 
     public Bill getBillByGroupId(String travelerGroupId) {
-        Collection<BigDecimal> sum = travelerGroupRepository
+        List<BigDecimal> sum = travelerGroupRepository
                 .findById(travelerGroupId)
                 .orElseThrow(() -> new NoSuchElementException("No such element found with this id"))
-                .travelerList().values();
+                .travelerList().stream().map(GroupMember::amount).toList();
         return new Bill(sum.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 

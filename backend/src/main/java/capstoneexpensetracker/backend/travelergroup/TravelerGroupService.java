@@ -6,10 +6,8 @@ import capstoneexpensetracker.backend.traveler.TravelerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 
@@ -28,9 +26,9 @@ public class TravelerGroupService {
 
     public TravelerGroup addTravelerGroup(NewTravelerGroup newTravelerGroup) {
         String uuid = travelerUtils.generateUUID();
-        Map<String, BigDecimal> travelerList = newTravelerGroup.travelerList();
+        List<GroupMember> travelerList = newTravelerGroup.travelerList();
         if (newTravelerGroup.travelerList() == null) {
-            travelerList = new HashMap<>();
+            travelerList = new ArrayList<>();
         }
         TravelerGroup travelerGroup = new TravelerGroup(newTravelerGroup.description(), travelerList, uuid);
         return travelerGroupRepository.save(travelerGroup);
@@ -51,10 +49,10 @@ public class TravelerGroupService {
     }
 
     public List<Traveler> getTravelersByGroupId(String travelerGroupId) {
-        List<String> travelerList = travelerGroupRepository
+        List<String> travelerListOfIds = travelerGroupRepository
                 .findById(travelerGroupId)
                 .orElseThrow(() -> new NoSuchElementException("No such element found with this id"))
-                .travelerList().keySet().stream().toList();
-        return travelerRepository.findAllByIdIn(travelerList);
+                .travelerList().stream().map(GroupMember::id).toList();
+        return travelerRepository.findAllByIdIn(travelerListOfIds);
     }
 }
