@@ -14,7 +14,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
   const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
     []
   );
-  const [createdTravellerGroupMessage, setCreateTravellerGrroupdMessage] =
+  const [createdTravellerGroupMessage, setCreateTravellerGroupMessage] =
     useState("");
 
   const postTravelerGroup = () => {
@@ -23,6 +23,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
         description,
         travelerList: selectedTravelers.map((traveler) => ({
           id: traveler.id,
+          name: traveler.name,
           amount: 0,
         })),
       })
@@ -30,7 +31,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
         console.log("Error =>" + error);
       })
       .then(() =>
-        setCreateTravellerGrroupdMessage(
+        setCreateTravellerGroupMessage(
           description + " was created successfully"
         )
       )
@@ -68,7 +69,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
         <Alert
           variant={"filled"}
           severity={"success"}
-          onClose={() => setCreateTravellerGrroupdMessage("")}
+          onClose={() => setCreateTravellerGroupMessage("")}
         >
           {createdTravellerGroupMessage}
         </Alert>

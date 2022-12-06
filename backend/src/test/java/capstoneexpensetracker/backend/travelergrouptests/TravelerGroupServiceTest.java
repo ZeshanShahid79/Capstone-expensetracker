@@ -28,7 +28,7 @@ class TravelerGroupServiceTest {
 
         //GIVEN
 
-        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1", BigDecimal.ZERO)), "1");
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1", "name", BigDecimal.ZERO)), "1");
         List<TravelerGroup> travelerGroupList = List.of(travelerGroup);
 
         //WHEN
@@ -44,7 +44,7 @@ class TravelerGroupServiceTest {
     void addNewTravelerWithAnId() {
 
         //GIVEN
-        NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", List.of(new GroupMember("1", BigDecimal.ZERO)));
+        NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", List.of(new GroupMember("1", "name", BigDecimal.ZERO)));
         TravelerGroup travelerGroup = newTravelerGroup.withId("1");
 
         when(travelerGroupRepository.save(travelerGroup)).thenReturn(travelerGroup);
@@ -56,10 +56,11 @@ class TravelerGroupServiceTest {
         //THEN
         verify(travelerUtils).generateUUID();
         assertEquals(travelerGroup, actual);
+
     }
 
     @Test
-    void addNewTravelerGroupWithouthTravelerList() {
+    void addNewTravelerGroupWithoutTravelerList() {
 
         //GIVEN
         NewTravelerGroup newTravelerGroup = new NewTravelerGroup("description", null);
@@ -82,7 +83,7 @@ class TravelerGroupServiceTest {
     void updateTravelerGroupByInvalidId() {
 
         //GIVEN
-        TravelerGroup updatedTravelerGroup = new TravelerGroup("mallorca", List.of(new GroupMember("1", BigDecimal.ZERO)), "1");
+        TravelerGroup updatedTravelerGroup = new TravelerGroup("mallorca", List.of(new GroupMember("1", "name", BigDecimal.ZERO)), "1");
 
 
         when(travelerGroupRepository.existsById("12")).thenReturn(false);
@@ -100,7 +101,7 @@ class TravelerGroupServiceTest {
     @Test
     void getTravelersByGroupId() {
         //GIVEN
-        TravelerGroup travelerGroup = new TravelerGroup("des", List.of(new GroupMember("1", BigDecimal.ZERO)), "1");
+        TravelerGroup travelerGroup = new TravelerGroup("des", List.of(new GroupMember("1", "name", BigDecimal.ZERO)), "1");
         List<String> travelerList = List.of("1");
         List<Traveler> travelers = List.of(new Traveler("Zeshan", "1"));
         when(travelerGroupRepository.findById("1")).thenReturn(Optional.of(travelerGroup));
