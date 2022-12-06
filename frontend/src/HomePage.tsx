@@ -26,6 +26,7 @@ export default function HomePage() {
     axios
       .get("/api/traveler-groups")
       .then((response) => {
+        console.log(response.data);
         return response.data;
       })
       .catch((error) => console.error(error))

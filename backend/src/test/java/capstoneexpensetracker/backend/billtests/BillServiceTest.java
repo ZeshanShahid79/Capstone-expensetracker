@@ -28,7 +28,7 @@ class BillServiceTest {
     void getBill() {
         //GIVEN
 
-        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1", BigDecimal.ZERO)), "1");
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1", "name", BigDecimal.ZERO)), "1");
         Bill bill = new Bill(travelerGroup.travelerList().stream().map(GroupMember::amount).reduce(BigDecimal.ZERO, BigDecimal::add));
 
         //WHEN
