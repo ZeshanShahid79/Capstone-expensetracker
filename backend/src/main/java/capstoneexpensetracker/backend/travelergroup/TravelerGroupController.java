@@ -43,7 +43,7 @@ public class TravelerGroupController {
             if (travelerGroup.id().equals(id)) {
                 return travelerGroupService.updateTravelerGroupById(id, travelerGroup);
             }
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID does not exist");
         } catch (NoSuchElementException exception) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
