@@ -9,10 +9,8 @@ type AddTravelerProps = {
 };
 export default function AddTravelerForm(props: AddTravelerProps) {
   const [name, setName] = useState("");
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [successMessage, setSuccessMessage] = useState<string>();
 
   const postTraveler = () => {
     axios
@@ -22,14 +20,12 @@ export default function AddTravelerForm(props: AddTravelerProps) {
       .then((response) => {
         if (response.status === 201) {
           setSuccessMessage(name + ": " + response.statusText);
-          setShowSuccessMessage(true);
         }
       })
       .catch((error) => {
         if (error.response) {
           console.log("Error =>" + error);
           setErrorMessage(error.response.data);
-          setShowErrorMessage(true);
         }
       })
       .then(props.fetchAllTravelers);
@@ -44,20 +40,20 @@ export default function AddTravelerForm(props: AddTravelerProps) {
   return (
     <section>
       <h2>Add Traveler to the List</h2>
-      {showSuccessMessage && (
+      {successMessage && (
         <Alert
           variant={"outlined"}
           severity={"success"}
-          onClose={() => setShowSuccessMessage(false)}
+          onClose={() => setSuccessMessage(undefined)}
         >
           {successMessage}
         </Alert>
       )}
-      {showErrorMessage && (
+      {errorMessage && (
         <Alert
           variant={"outlined"}
           severity={"error"}
-          onClose={() => setShowErrorMessage(false)}
+          onClose={() => setErrorMessage(undefined)}
         >
           {errorMessage}
         </Alert>

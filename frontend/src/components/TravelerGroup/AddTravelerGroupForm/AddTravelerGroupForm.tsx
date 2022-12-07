@@ -14,10 +14,8 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
   const [selectedTravelers, setSelectedTravelers] = useState<
     GroupMemberModel[]
   >([]);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [successMessage, setSuccessMessage] = useState<string>();
 
   const postTravelerGroup = () => {
     axios
@@ -28,13 +26,12 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
       .then((response) => {
         if (response.status === 201) {
           setSuccessMessage(description + ": " + response.statusText);
-          setShowSuccessMessage(true);
         }
       })
       .catch((error) => {
         if (error.response) {
           console.log("Error =>" + error);
-          setShowErrorMessage(true);
+
           setErrorMessage(error.response.data);
         }
       })
@@ -66,20 +63,20 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
   };
   return (
     <section>
-      {showSuccessMessage && (
+      {successMessage && (
         <Alert
           variant={"outlined"}
           severity={"success"}
-          onClose={() => setShowSuccessMessage(false)}
+          onClose={() => setSuccessMessage(undefined)}
         >
           {successMessage}
         </Alert>
       )}
-      {showErrorMessage && (
+      {errorMessage && (
         <Alert
           variant={"outlined"}
           severity={"error"}
-          onClose={() => setShowErrorMessage(false)}
+          onClose={() => setErrorMessage(undefined)}
         >
           {errorMessage}
         </Alert>

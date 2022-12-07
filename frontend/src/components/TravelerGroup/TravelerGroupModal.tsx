@@ -23,10 +23,8 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   const [selectedTravelers, setSelectedTravelers] = useState<
     GroupMemberModel[]
   >(props.travelerGroup.travelerList);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [successMessage, setSuccessMessage] = useState<string>();
 
   function handleNewDescription(event: ChangeEvent<HTMLInputElement>) {
     setDescription(event.target.value);
@@ -42,7 +40,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
       .then((response) => {
         if (response.status === 200) {
           setSuccessMessage(description + ": " + response.statusText);
-          setShowSuccessMessage(true);
+
           props.closeModal();
           props.fetchAllTravelerGroups();
           return response.data;
@@ -52,7 +50,6 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
         if (error.response) {
           console.log("error =>" + error);
           setErrorMessage(error.response.data);
-          setShowErrorMessage(true);
         }
       });
   }
@@ -87,20 +84,20 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
       ariaHideApp={false}
       contentLabel={"update Traveler"}
     >
-      {showSuccessMessage && (
+      {successMessage && (
         <Alert
           variant={"outlined"}
           severity={"success"}
-          onClose={() => setShowSuccessMessage(false)}
+          onClose={() => setSuccessMessage(undefined)}
         >
           {successMessage}
         </Alert>
       )}
-      {showErrorMessage && (
+      {errorMessage && (
         <Alert
           variant={"outlined"}
           severity={"error"}
-          onClose={() => setShowErrorMessage(false)}
+          onClose={() => setErrorMessage(undefined)}
         >
           {errorMessage}
         </Alert>

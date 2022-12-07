@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import Modal from "react-modal";
 import { TravelerModel } from "./TravelerModel/TravelerModel";
 import axios from "axios";
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -16,6 +16,8 @@ type TravelerModalProps = {
 
 export default function TravelerModal(props: TravelerModalProps) {
   const [name, setName] = useState(props.traveler.name);
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [successMessage, setSuccessMessage] = useState<string>();
 
   function handleNewName(event: ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
@@ -28,12 +30,19 @@ export default function TravelerModal(props: TravelerModalProps) {
         name,
       })
       .then((response) => {
-        props.closeModal();
-        props.fetchAllTraveler();
-        props.fetchAllTravelerGroups();
-        return response.data;
+        if (response.status === 200) {
+          setSuccessMessage(name + ": " + response.statusText);
+          props.fetchAllTraveler();
+          props.fetchAllTravelerGroups();
+          return response.data;
+        }
       })
-      .catch((error) => console.log("error =>" + error));
+      .catch((error) => {
+        if (error.respons) {
+          console.log("error =>" + error);
+          setErrorMessage(error.respons.data);
+        }
+      });
   }
 
   function handleFormSubmit(event: ChangeEvent<HTMLFormElement>) {
@@ -48,6 +57,24 @@ export default function TravelerModal(props: TravelerModalProps) {
       ariaHideApp={false}
       contentLabel={"update Traveler"}
     >
+      {successMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"success"}
+          onClose={() => setSuccessMessage(undefined)}
+        >
+          {successMessage}
+        </Alert>
+      )}
+      {errorMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"error"}
+          onClose={() => setErrorMessage(undefined)}
+        >
+          {errorMessage}
+        </Alert>
+      )}
       <h1>Update Traveler</h1>
       <form onSubmit={handleFormSubmit}>
         <label>name:</label>
