@@ -16,28 +16,29 @@ type TravelerCardProps = {
 };
 
 export default function TravelerGroupCard(props: TravelerCardProps) {
-  const [messageStatus, setMessageStatus] = useState("");
   const [editModal, setEditModal] = useState<boolean>(false);
   const [travelerListInGroup, setTravelerListInGroup] = useState<
     TravelerModel[]
   >([]);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const deleteTravelerGroup = () => {
     axios
       .delete("/api/traveler-groups/" + props.travelerGroup.id)
-      .then((response) => response.status)
-      .catch((error) => {
-        if (error.status === 404)
-          setMessageStatus("Error: traveler could not be deleted");
-      })
-      .then((status) => {
-        if (status === 204) {
-          setMessageStatus(
-            "Traveler Group: " +
-              props.travelerGroup.description +
-              " is deleted successfully"
+      .then((response) => {
+        if (response.status === 204) {
+          setSuccessMessage(
+            props.travelerGroup.description + ": " + response.statusText
           );
+          setShowSuccessMessage(true);
         }
+      })
+      .catch((error) => {
+        if (error.status === 404) setErrorMessage(error.status.data);
+        setShowErrorMessage(true);
       })
       .then(() => setTimeout(() => props.fetchAllTravelerGroups(), 2000))
       .then(() => props.fetchAllTraveler);
@@ -54,6 +55,24 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
 
   return (
     <li>
+      {showSuccessMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"success"}
+          onClose={() => setShowSuccessMessage(false)}
+        >
+          {successMessage}
+        </Alert>
+      )}
+      {showErrorMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"error"}
+          onClose={() => setShowErrorMessage(false)}
+        >
+          {errorMessage}
+        </Alert>
+      )}
       {editModal && (
         <TravelerGroupModal
           closeModal={() => setEditModal(false)}
@@ -64,11 +83,6 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
           travelerListInGroup={travelerListInGroup}
           fetchTravelersByGroupId={fetchTravelersByGroupId}
         />
-      )}
-      {messageStatus && (
-        <Alert severity={"error"} onClose={() => setMessageStatus("")}>
-          {messageStatus}
-        </Alert>
       )}
       <section className={"traveler-group-card"}>
         <h4>{props.travelerGroup.description}</h4>

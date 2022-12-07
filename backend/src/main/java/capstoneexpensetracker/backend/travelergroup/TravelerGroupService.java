@@ -1,5 +1,6 @@
 package capstoneexpensetracker.backend.travelergroup;
 
+import capstoneexpensetracker.backend.exceptions.NoTravelerGroupWithThisIdException;
 import capstoneexpensetracker.backend.traveler.Traveler;
 import capstoneexpensetracker.backend.traveler.TravelerRepository;
 import capstoneexpensetracker.backend.traveler.TravelerUtils;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 
 @Service
@@ -36,14 +36,14 @@ public class TravelerGroupService {
 
     public void deleteTravelerGroup(String id) {
         if (!travelerGroupRepository.existsById(id)) {
-            throw new NoSuchElementException("No such Element with this ID");
+            throw new NoTravelerGroupWithThisIdException();
         }
         travelerGroupRepository.deleteById(id);
     }
 
     public TravelerGroup updateTravelerGroupById(String id, TravelerGroup travelerGroup) {
         if (!travelerGroupRepository.existsById(id)) {
-            throw new NoSuchElementException("No such Element with this ID");
+            throw new NoTravelerGroupWithThisIdException();
         }
         return travelerGroupRepository.save(travelerGroup);
     }
@@ -51,7 +51,7 @@ public class TravelerGroupService {
     public List<Traveler> getTravelersByGroupId(String travelerGroupId) {
         List<String> travelerListOfIds = travelerGroupRepository
                 .findById(travelerGroupId)
-                .orElseThrow(() -> new NoSuchElementException("No such element found with this id"))
+                .orElseThrow(NoTravelerGroupWithThisIdException::new)
                 .travelerList().stream().map(GroupMember::id).toList();
         return travelerRepository.findAllByIdIn(travelerListOfIds);
     }

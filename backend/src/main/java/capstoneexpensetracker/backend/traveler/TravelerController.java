@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/travelers")
@@ -29,23 +28,19 @@ public class TravelerController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
     public void deleteTraveler(@PathVariable String id) {
-        try {
-            travelerService.deleteTraveler(id);
-        } catch (NoSuchElementException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
+        travelerService.deleteTraveler(id);
+
     }
 
     @PutMapping("{id}")
     Traveler updateTraveler(@PathVariable String id, @RequestBody Traveler traveler) {
-        try {
-            if (traveler.id().equals(id)) {
-                return travelerService.updateTravelerById(id, traveler);
-            }
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        } catch (NoSuchElementException exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        if (traveler.id().equals(id)) {
+            return travelerService.updateTravelerById(id, traveler);
         }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
     }
 }
 
