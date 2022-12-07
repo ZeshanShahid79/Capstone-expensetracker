@@ -9,19 +9,29 @@ type AddTravelerProps = {
 };
 export default function AddTravelerForm(props: AddTravelerProps) {
   const [name, setName] = useState("");
-  const [createdTravellerMessage, setCreateTravellerdMessage] = useState("");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const postTraveler = () => {
     axios
       .post("/api/travelers", {
         name,
       })
-      .catch((error) => {
-        console.log("Error =>" + error);
+      .then((response) => {
+        if (response.status === 201) {
+          setSuccessMessage(name + ": " + response.statusText);
+          setShowSuccessMessage(true);
+        }
       })
-      .then(() =>
-        setCreateTravellerdMessage(name + " was created successfully")
-      )
+      .catch((error) => {
+        if (error.response) {
+          console.log("Error =>" + error);
+          setErrorMessage(error.response.data);
+          setShowErrorMessage(true);
+        }
+      })
       .then(props.fetchAllTravelers);
   };
 
@@ -34,13 +44,22 @@ export default function AddTravelerForm(props: AddTravelerProps) {
   return (
     <section>
       <h2>Add Traveler to the List</h2>
-      {createdTravellerMessage && (
+      {showSuccessMessage && (
         <Alert
           variant={"outlined"}
           severity={"success"}
-          onClose={() => setCreateTravellerdMessage("")}
+          onClose={() => setShowSuccessMessage(false)}
         >
-          {createdTravellerMessage}
+          {successMessage}
+        </Alert>
+      )}
+      {showErrorMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"error"}
+          onClose={() => setShowErrorMessage(false)}
+        >
+          {errorMessage}
         </Alert>
       )}
       <form onSubmit={handleTravelerFrom}>

@@ -1,6 +1,7 @@
 package capstoneexpensetracker.backend.travelergrouptests;
 
 
+import capstoneexpensetracker.backend.exceptions.NoTravelerGroupWithThisIdException;
 import capstoneexpensetracker.backend.traveler.Traveler;
 import capstoneexpensetracker.backend.traveler.TravelerRepository;
 import capstoneexpensetracker.backend.traveler.TravelerUtils;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -92,7 +92,7 @@ class TravelerGroupServiceTest {
         try {
             travelerGroupService.updateTravelerGroupById("4", updatedTravelerGroup);
             fail();
-        } catch (NoSuchElementException e) {
+        } catch (NoTravelerGroupWithThisIdException e) {
             verify(travelerGroupRepository).existsById("4");
             verify(travelerGroupRepository, never()).save(updatedTravelerGroup);
         }
@@ -119,10 +119,10 @@ class TravelerGroupServiceTest {
         try {
             travelerGroupService.getTravelersByGroupId("2");
             fail();
-        } catch (NoSuchElementException e) {
+        } catch (NoTravelerGroupWithThisIdException e) {
             verify(travelerGroupRepository).findById("2");
             verify(travelerRepository, never()).findAllByIdIn(any());
-            assertEquals("No such element found with this id", e.getMessage());
+            assertEquals("No TravelerGroup with this Id was found", e.getMessage());
         }
 
     }

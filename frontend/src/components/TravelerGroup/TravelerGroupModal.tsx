@@ -4,7 +4,7 @@ import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
 import axios from "axios";
 import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
 import { checkIfExists } from "../utils";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Alert, Button, MenuItem, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -25,6 +25,10 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
     props.travelerListInGroup
   );
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   function handleNewDescription(event: ChangeEvent<HTMLInputElement>) {
     setDescription(event.target.value);
@@ -38,12 +42,22 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
         id: props.travelerGroup.id,
       })
       .then((response) => {
-        props.closeModal();
-        props.fetchAllTravelerGroups();
-        props.fetchTravelersByGroupId();
-        return response.data;
+        if (response.status === 200) {
+          setSuccessMessage(description + ": " + response.statusText);
+          setShowSuccessMessage(true);
+          props.closeModal();
+          props.fetchAllTravelerGroups();
+          props.fetchTravelersByGroupId();
+          return response.data;
+        }
       })
-      .catch((error) => console.log("error =>" + error));
+      .catch((error) => {
+        if (error.response) {
+          console.log("error =>" + error);
+          setErrorMessage(error.response.data);
+          setShowErrorMessage(true);
+        }
+      });
   }
 
   function handleFormSubmit(event: ChangeEvent<HTMLFormElement>) {
@@ -78,6 +92,24 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
       ariaHideApp={false}
       contentLabel={"update Traveler"}
     >
+      {showSuccessMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"success"}
+          onClose={() => setShowSuccessMessage(false)}
+        >
+          {successMessage}
+        </Alert>
+      )}
+      {showErrorMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"error"}
+          onClose={() => setShowErrorMessage(false)}
+        >
+          {errorMessage}
+        </Alert>
+      )}
       <h1>Update TravelerGroup</h1>
       {selectedTravelers.map((traveler) => (
         <div key={traveler.id}>

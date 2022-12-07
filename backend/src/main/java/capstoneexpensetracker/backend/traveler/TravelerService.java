@@ -1,11 +1,11 @@
 package capstoneexpensetracker.backend.traveler;
 
 
+import capstoneexpensetracker.backend.exceptions.NotravelerWithThisIdException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -25,14 +25,14 @@ public class TravelerService {
 
     public void deleteTraveler(String id) {
         if (!travelerRepository.existsById(id)) {
-            throw new NoSuchElementException("No such Element with this ID");
+            throw new NotravelerWithThisIdException();
         }
         travelerRepository.deleteById(id);
     }
 
     public Traveler updateTravelerById(String id, Traveler traveler) {
         if (!travelerRepository.existsById(id)) {
-            throw new NoSuchElementException("No traveler was found with this id");
+            throw new NotravelerWithThisIdException();
         }
         return travelerRepository.save(traveler);
     }

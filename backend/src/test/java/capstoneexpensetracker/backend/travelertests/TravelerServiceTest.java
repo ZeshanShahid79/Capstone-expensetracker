@@ -1,10 +1,10 @@
 package capstoneexpensetracker.backend.travelertests;
 
+import capstoneexpensetracker.backend.exceptions.NotravelerWithThisIdException;
 import capstoneexpensetracker.backend.traveler.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -84,7 +84,7 @@ class TravelerServiceTest {
         try {
             travelerService.updateTravelerById(id, updatedTraveler);
             fail();
-        } catch (NoSuchElementException e) {
+        } catch (NotravelerWithThisIdException e) {
             verify(travelerRepository).existsById(id);
             verify(travelerRepository, never()).save(updatedTraveler);
         }

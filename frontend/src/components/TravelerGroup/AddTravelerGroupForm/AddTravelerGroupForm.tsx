@@ -14,8 +14,10 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
   const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
     []
   );
-  const [createdTravellerGroupMessage, setCreateTravellerGroupMessage] =
-    useState("");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const postTravelerGroup = () => {
     axios
@@ -27,14 +29,19 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
           amount: 0,
         })),
       })
-      .catch((error) => {
-        console.log("Error =>" + error);
+      .then((response) => {
+        if (response.status === 201) {
+          setSuccessMessage(description + ": " + response.statusText);
+          setShowSuccessMessage(true);
+        }
       })
-      .then(() =>
-        setCreateTravellerGroupMessage(
-          description + " was created successfully"
-        )
-      )
+      .catch((error) => {
+        if (error.response) {
+          console.log("Error =>" + error);
+          setShowErrorMessage(true);
+          setErrorMessage(error.response.data);
+        }
+      })
       .then(props.fetchAllTravelerGroups);
   };
 
@@ -65,13 +72,22 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
   };
   return (
     <section>
-      {createdTravellerGroupMessage && (
+      {showSuccessMessage && (
         <Alert
-          variant={"filled"}
+          variant={"outlined"}
           severity={"success"}
-          onClose={() => setCreateTravellerGroupMessage("")}
+          onClose={() => setShowSuccessMessage(false)}
         >
-          {createdTravellerGroupMessage}
+          {successMessage}
+        </Alert>
+      )}
+      {showErrorMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"error"}
+          onClose={() => setShowErrorMessage(false)}
+        >
+          {errorMessage}
         </Alert>
       )}
       <h2>Add TravelerGroup</h2>
