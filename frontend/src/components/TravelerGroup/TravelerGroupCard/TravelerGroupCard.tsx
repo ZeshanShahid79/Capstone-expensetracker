@@ -17,10 +17,8 @@ type TravelerCardProps = {
 
 export default function TravelerGroupCard(props: TravelerCardProps) {
   const [editModal, setEditModal] = useState<boolean>(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [successMessage, setSuccessMessage] = useState<string>();
 
   const deleteTravelerGroup = () => {
     axios
@@ -30,12 +28,10 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
           setSuccessMessage(
             props.travelerGroup.description + ": " + response.statusText
           );
-          setShowSuccessMessage(true);
         }
       })
       .catch((error) => {
         if (error.status === 404) setErrorMessage(error.status.data);
-        setShowErrorMessage(true);
       })
       .then(() => setTimeout(() => props.fetchAllTravelerGroups(), 2000))
       .then(() => props.fetchAllTraveler);
@@ -43,20 +39,20 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
 
   return (
     <li>
-      {showSuccessMessage && (
+      {successMessage && (
         <Alert
           variant={"outlined"}
           severity={"success"}
-          onClose={() => setShowSuccessMessage(false)}
+          onClose={() => setSuccessMessage(undefined)}
         >
           {successMessage}
         </Alert>
       )}
-      {showErrorMessage && (
+      {errorMessage && (
         <Alert
           variant={"outlined"}
           severity={"error"}
-          onClose={() => setShowErrorMessage(false)}
+          onClose={() => setErrorMessage(undefined)}
         >
           {errorMessage}
         </Alert>

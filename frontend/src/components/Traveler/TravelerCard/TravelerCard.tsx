@@ -15,22 +15,20 @@ type TravelerCardProps = {
 
 export default function TravelerCard(props: TravelerCardProps) {
   const [editModal, setEditModal] = useState<boolean>(false);
-  const [deletemessageStatus, setDeleteMessageStatus] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [successMessage, setSuccessMessage] = useState<string>();
 
   const deleteTraveler = () => {
     axios
       .delete("/api/travelers/" + props.traveler.id)
-      .then((response) => response.status)
+      .then((response) => {
+        if (response.status === 204) {
+          setSuccessMessage(props.traveler.name + ": " + response.data);
+        }
+      })
       .catch((error) => {
         if (error.status === 404)
-          setDeleteMessageStatus("Error: traveler could not be deleted");
-      })
-      .then((status) => {
-        if (status === 204) {
-          setDeleteMessageStatus(
-            "Traveler: " + props.traveler.name + " is deleted successfully"
-          );
-        }
+          setErrorMessage("Error: traveler could not be deleted");
       })
       .then(() =>
         setTimeout(() => {
@@ -42,9 +40,22 @@ export default function TravelerCard(props: TravelerCardProps) {
 
   return (
     <div>
-      {deletemessageStatus && (
-        <Alert severity={"error"} onClose={() => setDeleteMessageStatus("")}>
-          {deletemessageStatus}
+      {successMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"success"}
+          onClose={() => setSuccessMessage(undefined)}
+        >
+          {successMessage}
+        </Alert>
+      )}
+      {errorMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"error"}
+          onClose={() => setErrorMessage(undefined)}
+        >
+          {errorMessage}
         </Alert>
       )}
       <li>
