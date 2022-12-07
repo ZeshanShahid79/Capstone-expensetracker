@@ -1,9 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import axios from "axios";
-import { checkIfExists } from "../../utils";
 import { Alert, Button, MenuItem, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { GroupMemberModel } from "../TravelerGroupModel/GroupMember";
 
 type AddTravelerProps = {
   travelers: TravelerModel[];
@@ -11,9 +11,9 @@ type AddTravelerProps = {
 };
 export default function AddTravelerGroupForm(props: AddTravelerProps) {
   const [description, setDescription] = useState("");
-  const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
-    []
-  );
+  const [selectedTravelers, setSelectedTravelers] = useState<
+    GroupMemberModel[]
+  >([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -23,11 +23,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
     axios
       .post("/api/traveler-groups", {
         description,
-        travelerList: selectedTravelers.map((traveler) => ({
-          id: traveler.id,
-          name: traveler.name,
-          amount: 0,
-        })),
+        travelerList: selectedTravelers,
       })
       .then((response) => {
         if (response.status === 201) {
@@ -54,13 +50,11 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
 
   const handleSelectTraveler = (event: ChangeEvent<HTMLInputElement>) => {
     const id = event.target.value;
-    const { check, traveler } = checkIfExists(
-      id,
-      props.travelers,
-      selectedTravelers
-    );
-    if (check && traveler) {
-      setSelectedTravelers([...selectedTravelers, traveler]);
+    const traveler = props.travelers.find((traveler) => traveler.id === id);
+    const isSelected = selectedTravelers.find((traveler) => traveler.id === id);
+    if (!isSelected && traveler) {
+      const newMember = { ...traveler, amount: 0 };
+      setSelectedTravelers([...selectedTravelers, newMember]);
     }
   };
 
