@@ -3,32 +3,32 @@ import Modal from "react-modal";
 import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
 import axios from "axios";
 import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
-import { checkIfExists } from "../utils";
-import { Alert, Button, MenuItem, TextField } from "@mui/material";
+import { Alert, Button, MenuItem } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
+import { GroupMemberModel } from "./TravelerGroupModel/GroupMember";
 
 type TravelerGroupModalProps = {
   modalIsOpen: boolean;
   travelerGroup: TravelerGroupModel;
   closeModal: () => void;
   fetchAllTravelerGroups: () => void;
-  fetchTravelersByGroupId: () => void;
   travelers: TravelerModel[];
-  travelerListInGroup: TravelerModel[];
 };
 
 export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   const [description, setDescription] = useState(
     props.travelerGroup.description
   );
-  const [selectedTravelers, setSelectedTravelers] = useState<TravelerModel[]>(
-    props.travelerListInGroup
-  );
+  const [selectedTravelers, setSelectedTravelers] = useState<
+    GroupMemberModel[]
+  >(props.travelerGroup.travelerList);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [selectValue, setSelectValue] = useState("");
 
   function handleNewDescription(event: ChangeEvent<HTMLInputElement>) {
     setDescription(event.target.value);
@@ -38,7 +38,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
     axios
       .put("/api/traveler-groups/" + props.travelerGroup.id, {
         description,
-        travelerList: [...selectedTravelers.map((traveler) => traveler.id)],
+        travelerList: selectedTravelers,
         id: props.travelerGroup.id,
       })
       .then((response) => {
@@ -47,7 +47,6 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
           setShowSuccessMessage(true);
           props.closeModal();
           props.fetchAllTravelerGroups();
-          props.fetchTravelersByGroupId();
           return response.data;
         }
       })
@@ -65,17 +64,14 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
     updateTravelerGroup();
   }
 
-  const handleSelectTravelerInUpdateForm = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleSelectTravelerInUpdateForm = (event: SelectChangeEvent) => {
     const id = event.target.value;
-    const { check, traveler } = checkIfExists(
-      id,
-      props.travelers,
-      selectedTravelers
-    );
-    if (check && traveler) {
-      setSelectedTravelers([...selectedTravelers, traveler]);
+    const traveler = props.travelers.find((traveler) => traveler.id === id);
+    const isSelected = selectedTravelers.find((traveler) => traveler.id === id);
+    if (!isSelected && traveler) {
+      const newMember = { ...traveler, amount: 0 };
+      setSelectValue(newMember.name);
+      setSelectedTravelers([...selectedTravelers, newMember]);
     }
   };
   const handleRemoveFromList = (id: string) => {
@@ -124,13 +120,13 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
           value={description}
           onChange={handleNewDescription}
         />
-        <TextField
+        <Select
           label={"Select Traveller"}
-          select
           value={""}
           onChange={handleSelectTravelerInUpdateForm}
           size={"small"}
         >
+          <MenuItem value={""}></MenuItem>
           {props.travelers.map((traveler) => {
             return (
               <MenuItem key={traveler.id} value={traveler.id}>
@@ -138,7 +134,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
               </MenuItem>
             );
           })}
-        </TextField>
+        </Select>
 
         <Button
           type={"submit"}

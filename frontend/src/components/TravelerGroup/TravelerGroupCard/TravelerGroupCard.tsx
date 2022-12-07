@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { TravelerGroupModel } from "../TravelerGroupModel/TravelerGroupModel";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
@@ -17,9 +17,6 @@ type TravelerCardProps = {
 
 export default function TravelerGroupCard(props: TravelerCardProps) {
   const [editModal, setEditModal] = useState<boolean>(false);
-  const [travelerListInGroup, setTravelerListInGroup] = useState<
-    TravelerModel[]
-  >([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -43,15 +40,6 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
       .then(() => setTimeout(() => props.fetchAllTravelerGroups(), 2000))
       .then(() => props.fetchAllTraveler);
   };
-
-  const fetchTravelersByGroupId = () => {
-    axios
-      .get("api/traveler-groups/" + props.travelerGroup.id + "/travelers")
-      .then((response) => response.data)
-      .then(setTravelerListInGroup)
-      .catch((error) => console.error(error));
-  };
-  useEffect(fetchTravelersByGroupId, [props.travelerGroup.id]);
 
   return (
     <li>
@@ -80,22 +68,16 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
           fetchAllTravelerGroups={props.fetchAllTravelerGroups}
           travelerGroup={props.travelerGroup}
           travelers={props.travelers}
-          travelerListInGroup={travelerListInGroup}
-          fetchTravelersByGroupId={fetchTravelersByGroupId}
         />
       )}
       <section className={"traveler-group-card"}>
         <h4>{props.travelerGroup.description}</h4>
-        {travelerListInGroup.map((traveler) => {
-          return <li key={traveler.id}>{traveler.name}</li>;
-        })}
         <div>
           {props.travelerGroup.travelerList.map((traveler) => {
             return (
               <div key={traveler.id}>
                 <h6>{traveler.name}</h6>
-                <input readOnly={true} value={traveler.amount} />
-                <p>€</p>
+                <p>{traveler.amount}€</p>
               </div>
             );
           })}
