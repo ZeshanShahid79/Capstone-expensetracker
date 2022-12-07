@@ -3,8 +3,7 @@ import Modal from "react-modal";
 import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
 import axios from "axios";
 import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
-import { Alert, Button, MenuItem } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { Alert, Button, MenuItem, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import { GroupMemberModel } from "./TravelerGroupModel/GroupMember";
@@ -28,7 +27,6 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [selectValue, setSelectValue] = useState("");
 
   function handleNewDescription(event: ChangeEvent<HTMLInputElement>) {
     setDescription(event.target.value);
@@ -64,13 +62,14 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
     updateTravelerGroup();
   }
 
-  const handleSelectTravelerInUpdateForm = (event: SelectChangeEvent) => {
+  const handleSelectTravelerInUpdateForm = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
     const id = event.target.value;
     const traveler = props.travelers.find((traveler) => traveler.id === id);
     const isSelected = selectedTravelers.find((traveler) => traveler.id === id);
     if (!isSelected && traveler) {
       const newMember = { ...traveler, amount: 0 };
-      setSelectValue(newMember.name);
       setSelectedTravelers([...selectedTravelers, newMember]);
     }
   };
@@ -120,13 +119,13 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
           value={description}
           onChange={handleNewDescription}
         />
-        <Select
+        <TextField
+          select
           label={"Select Traveller"}
           value={""}
           onChange={handleSelectTravelerInUpdateForm}
           size={"small"}
         >
-          <MenuItem value={""}></MenuItem>
           {props.travelers.map((traveler) => {
             return (
               <MenuItem key={traveler.id} value={traveler.id}>
@@ -134,7 +133,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
               </MenuItem>
             );
           })}
-        </Select>
+        </TextField>
 
         <Button
           type={"submit"}
