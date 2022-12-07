@@ -130,7 +130,7 @@ class TravelerGroupIntegrationTest {
                     "travelerList": [{"id":"123","amount": 0}],
                     "id": "2"
                 }
-                        """)).andExpect(status().isBadRequest()).andExpect(status().reason("ID does not exist"));
+                        """)).andExpect(status().isBadRequest());
 
     }
 
