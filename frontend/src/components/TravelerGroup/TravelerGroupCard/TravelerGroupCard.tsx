@@ -7,6 +7,7 @@ import "./TravelerGroupCard.css";
 import { Alert, Button, Stack } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import { BillModel } from "../BillModel";
 
 type TravelerCardProps = {
   travelerGroup: TravelerGroupModel;
@@ -19,6 +20,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
   const [editModal, setEditModal] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
+  const [travelerGroupAmount, setTravelerGroupAmount] = useState<BillModel>();
 
   const deleteTravelerGroup = () => {
     axios
@@ -35,6 +37,18 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
       })
       .then(() => setTimeout(() => props.fetchAllTravelerGroups(), 2000))
       .then(() => props.fetchAllTraveler);
+  };
+
+  const getBillForGroup = () => {
+    axios
+      .get("api/bill/" + props.travelerGroup.id)
+      .then((response) => {
+        if (response.data === true) {
+          setTravelerGroupAmount(response.data);
+        }
+      })
+      .then(props.fetchAllTravelerGroups)
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -66,19 +80,23 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
           travelers={props.travelers}
         />
       )}
+
+      <button onClick={getBillForGroup}>Show GroupBill</button>
+      <div>{travelerGroupAmount}</div>
       <section className={"traveler-group-card"}>
         <h4>{props.travelerGroup.description}</h4>
-        <div>
+        <ul>
           {props.travelerGroup.travelerList.map((traveler) => {
             return (
-              <ul key={traveler.id}>
-                <li>
+              <li key={traveler.id}>
+                <span>
                   {traveler.name} {traveler.amount}€
-                </li>
-              </ul>
+                </span>
+              </li>
             );
           })}
-        </div>
+        </ul>
+
         <footer>
           <Stack spacing={2} direction={"row"}>
             <Button
