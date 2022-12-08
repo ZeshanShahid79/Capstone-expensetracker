@@ -6,6 +6,7 @@ import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
 import { Alert, Button, MenuItem, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { GroupMemberModel } from "./TravelerGroupModel/GroupMember";
 
 type TravelerGroupModalProps = {
@@ -26,10 +27,6 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   const [errorMessageForGroupUpdate, setErrorMessageForGroupUpdate] =
     useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
-
-  function handleNewDescription(event: ChangeEvent<HTMLInputElement>) {
-    setDescription(event.target.value);
-  }
 
   function updateTravelerGroup() {
     axios
@@ -58,6 +55,22 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   function handleFormSubmit(event: ChangeEvent<HTMLFormElement>) {
     event.preventDefault();
     updateTravelerGroup();
+  }
+
+  function handleNewDescription(event: ChangeEvent<HTMLInputElement>) {
+    setDescription(event.target.value);
+  }
+
+  function handleNewAmount(event: ChangeEvent<HTMLInputElement>) {
+    const newAmount = parseFloat(parseFloat(event.target.value).toFixed(2));
+    const id = event.target.id;
+    const updatedMembers = travelersInGroup.map((member) => {
+      if (member.id === id) {
+        return { ...member, amount: newAmount };
+      }
+      return member;
+    });
+    setTravelersInGroup(updatedMembers);
   }
 
   const handleSelectTravelerInUpdateForm = (
@@ -104,19 +117,30 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
         </Alert>
       )}
       <h1>Update TravelerGroup</h1>
-      {travelersInGroup.map((traveler) => (
-        <div key={traveler.id}>
-          <p>{traveler.name}</p>
-          <button onClick={() => handleRemoveFromList(traveler.id)}>X</button>
-        </div>
-      ))}
       <form onSubmit={handleFormSubmit}>
         <label>GroupName:</label>
+
+        {travelersInGroup.map((traveler) => (
+          <div key={traveler.id}>
+            <p>{traveler.name}</p>
+            <input
+              id={traveler.id}
+              type={"number"}
+              onChange={handleNewAmount}
+              value={`${traveler.amount}`}
+            />
+
+            <button onClick={() => handleRemoveFromList(traveler.id)}>
+              <DeleteForeverIcon />
+            </button>
+          </div>
+        ))}
         <input
           type={"text"}
           value={description}
           onChange={handleNewDescription}
         />
+
         <TextField
           select
           label={"Select Traveller"}

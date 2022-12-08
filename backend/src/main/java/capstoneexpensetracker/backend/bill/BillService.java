@@ -23,5 +23,4 @@ public class BillService {
                 .travelerList().stream().map(GroupMember::amount).toList();
         return new Bill(amountList.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
     }
-
 }
