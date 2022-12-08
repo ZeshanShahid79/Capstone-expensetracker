@@ -20,10 +20,11 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   const [description, setDescription] = useState(
     props.travelerGroup.description
   );
-  const [selectedTravelers, setSelectedTravelers] = useState<
-    GroupMemberModel[]
-  >(props.travelerGroup.travelerList);
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [travelersInGroup, setTravelersInGroup] = useState<GroupMemberModel[]>(
+    props.travelerGroup.travelerList
+  );
+  const [errorMessageForGroupUpdate, setErrorMessageForGroupUpdate] =
+    useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
 
   function handleNewDescription(event: ChangeEvent<HTMLInputElement>) {
@@ -34,7 +35,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
     axios
       .put("/api/traveler-groups/" + props.travelerGroup.id, {
         description,
-        travelerList: selectedTravelers,
+        travelerList: travelersInGroup,
         id: props.travelerGroup.id,
       })
       .then((response) => {
@@ -49,7 +50,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
       .catch((error) => {
         if (error.response) {
           console.log("error =>" + error);
-          setErrorMessage(error.response.data);
+          setErrorMessageForGroupUpdate(error.response.data);
         }
       });
   }
@@ -64,17 +65,17 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   ) => {
     const id = event.target.value;
     const traveler = props.travelers.find((traveler) => traveler.id === id);
-    const isSelected = selectedTravelers.find((traveler) => traveler.id === id);
+    const isSelected = travelersInGroup.find((traveler) => traveler.id === id);
     if (!isSelected && traveler) {
       const newMember = { ...traveler, amount: 0 };
-      setSelectedTravelers([...selectedTravelers, newMember]);
+      setTravelersInGroup([...travelersInGroup, newMember]);
     }
   };
   const handleRemoveFromList = (id: string) => {
-    const filteredList = selectedTravelers.filter(
+    const filteredList = travelersInGroup.filter(
       (traveler) => traveler.id !== id
     );
-    setSelectedTravelers(filteredList);
+    setTravelersInGroup(filteredList);
   };
 
   return (
@@ -93,17 +94,17 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
           {successMessage}
         </Alert>
       )}
-      {errorMessage && (
+      {errorMessageForGroupUpdate && (
         <Alert
           variant={"outlined"}
           severity={"error"}
-          onClose={() => setErrorMessage(undefined)}
+          onClose={() => setErrorMessageForGroupUpdate(undefined)}
         >
-          {errorMessage}
+          {errorMessageForGroupUpdate}
         </Alert>
       )}
       <h1>Update TravelerGroup</h1>
-      {selectedTravelers.map((traveler) => (
+      {travelersInGroup.map((traveler) => (
         <div key={traveler.id}>
           <p>{traveler.name}</p>
           <button onClick={() => handleRemoveFromList(traveler.id)}>X</button>
