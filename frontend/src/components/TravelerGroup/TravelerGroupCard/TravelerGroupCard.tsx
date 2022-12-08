@@ -71,10 +71,11 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
         <div>
           {props.travelerGroup.travelerList.map((traveler) => {
             return (
-              <div key={traveler.id}>
-                <h6>{traveler.name}</h6>
-                <p>{traveler.amount}€</p>
-              </div>
+              <ul key={traveler.id}>
+                <li>
+                  {traveler.name} {traveler.amount}€
+                </li>
+              </ul>
             );
           })}
         </div>

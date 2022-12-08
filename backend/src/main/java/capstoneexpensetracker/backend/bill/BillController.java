@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("api/bill")
 @RequiredArgsConstructor
@@ -18,4 +19,5 @@ public class BillController {
     Bill getGroupBill(@PathVariable String travelerGroupId) {
         return billService.getBillByGroupId(travelerGroupId);
     }
+
 }
