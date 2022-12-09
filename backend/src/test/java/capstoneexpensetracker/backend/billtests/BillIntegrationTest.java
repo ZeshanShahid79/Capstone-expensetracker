@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class BillIntegrationTest {
+class BillIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -27,20 +27,30 @@ public class BillIntegrationTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
-                      {
-                      "description": "test",
-                                    "travelerList": [{"id":"123","amount": 0.2}]
-                                }
-                """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+        String body = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/traveler-groups")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                      {
+                                      "description": "test",
+                                                    "travelerList": [{"id":"123","amount": 0.2}]
+                                                }
+                                """)).andExpect(status()
+                        .isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         TravelerGroup travelerGroup = objectMapper.readValue(body, TravelerGroup.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/bill/" + travelerGroup.id()).contentType(MediaType.APPLICATION_JSON).content("""
-                {
-                    "sum": 0.2
-                }
-                """));
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/bill/" + travelerGroup.id())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                            "sum": 0.2
+                        }
+                        """));
 
     }
 
@@ -50,12 +60,19 @@ public class BillIntegrationTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/traveler-groups").contentType(MediaType.APPLICATION_JSON).content("""
-                      {
-                      "description": "test",
-                                    "travelerList": [{"id":"123","amount": 0.2}]
-                                }
-                """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+        String body = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/traveler-groups")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                      {
+                                      "description": "test",
+                                                    "travelerList": [{"id":"123","amount": 0.2}]
+                                                }
+                                """)).andExpect(status()
+                        .isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
         TravelerGroup travelerGroup = objectMapper.readValue(body, TravelerGroup.class);
 
@@ -65,11 +82,14 @@ public class BillIntegrationTest {
                                                 }
                         """))
 
-                .andExpect(status().isOk()).andExpect(content().json("""
-                        {
-                            "sum": 20.2
-                        }
-                        """));
+                .andExpect(status()
+                        .isOk())
+                .andExpect(content()
+                        .json("""
+                                {
+                                    "sum": 20.2
+                                }
+                                """));
 
     }
 }

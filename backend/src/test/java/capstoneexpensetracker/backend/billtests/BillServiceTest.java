@@ -2,6 +2,7 @@ package capstoneexpensetracker.backend.billtests;
 
 import capstoneexpensetracker.backend.bill.Bill;
 import capstoneexpensetracker.backend.bill.BillService;
+import capstoneexpensetracker.backend.exceptions.NotravelerWithThisIdException;
 import capstoneexpensetracker.backend.travelergroup.GroupMember;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroup;
 import capstoneexpensetracker.backend.travelergroup.TravelerGroupRepository;
@@ -12,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.*;
 
 class BillServiceTest {
 
@@ -62,12 +63,14 @@ class BillServiceTest {
         String travellerId = "12";
         BigDecimal amount = new BigDecimal(20);
         TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1211", "hans", amount)), groupId);
-        Bill expected = new Bill(amount);
-
         //WHEN
         when(travelerGroupRepository.findById(groupId)).thenReturn(Optional.of(travelerGroup));
-        Bill actual = billService.updateGroupBill(groupId, travellerId, amount);
-        //THEN
-        assertEquals(expected, actual);
+        try {
+            billService.updateGroupBill(groupId, travellerId, amount);
+            fail();
+        } catch (NotravelerWithThisIdException e) {
+            //THEN
+            verify(travelerGroupRepository).findById(groupId);
+        }
     }
 }
