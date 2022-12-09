@@ -1,5 +1,5 @@
-import { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import axios, { AxiosResponse } from "axios";
 import { TravelerGroupModel } from "../TravelerGroupModel/TravelerGroupModel";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import TravelerGroupModal from "../TravelerGroupModal";
@@ -7,7 +7,6 @@ import "./TravelerGroupCard.css";
 import { Alert, Button, Stack } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import { BillModel } from "../BillModel";
 
 type TravelerCardProps = {
   travelerGroup: TravelerGroupModel;
@@ -20,7 +19,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
   const [editModal, setEditModal] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [successMessage, setSuccessMessage] = useState<string>();
-  const [travelerGroupAmount, setTravelerGroupAmount] = useState<BillModel>();
+  const [travelerGroupAmount, setTravelerGroupAmount] = useState(0);
 
   const deleteTravelerGroup = () => {
     axios
@@ -42,14 +41,19 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
   const getBillForGroup = () => {
     axios
       .get("api/bill/" + props.travelerGroup.id)
-      .then((response) => {
-        if (response.data === true) {
-          setTravelerGroupAmount(response.data);
+      .then((response: AxiosResponse<{ sum: number }>) => {
+        if (response.status === 200) {
+          setTravelerGroupAmount(response.data.sum);
         }
       })
       .then(props.fetchAllTravelerGroups)
       .catch((error) => console.error(error));
   };
+
+  useEffect(getBillForGroup, [
+    props.fetchAllTravelerGroups,
+    props.travelerGroup.id,
+  ]);
 
   return (
     <li>
@@ -78,11 +82,10 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
           fetchAllTravelerGroups={props.fetchAllTravelerGroups}
           travelerGroup={props.travelerGroup}
           travelers={props.travelers}
+          getBillForGroup={getBillForGroup}
         />
       )}
 
-      <button onClick={getBillForGroup}>Show GroupBill</button>
-      <div>{travelerGroupAmount}</div>
       <section className={"traveler-group-card"}>
         <h4>{props.travelerGroup.description}</h4>
         <ul>
@@ -96,7 +99,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
             );
           })}
         </ul>
-
+        <div>Total Amount: {travelerGroupAmount}</div>
         <footer>
           <Stack spacing={2} direction={"row"}>
             <Button
