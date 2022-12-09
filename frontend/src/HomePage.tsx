@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import TravelerGroupOverview from "./components/TravelerGroup/TravelerGroupOverview";
 import { TravelerGroupModel } from "./components/TravelerGroup/TravelerGroupModel/TravelerGroupModel";
@@ -17,12 +17,7 @@ export default function HomePage() {
   >([]);
   const [travelers, setTravelers] = useState<TravelerModel[]>([]);
 
-  useEffect(() => {
-    fetchAllTravelers();
-    fetchAllTravelerGroups();
-  }, []);
-
-  const fetchAllTravelerGroups = () => {
+  const fetchAllTravelerGroups = useCallback(() => {
     axios
       .get("/api/traveler-groups")
       .then((response) => {
@@ -30,13 +25,17 @@ export default function HomePage() {
       })
       .catch((error) => console.error(error))
       .then(setTravelerGroupList);
-  };
+  }, []);
   const fetchAllTravelers = () => {
     axios
       .get("/api/travelers")
       .then((response) => response.data)
       .then(setTravelers);
   };
+  useEffect(() => {
+    fetchAllTravelers();
+    fetchAllTravelerGroups();
+  }, []);
 
   return (
     <>

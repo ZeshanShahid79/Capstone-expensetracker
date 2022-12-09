@@ -15,6 +15,7 @@ type TravelerGroupModalProps = {
   closeModal: () => void;
   fetchAllTravelerGroups: () => void;
   travelers: TravelerModel[];
+  getBillForGroup: () => void;
 };
 
 export default function TravelerGroupModal(props: TravelerGroupModalProps) {
@@ -38,9 +39,9 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
       .then((response) => {
         if (response.status === 200) {
           setSuccessMessage(description + ": " + response.statusText);
-
-          props.closeModal();
           props.fetchAllTravelerGroups();
+          props.getBillForGroup();
+          props.closeModal();
           return response.data;
         }
       })
