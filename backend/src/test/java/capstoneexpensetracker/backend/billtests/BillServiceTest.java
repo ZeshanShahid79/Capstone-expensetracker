@@ -38,4 +38,36 @@ class BillServiceTest {
         //THEN
         assertEquals(bill, actual);
     }
+
+    @Test
+    void updateGroupBill() {
+        //GIVEN
+        String groupId = "2";
+        String travellerId = "1212";
+        BigDecimal amount = new BigDecimal(20);
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember(travellerId, "hans", amount)), groupId);
+        Bill expected = new Bill(new BigDecimal(40));
+
+        //WHEN
+        when(travelerGroupRepository.findById(groupId)).thenReturn(Optional.of(travelerGroup));
+        Bill actual = billService.updateGroupBill(groupId, travellerId, amount);
+        //THEN
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void updateGroupBillReturnsTravelerNotToUpdate() {
+        //GIVEN
+        String groupId = "2";
+        String travellerId = "12";
+        BigDecimal amount = new BigDecimal(20);
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1211", "hans", amount)), groupId);
+        Bill expected = new Bill(amount);
+
+        //WHEN
+        when(travelerGroupRepository.findById(groupId)).thenReturn(Optional.of(travelerGroup));
+        Bill actual = billService.updateGroupBill(groupId, travellerId, amount);
+        //THEN
+        assertEquals(expected, actual);
+    }
 }

@@ -26,12 +26,12 @@ export default function HomePage() {
       .catch((error) => console.error(error))
       .then(setTravelerGroupList);
   }, []);
-  const fetchAllTravelers = () => {
+  const fetchAllTravelers = useCallback(() => {
     axios
       .get("/api/travelers")
       .then((response) => response.data)
       .then(setTravelers);
-  };
+  }, []);
   useEffect(() => {
     fetchAllTravelers();
     fetchAllTravelerGroups();
