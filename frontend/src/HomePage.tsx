@@ -32,10 +32,8 @@ export default function HomePage() {
       .then((response) => response.data)
       .then(setTravelers);
   }, []);
-  useEffect(() => {
-    fetchAllTravelers();
-    fetchAllTravelerGroups();
-  }, []);
+  useEffect(fetchAllTravelerGroups, [fetchAllTravelerGroups]);
+  useEffect(fetchAllTravelers, [fetchAllTravelers]);
 
   return (
     <>
