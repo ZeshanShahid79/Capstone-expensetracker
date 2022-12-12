@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - deploy_to_fly
 
 jobs:
   build-frontend:
@@ -50,7 +51,7 @@ jobs:
     needs: build-backend
     environment:
       name: production-fly.io
-      url: https://shmoney-tracker.fly.dev
+      url: https://travelex.fly.dev/
     env:
       FLY_API_TOKEN: ${{ secrets.FLY_API_KEY }}
     steps:
