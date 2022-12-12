@@ -69,7 +69,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
     const traveler = props.travelers.find((traveler) => traveler.id === id);
     const isSelected = travelersInGroup.find((traveler) => traveler.id === id);
     if (!isSelected && traveler) {
-      const newMember = { ...traveler, amount: 0 };
+      const newMember = { ...traveler, amount: 0, due: 0 };
       setTravelersInGroup([...travelersInGroup, newMember]);
     }
   };

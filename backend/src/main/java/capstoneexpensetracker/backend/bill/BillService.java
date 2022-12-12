@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,12 @@ public class BillService {
                 .findFirst()
                 .orElseThrow(NotravelerWithThisIdException::new);
 
-        GroupMember travelerToUpdate = new GroupMember(travelerToFind.id(), travelerToFind.name(), travelerToFind.amount().add(amount));
+
+        BigDecimal travelerAmount = travelerToFind.amount().add(amount);
+        BigDecimal sizeOfList = new BigDecimal(groupToUpdate.travelerList().size());
+        BigDecimal due = travelerAmount.divide(sizeOfList, 2, RoundingMode.HALF_DOWN);
+
+        GroupMember travelerToUpdate = new GroupMember(travelerToFind.id(), travelerToFind.name(), travelerToFind.amount().add(amount), due);
         List<GroupMember> listOfGroupMembers = new ArrayList<>(groupToUpdate.travelerList());
         listOfGroupMembers.set(groupToUpdate.travelerList().indexOf(travelerToFind), travelerToUpdate);
 
