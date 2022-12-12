@@ -50,7 +50,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
     const traveler = props.travelers.find((traveler) => traveler.id === id);
     const isSelected = selectedTravelers.find((traveler) => traveler.id === id);
     if (!isSelected && traveler) {
-      const newMember = { ...traveler, amount: 0 };
+      const newMember = { ...traveler, amount: 0, due: 0 };
       setSelectedTravelers([...selectedTravelers, newMember]);
     }
   };

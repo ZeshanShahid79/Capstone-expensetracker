@@ -29,7 +29,7 @@ class BillServiceTest {
     void getBill() {
         //GIVEN
 
-        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1", "name", BigDecimal.ZERO)), "1");
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1", "name", BigDecimal.ZERO, BigDecimal.ZERO)), "1");
         Bill bill = new Bill(travelerGroup.travelerList().stream().map(GroupMember::amount).reduce(BigDecimal.ZERO, BigDecimal::add));
 
         //WHEN
@@ -46,7 +46,7 @@ class BillServiceTest {
         String groupId = "2";
         String travellerId = "1212";
         BigDecimal amount = new BigDecimal(20);
-        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember(travellerId, "hans", amount)), groupId);
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember(travellerId, "hans", amount, BigDecimal.ZERO)), groupId);
         Bill expected = new Bill(new BigDecimal(40));
 
         //WHEN
@@ -62,7 +62,7 @@ class BillServiceTest {
         String groupId = "2";
         String travellerId = "12";
         BigDecimal amount = new BigDecimal(20);
-        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1211", "hans", amount)), groupId);
+        TravelerGroup travelerGroup = new TravelerGroup("description", List.of(new GroupMember("1211", "hans", amount, BigDecimal.ZERO)), groupId);
         //WHEN
         when(travelerGroupRepository.findById(groupId)).thenReturn(Optional.of(travelerGroup));
         try {

@@ -95,6 +95,12 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
                 <span>
                   {traveler.name} {traveler.amount}€
                 </span>
+
+                {traveler.due !== null ? (
+                  <span>"bekommt von jeden"{traveler.due}</span>
+                ) : (
+                  ""
+                )}
               </li>
             );
           })}
