@@ -39,7 +39,7 @@ export default function HomePage() {
     <>
       <header>
         <Typography variant="h4" component={"h1"}>
-          Shmoney Tracker
+          TravelEx
         </Typography>
       </header>
 
