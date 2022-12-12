@@ -1,6 +1,6 @@
-# fly.toml file generated for shmoney-tracker on 2022-11-18T18:51:22+01:00
+# fly.toml file generated for travelex on 2022-12-12T14:46:55+01:00
 
-app = "shmoney-tracker"
+app = "travelex"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
