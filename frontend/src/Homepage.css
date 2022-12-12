@@ -7,7 +7,7 @@ header {
 }
 
 .NavLink {
-    border: solid black 1px;
+    border: solid black 2px;
     height: 48px;
     text-decoration: none;
     cursor: pointer;
