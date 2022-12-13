@@ -11,6 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,7 +27,7 @@ class TravelerIntegrationTest {
     @DirtiesContext
     @Test
     void getAllTravelersAndExpectEmptyList() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/travelers")).andExpect(status().isOk()).andExpect(content().json("[]"));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/travelers").with(csrf())).andExpect(status().isOk()).andExpect(content().json("[]"));
     }
 
     @DirtiesContext
@@ -39,7 +40,7 @@ class TravelerIntegrationTest {
 
         String body = mockMvc.perform(MockMvcRequestBuilders.post("/api/travelers").contentType(MediaType.APPLICATION_JSON).content("""
                 {"name": "zeshan"}
-                """)).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+                """).with(csrf())).andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 
         Traveler traveler = objectMapper.readValue(body, Traveler.class);
 

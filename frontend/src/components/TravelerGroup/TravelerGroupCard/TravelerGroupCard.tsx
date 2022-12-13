@@ -3,10 +3,10 @@ import axios, { AxiosResponse } from "axios";
 import { TravelerGroupModel } from "../TravelerGroupModel/TravelerGroupModel";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import TravelerGroupModal from "../TravelerGroupModal";
-import "./TravelerGroupCard.css";
-import { Alert, Button, Stack } from "@mui/material";
+import { Alert, IconButton, Stack } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import styled from "styled-components";
 
 type TravelerCardProps = {
   travelerGroup: TravelerGroupModel;
@@ -86,7 +86,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
         />
       )}
 
-      <section className={"traveler-group-card"}>
+      <section>
         <h4>{props.travelerGroup.description}</h4>
         <ul>
           {props.travelerGroup.travelerList.map((traveler) => {
@@ -104,31 +104,33 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
               </li>
             );
           })}
+          s
         </ul>
         <div>Total Amount: {travelerGroupAmount}</div>
         <footer>
           <Stack spacing={2} direction={"row"}>
-            <Button
+            <IconButton
               onClick={() => setEditModal(true)}
               size={"small"}
-              variant={"outlined"}
               color={"success"}
-              endIcon={<EditIcon />}
             >
-              edit
-            </Button>
-            <Button
+              {<EditIcon />}
+            </IconButton>
+
+            <IconButton
               onClick={deleteTravelerGroup}
               size={"small"}
-              variant={"outlined"}
               color={"error"}
-              endIcon={<DeleteForeverIcon />}
             >
-              delete
-            </Button>
+              {<DeleteForeverIcon />}
+            </IconButton>
           </Stack>
         </footer>
       </section>
     </li>
   );
 }
+
+const StyledGroupCard = styled.section`
+   ;
+`;

@@ -3,7 +3,7 @@ package capstoneexpensetracker.backend.travelergroup;
 import capstoneexpensetracker.backend.exceptions.NoTravelerGroupWithThisIdException;
 import capstoneexpensetracker.backend.traveler.Traveler;
 import capstoneexpensetracker.backend.traveler.TravelerRepository;
-import capstoneexpensetracker.backend.traveler.TravelerUtils;
+import capstoneexpensetracker.backend.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class TravelerGroupService {
 
     private final TravelerGroupRepository travelerGroupRepository;
     private final TravelerRepository travelerRepository;
-    private final TravelerUtils travelerUtils;
+    private final Utils travelerUtils;
 
 
     public List<TravelerGroup> displayTravelerGroupList() {
