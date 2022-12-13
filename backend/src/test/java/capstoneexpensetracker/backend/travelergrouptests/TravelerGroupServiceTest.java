@@ -4,8 +4,8 @@ package capstoneexpensetracker.backend.travelergrouptests;
 import capstoneexpensetracker.backend.exceptions.NoTravelerGroupWithThisIdException;
 import capstoneexpensetracker.backend.traveler.Traveler;
 import capstoneexpensetracker.backend.traveler.TravelerRepository;
-import capstoneexpensetracker.backend.traveler.TravelerUtils;
 import capstoneexpensetracker.backend.travelergroup.*;
+import capstoneexpensetracker.backend.utils.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 class TravelerGroupServiceTest {
     TravelerGroupRepository travelerGroupRepository = mock(TravelerGroupRepository.class);
-    TravelerUtils travelerUtils = mock(TravelerUtils.class);
+    Utils travelerUtils = mock(Utils.class);
     TravelerRepository travelerRepository = mock(TravelerRepository.class);
     TravelerGroupService travelerGroupService = new TravelerGroupService(travelerGroupRepository, travelerRepository, travelerUtils);
 

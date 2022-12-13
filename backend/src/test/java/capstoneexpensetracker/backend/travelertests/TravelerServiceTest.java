@@ -1,7 +1,11 @@
 package capstoneexpensetracker.backend.travelertests;
 
 import capstoneexpensetracker.backend.exceptions.NotravelerWithThisIdException;
-import capstoneexpensetracker.backend.traveler.*;
+import capstoneexpensetracker.backend.traveler.NewTraveler;
+import capstoneexpensetracker.backend.traveler.Traveler;
+import capstoneexpensetracker.backend.traveler.TravelerRepository;
+import capstoneexpensetracker.backend.traveler.TravelerService;
+import capstoneexpensetracker.backend.utils.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 class TravelerServiceTest {
     TravelerRepository travelerRepository = mock(TravelerRepository.class);
-    TravelerUtils travelerUtils = mock(TravelerUtils.class);
+    Utils travelerUtils = mock(Utils.class);
     TravelerService travelerService = new TravelerService(travelerRepository, travelerUtils);
 
     @Test
@@ -89,4 +93,5 @@ class TravelerServiceTest {
             verify(travelerRepository, never()).save(updatedTraveler);
         }
     }
+
 }

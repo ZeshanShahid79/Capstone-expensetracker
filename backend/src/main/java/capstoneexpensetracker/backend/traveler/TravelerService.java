@@ -2,6 +2,7 @@ package capstoneexpensetracker.backend.traveler;
 
 
 import capstoneexpensetracker.backend.exceptions.NotravelerWithThisIdException;
+import capstoneexpensetracker.backend.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TravelerService {
     private final TravelerRepository travelerRepository;
-    private final TravelerUtils travelerUtils;
+    private final Utils travelerUtils;
 
     public List<Traveler> displayTravelersList() {
         return travelerRepository.findAll();

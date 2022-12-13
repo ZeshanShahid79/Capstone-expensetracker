@@ -50,6 +50,7 @@
   "proxy": "http://localhost:8080",
   "devDependencies": {
     "@types/react-modal": "^3.13.1",
+    "@types/styled-components": "^5.1.26",
     "prettier": "2.8.0"
   }
 }
