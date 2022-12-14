@@ -6,7 +6,6 @@ import TravelerGroupModal from "../TravelerGroupModal";
 import { Alert, IconButton, Stack } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import styled from "styled-components";
 
 type TravelerCardProps = {
   travelerGroup: TravelerGroupModel;
@@ -130,7 +129,3 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
     </li>
   );
 }
-
-const StyledGroupCard = styled.section`
-   ;
-`;

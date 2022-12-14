@@ -22,7 +22,7 @@ public class TravelExUserController {
     }
 
     @GetMapping("/login")
-    public String me() {
+    public String getUsername() {
         return SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -42,11 +42,11 @@ public class TravelExUserController {
     }
 
     @PutMapping("/{id}")
-    public TravelExUser profileUpdate(@PathVariable String id, @RequestBody TravelExUser travelExUser) {
-        if (!travelExUser.id().equals(id)) {
+    public TravelExUser profileUpdate(@PathVariable String id, @RequestBody UpdateTravelExUser updateTravelExUser) {
+        if (!updateTravelExUser.id().equals(id)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The username you want to update not equals to your req Body user.id");
         }
-        return travelExUserService.updateUserById(id, travelExUser);
+        return travelExUserService.updateUserById(updateTravelExUser);
     }
 
     @DeleteMapping("/{id}")
