@@ -11,7 +11,11 @@ import "./Homepage.css";
 import { MuiBottomNavigation } from "./MuiComponents/MuiBottomNavigation";
 import { Typography } from "@mui/material";
 
-export default function HomePage() {
+type HomePageProps = {
+  fetchUsername: () => void;
+};
+
+export default function HomePage(props: HomePageProps) {
   const [travelerGroupList, setTravelerGroupList] = useState<
     TravelerGroupModel[]
   >([]);
@@ -26,12 +30,18 @@ export default function HomePage() {
       .catch((error) => console.error(error))
       .then(setTravelerGroupList);
   }, []);
+
   const fetchAllTravelers = useCallback(() => {
     axios
       .get("/api/travelers")
       .then((response) => response.data)
       .then(setTravelers);
   }, []);
+
+  const logout = () => {
+    axios.get("api/travelex-users/logout").then(props.fetchUsername);
+  };
+
   useEffect(fetchAllTravelerGroups, [fetchAllTravelerGroups]);
   useEffect(fetchAllTravelers, [fetchAllTravelers]);
 
@@ -40,6 +50,7 @@ export default function HomePage() {
       <header>
         <Typography variant="h4" component={"h1"}>
           TravelEx
+          <button onClick={logout}>LogOut</button>
         </Typography>
       </header>
 
