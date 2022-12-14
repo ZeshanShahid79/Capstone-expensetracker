@@ -1,13 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const MuiBottomNavigation = () => {
   const [value, setValue] = useState(0);
+
+  const location = useLocation();
+
+  const setTabByLocation = () => {
+    if (location.pathname === "/") {
+      setValue(0);
+    }
+    if (location.pathname === "/TravelerOverview") {
+      setValue(1);
+    }
+    if (location.pathname === "/AddTravelerGroupForm") {
+      setValue(2);
+    }
+    if (location.pathname === "/AddTravelerForm") {
+      setValue(3);
+    }
+  };
+  useEffect(setTabByLocation, [location.pathname]);
+
   return (
     <BottomNavigation
       sx={{

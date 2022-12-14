@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import RegisterPage from "./RegisterPage";
 
 type LogInPageProps = {
@@ -22,6 +22,11 @@ export default function LogInPage(props: LogInPageProps) {
       .then(props.fetchUsername);
   };
 
+  const handleLogInForm = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    login();
+  };
+
   if (wouldLikeRegister) {
     return (
       <>
@@ -42,7 +47,7 @@ export default function LogInPage(props: LogInPageProps) {
       <header>
         <h1>TravelEx</h1>
       </header>
-      <main>
+      <form onSubmit={handleLogInForm}>
         <div>
           <label htmlFor="username">Username</label>
           <input
@@ -60,10 +65,10 @@ export default function LogInPage(props: LogInPageProps) {
           />
         </div>
         <div>
-          <button onClick={() => setWouldLikeRegister(true)}>Register</button>
           <button onClick={() => login()}>LogIn</button>
         </div>
-      </main>
+      </form>
+      <button onClick={() => setWouldLikeRegister(true)}>Register</button>
     </>
   );
 }
