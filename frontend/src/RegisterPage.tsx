@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import axios from "axios";
 import PasswordChecklist from "react-password-checklist";
+import { Alert } from "@mui/material";
 
 type RegisterPageProps = {
   fetchUsername: () => void;
@@ -11,8 +12,8 @@ export default function RegisterPage(props: RegisterPageProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [failedUsername, setFailedUsername] = useState("");
-  const [messageStatus, setMessageStatus] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [successMessage, setSuccessMessage] = useState<string>();
 
   const register = () => {
     axios
@@ -20,25 +21,23 @@ export default function RegisterPage(props: RegisterPageProps) {
         username,
         password,
       })
-      .then((response) => response.status)
-      .then((status) => {
-        if (status === 200) {
-          setMessageStatus(username + " erfolreich registriert.");
-          setTimeout(() => props.wouldLikeRegister(false), 2000);
-          setTimeout(() => login(), 2000);
-          setUsername("");
-          setPassword("");
-          setConfirmPassword("");
+      .then((response) => {
+        if (response.status === 200) {
+          setSuccessMessage(username + ": " + response.statusText);
         }
       })
+      .then(() => props.wouldLikeRegister(false))
+      .then(login)
+
       .catch((error) => {
         if (error.response.status === 400) {
-          setFailedUsername(username + " existiert schon.");
-          setTimeout(() => setFailedUsername(""), 5000);
-          setUsername("");
+          setErrorMessage(username + error.response);
         }
         console.log("Error =>" + error);
       });
+    setUsername("");
+    setPassword("");
+    setConfirmPassword("");
   };
 
   const login = () => {
@@ -59,6 +58,24 @@ export default function RegisterPage(props: RegisterPageProps) {
 
   return (
     <>
+      {successMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"success"}
+          onClose={() => setSuccessMessage(undefined)}
+        >
+          {successMessage}
+        </Alert>
+      )}
+      {errorMessage && (
+        <Alert
+          variant={"outlined"}
+          severity={"error"}
+          onClose={() => setErrorMessage(undefined)}
+        >
+          {errorMessage}
+        </Alert>
+      )}
       <section>
         <form onSubmit={handleRegisterSubmit}>
           <div>
@@ -71,9 +88,6 @@ export default function RegisterPage(props: RegisterPageProps) {
               placeholder="chris_yooo"
               required
             />
-
-            {failedUsername && <p>{failedUsername}</p>}
-
             <label htmlFor={"password"}>Passwort:</label>
             <input
               type="password"
@@ -112,9 +126,8 @@ export default function RegisterPage(props: RegisterPageProps) {
           />
         </div>
         <div>
-          <button onClick={() => props.wouldLikeRegister(false)}>Abort</button>
+          <button onClick={() => props.wouldLikeRegister(false)}>cancel</button>
         </div>
-        {messageStatus && <p>{messageStatus}</p>}
       </section>
     </>
   );
