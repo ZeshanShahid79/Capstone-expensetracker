@@ -42,11 +42,16 @@ public class TravelExUserService {
         return travelExUser;
     }
 
-    public TravelExUser updateUserById(String id, TravelExUser travelExUser) {
-        if (!travelExUserRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return travelExUserRepository.save(travelExUser);
+    public TravelExUser updateUserById(UpdateTravelExUser updateTravelExUser) {
+        TravelExUser toUpdateTravelExUser = travelExUserRepository.findById(updateTravelExUser.id())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        TravelExUser updatedTravelExUser = new TravelExUser(
+                toUpdateTravelExUser.id(),
+                updateTravelExUser.username(),
+                toUpdateTravelExUser.passwordBcrypt());
+
+        return travelExUserRepository.save(updatedTravelExUser);
     }
 }
 

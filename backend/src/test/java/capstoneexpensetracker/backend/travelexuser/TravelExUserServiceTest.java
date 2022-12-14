@@ -1,9 +1,6 @@
 package capstoneexpensetracker.backend.travelexuser;
 
-import capstoneexpensetracker.backend.security.NewTravelExUser;
-import capstoneexpensetracker.backend.security.TravelExUser;
-import capstoneexpensetracker.backend.security.TravelExUserRepository;
-import capstoneexpensetracker.backend.security.TravelExUserService;
+import capstoneexpensetracker.backend.security.*;
 import capstoneexpensetracker.backend.utils.Utils;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
@@ -91,23 +88,24 @@ class TravelExUserServiceTest {
     @Test
     void updateTravelExUserOK() {
         TravelExUser travelExUser = new TravelExUser("1", "tester12", "test");
-        TravelExUser updatedTravelExUser = new TravelExUser("1", "Zeshan12", "test");
+        UpdateTravelExUser updatedTravelExUser = new UpdateTravelExUser("1", "Zeshan12");
+        TravelExUser newTravelExUser = new TravelExUser(travelExUser.id(), updatedTravelExUser.username(), travelExUser.passwordBcrypt());
         //when
-        when(travelExUserRepository.existsById(updatedTravelExUser.id())).thenReturn(true);
-        when(travelExUserRepository.save(updatedTravelExUser)).thenReturn(updatedTravelExUser);
-        TravelExUser actual = travelExUserService.updateUserById("1", updatedTravelExUser);
+        when(travelExUserRepository.findById(updatedTravelExUser.id())).thenReturn(Optional.of(travelExUser));
+        when(travelExUserRepository.save(newTravelExUser)).thenReturn(newTravelExUser);
+        TravelExUser actual = travelExUserService.updateUserById(updatedTravelExUser);
         //then
-        assertEquals(updatedTravelExUser, actual);
+        assertEquals(newTravelExUser, actual);
     }
 
     @Test
     void updateTravelExUserException() {
         String message = null;
-        TravelExUser updatedTravelExUser = new TravelExUser("1", "Zeshan12", "test");
+        UpdateTravelExUser updatedTravelExUser = new UpdateTravelExUser("1", "Zeshan12");
         //when
         when(travelExUserRepository.findById(updatedTravelExUser.id())).thenReturn(Optional.empty());
         try {
-            travelExUserService.updateUserById("1", updatedTravelExUser);
+            travelExUserService.updateUserById(updatedTravelExUser);
         } catch (RuntimeException e) {
             message = e.getMessage();
         }
