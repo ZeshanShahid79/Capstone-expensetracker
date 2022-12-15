@@ -6,7 +6,10 @@ import { TravelExUserModel } from "./TravelExUserModel";
 
 function App() {
   const [travelExUserLogIn, setTravelExUserLogIn] = useState();
-  const [travelExUser, setTravelExUser] = useState<TravelExUserModel>();
+  const [travelExUser, setTravelExUser] = useState<TravelExUserModel>({
+    id: "",
+    username: "",
+  });
 
   const fetchUsername = () => {
     axios
@@ -29,6 +32,7 @@ function App() {
   };
 
   useEffect(fetchUsername, []);
+
   useEffect(fetchUser, [travelExUserLogIn]);
 
   if (travelExUserLogIn === undefined) {
@@ -41,7 +45,7 @@ function App() {
     return <LogInPage fetchUsername={fetchUsername}></LogInPage>;
   }
 
-  return <HomePage fetchUsername={fetchUsername} />;
+  return <HomePage fetchUsername={fetchUsername} travelExUser={travelExUser} />;
 }
 
 export default App;
