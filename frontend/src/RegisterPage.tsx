@@ -85,7 +85,7 @@ export default function RegisterPage(props: RegisterPageProps) {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="chris_yooo"
+              placeholder="Max Mustermann"
               required
             />
             <label htmlFor={"password"}>Passwort:</label>
@@ -94,7 +94,7 @@ export default function RegisterPage(props: RegisterPageProps) {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Bello123!"
+              placeholder="Test123!"
               required
             />
 
@@ -104,7 +104,7 @@ export default function RegisterPage(props: RegisterPageProps) {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Bello123!"
+              placeholder="Test123!"
               required
             />
           </div>

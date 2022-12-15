@@ -39,7 +39,7 @@ function App() {
     return <LogInPage fetchUsername={fetchUsername} />;
   }
   if (!travelExUserLogIn) {
-    return <>Bitte haben Sie einen Augenblick Geduld...</>;
+    return <>einen Augenblick Geduld Bitte...</>;
   }
   if (travelExUserLogIn === "anonymousUser") {
     return <LogInPage fetchUsername={fetchUsername}></LogInPage>;
