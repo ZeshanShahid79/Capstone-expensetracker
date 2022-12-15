@@ -2,7 +2,14 @@ import axios from "axios";
 import React, { ChangeEvent, useState } from "react";
 import RegisterPage from "./RegisterPage";
 import styled from "styled-components";
-import { AppBar, Button, TextField, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Stack,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 
 type LogInPageProps = {
   fetchUsername: () => void;
@@ -61,52 +68,57 @@ export default function LogInPage(props: LogInPageProps) {
           </Toolbar>
         </AppBar>
       </header>
-      <StyledLogInForm onSubmit={handleLogInForm}>
+
+      <StyledLoginForm onSubmit={handleLogInForm}>
         <Typography variant={"h6"} color={"primary"}>
           Login
         </Typography>
-        <TextField
-          color={"primary"}
-          label={"Username"}
-          type="text"
-          id="Username"
-          size={"small"}
-          onChange={(event) => setUsername(event.target.value)}
-        />
+        <Stack spacing={2}>
+          <TextField
+            color={"primary"}
+            label={"Username"}
+            type="text"
+            id="Username"
+            size={"small"}
+            onChange={(event) => setUsername(event.target.value)}
+          />
 
-        <TextField
-          color={"primary"}
-          label={"Password"}
-          type="password"
-          id="Password"
-          size={"small"}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-
-        <Button
-          onClick={() => login()}
-          size={"small"}
-          variant={"contained"}
-          color={"primary"}
-        >
-          LogIn
-        </Button>
-        <Button
-          onClick={() => setWouldLikeRegister(true)}
-          size={"small"}
-          variant={"outlined"}
-          color={"primary"}
-        >
-          Register
-        </Button>
-      </StyledLogInForm>
+          <TextField
+            color={"primary"}
+            label={"Password"}
+            type="password"
+            id="Password"
+            size={"small"}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </Stack>
+        <Stack spacing={2}>
+          <Button
+            onClick={() => login()}
+            size={"small"}
+            variant={"contained"}
+            color={"primary"}
+          >
+            LogIn
+          </Button>
+          <Button
+            onClick={() => setWouldLikeRegister(true)}
+            size={"small"}
+            variant={"outlined"}
+            color={"primary"}
+          >
+            s Register
+          </Button>
+        </Stack>
+      </StyledLoginForm>
     </>
   );
 }
-const StyledLogInForm = styled.form`
+const StyledLoginForm = styled.form`
   display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
   border-radius: 12px;
-  padding: 12px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  height: 567px;
 `;

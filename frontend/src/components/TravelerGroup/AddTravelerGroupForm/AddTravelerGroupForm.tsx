@@ -1,7 +1,15 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import axios from "axios";
-import { Alert, Button, IconButton, MenuItem, TextField } from "@mui/material";
+import {
+  Alert,
+  Button,
+  IconButton,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { GroupMemberModel } from "../TravelerGroupModel/GroupMember";
@@ -83,50 +91,56 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
           {errorMessage}
         </Alert>
       )}
-      <h2>Add TravelerGroup</h2>
-      <div>
-        <h3>Selected Travelers</h3>
-        {selectedTravelers.map((traveler) => (
-          <StyledSelectedTraveler key={traveler.id}>
-            <p>{traveler.name}</p>
-            <IconButton onClick={() => handleRemoveFromList(traveler.id)}>
-              <HighlightOffIcon fontSize={"small"} color={"primary"} />
-            </IconButton>
-          </StyledSelectedTraveler>
-        ))}
-      </div>
-      <form onSubmit={handleTravelerFrom}>
-        <TextField
-          label={"Group Name"}
-          placeholder={"Mallorca 2022"}
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-          size={"small"}
-        />
-        <TextField
-          label={"Select Traveller"}
-          select
-          value={""}
-          onChange={handleSelectTraveler}
-          size={"small"}
-        >
-          {props.travelers.map((traveler) => {
-            return (
-              <MenuItem key={traveler.id} value={traveler.id}>
-                {traveler.name}
-              </MenuItem>
-            );
-          })}
-        </TextField>
-        <Button
-          type={"submit"}
-          variant={"outlined"}
-          color={"primary"}
-          endIcon={<AddIcon />}
-        >
-          Add TravelerGroup
-        </Button>
-      </form>
+      <Typography variant={"h5"} color={"primary"}>
+        Add TravelerGroup
+      </Typography>
+      <StyledAddTravelerGroupForm onSubmit={handleTravelerFrom}>
+        <Typography variant={"h6"} color={"secondary"}>
+          Selected Travellers
+        </Typography>
+        <Stack>
+          {selectedTravelers.map((traveler) => (
+            <StyledSelectedTraveler key={traveler.id}>
+              <p>{traveler.name}</p>
+              <IconButton onClick={() => handleRemoveFromList(traveler.id)}>
+                <HighlightOffIcon fontSize={"small"} color={"primary"} />
+              </IconButton>
+            </StyledSelectedTraveler>
+          ))}
+        </Stack>
+        <Stack spacing={2}>
+          <TextField
+            label={"Group Name"}
+            placeholder={"Mallorca 2022"}
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            size={"small"}
+          />
+          <TextField
+            label={"Select Traveller"}
+            select
+            value={""}
+            onChange={handleSelectTraveler}
+            size={"small"}
+          >
+            {props.travelers.map((traveler) => {
+              return (
+                <MenuItem key={traveler.id} value={traveler.id}>
+                  {traveler.name}
+                </MenuItem>
+              );
+            })}
+          </TextField>
+          <Button
+            type={"submit"}
+            variant={"outlined"}
+            color={"primary"}
+            endIcon={<AddIcon />}
+          >
+            Add TravelerGroup
+          </Button>
+        </Stack>
+      </StyledAddTravelerGroupForm>
     </section>
   );
 }
@@ -134,4 +148,12 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
 const StyledSelectedTraveler = styled.div`
   display: flex;
   justify-content: center;
+`;
+const StyledAddTravelerGroupForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 12px;
+  height: 500px;
 `;
