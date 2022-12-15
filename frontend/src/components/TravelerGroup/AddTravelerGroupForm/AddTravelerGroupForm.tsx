@@ -1,9 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
 import axios from "axios";
-import { Alert, Button, MenuItem, TextField } from "@mui/material";
+import { Alert, Button, IconButton, MenuItem, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { GroupMemberModel } from "../TravelerGroupModel/GroupMember";
+import styled from "styled-components";
 
 type AddTravelerProps = {
   travelers: TravelerModel[];
@@ -85,20 +87,21 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
       <div>
         <h3>Selected Travelers</h3>
         {selectedTravelers.map((traveler) => (
-          <div key={traveler.id}>
+          <StyledSelectedTraveler key={traveler.id}>
             <p>{traveler.name}</p>
-            <button onClick={() => handleRemoveFromList(traveler.id)}>X</button>
-          </div>
+            <IconButton onClick={() => handleRemoveFromList(traveler.id)}>
+              <HighlightOffIcon fontSize={"small"} color={"primary"} />
+            </IconButton>
+          </StyledSelectedTraveler>
         ))}
       </div>
       <form onSubmit={handleTravelerFrom}>
-        <label htmlFor={"description"}>Group Name: </label>
-        <input
-          type={"text"}
-          id={"description"}
+        <TextField
+          label={"Group Name"}
+          placeholder={"Mallorca 2022"}
           value={description}
           onChange={(event) => setDescription(event.target.value)}
-          placeholder={"Mallorca 2022"}
+          size={"small"}
         />
         <TextField
           label={"Select Traveller"}
@@ -117,9 +120,8 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
         </TextField>
         <Button
           type={"submit"}
-          size={"small"}
           variant={"outlined"}
-          color={"success"}
+          color={"primary"}
           endIcon={<AddIcon />}
         >
           Add TravelerGroup
@@ -128,3 +130,8 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
     </section>
   );
 }
+
+const StyledSelectedTraveler = styled.div`
+  display: flex;
+  justify-content: center;
+`;

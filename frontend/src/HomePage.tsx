@@ -9,9 +9,11 @@ import AddTravelerForm from "./components/Traveler/AddTravelerForm/AddTravelerFo
 import TravelerOverview from "./components/Traveler/TravelerOverview";
 import "./Homepage.css";
 import { MuiBottomNavigation } from "./MuiComponents/MuiBottomNavigation";
-import { Typography } from "@mui/material";
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import { TravelExUserModel } from "./TravelExUserModel";
 import TravelExUserModal from "./TravelExUserModal";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 
 type HomePageProps = {
   fetchUsername: () => void;
@@ -61,11 +63,19 @@ export default function HomePage(props: HomePageProps) {
         />
       )}
       <header>
-        <Typography variant="h4" component={"h1"}>
-          TravelEx
-          <button onClick={logout}>LogOut</button>
-          <button onClick={() => setEditModal(true)}>edit</button>
-        </Typography>
+        <AppBar position={"sticky"}>
+          <Toolbar sx={{ height: 100 }}>
+            <Typography variant="h3" color={"white"}>
+              TravelEx
+            </Typography>
+            <IconButton onClick={() => setEditModal(true)}>
+              <AssignmentIndIcon />
+            </IconButton>
+            <IconButton onClick={logout}>
+              <LogoutIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
       </header>
 
       <Routes>

@@ -1,7 +1,7 @@
 import "./AddTravelerForm.css";
 import { ChangeEvent, useState } from "react";
 import axios from "axios";
-import { Alert, Button } from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 type AddTravelerProps = {
@@ -59,19 +59,17 @@ export default function AddTravelerForm(props: AddTravelerProps) {
         </Alert>
       )}
       <form onSubmit={handleTravelerFrom}>
-        <label htmlFor={"name"}>Name :</label>
-        <input
-          type={"text"}
-          id={"name"}
+        <TextField
+          label={"Name"}
+          placeholder={"Zeshan"}
           value={name}
           onChange={(event) => setName(event.target.value)}
-          placeholder={"Zeshan"}
+          size={"small"}
         />
         <Button
           type={"submit"}
-          size={"small"}
           variant={"outlined"}
-          color={"success"}
+          color={"primary"}
           endIcon={<AddIcon />}
         >
           Add Traveler

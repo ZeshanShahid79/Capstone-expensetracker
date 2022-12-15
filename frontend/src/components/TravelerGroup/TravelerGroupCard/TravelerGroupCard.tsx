@@ -111,7 +111,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
             <IconButton
               onClick={() => setEditModal(true)}
               size={"small"}
-              color={"success"}
+              color={"primary"}
             >
               {<EditIcon />}
             </IconButton>

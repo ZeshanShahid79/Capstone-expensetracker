@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import "./TravelerCard.css";
 import TravelerModal from "../TravelerModal";
-import { Alert, Button } from "@mui/material";
+import { Alert, IconButton, Stack } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -71,25 +71,24 @@ export default function TravelerCard(props: TravelerCardProps) {
         <section className={"traveler-card"}>
           <h4>{props.traveler.name}</h4>
           <footer>
-            <Button
-              onClick={() => setEditModal(true)}
-              type={"submit"}
-              size={"small"}
-              variant={"outlined"}
-              color={"success"}
-              endIcon={<EditIcon />}
-            >
-              edit
-            </Button>
-            <Button
-              onClick={deleteTraveler}
-              size={"small"}
-              variant={"outlined"}
-              color={"error"}
-              endIcon={<DeleteForeverIcon />}
-            >
-              delete
-            </Button>
+            <Stack spacing={2} direction={"row"}>
+              <IconButton
+                onClick={() => setEditModal(true)}
+                size={"small"}
+                color={"primary"}
+                type={"submit"}
+              >
+                {<EditIcon />}
+              </IconButton>
+
+              <IconButton
+                onClick={deleteTraveler}
+                size={"small"}
+                color={"error"}
+              >
+                {<DeleteForeverIcon />}
+              </IconButton>
+            </Stack>
           </footer>
         </section>
       </li>
