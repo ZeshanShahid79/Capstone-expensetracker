@@ -10,9 +10,12 @@ import TravelerOverview from "./components/Traveler/TravelerOverview";
 import "./Homepage.css";
 import { MuiBottomNavigation } from "./MuiComponents/MuiBottomNavigation";
 import { Typography } from "@mui/material";
+import { TravelExUserModel } from "./TravelExUserModel";
+import TravelExUserModal from "./TravelExUserModal";
 
 type HomePageProps = {
   fetchUsername: () => void;
+  travelExUser: TravelExUserModel;
 };
 
 export default function HomePage(props: HomePageProps) {
@@ -20,6 +23,7 @@ export default function HomePage(props: HomePageProps) {
     TravelerGroupModel[]
   >([]);
   const [travelers, setTravelers] = useState<TravelerModel[]>([]);
+  const [editModal, setEditModal] = useState<boolean>(false);
 
   const fetchAllTravelerGroups = useCallback(() => {
     axios
@@ -47,10 +51,20 @@ export default function HomePage(props: HomePageProps) {
 
   return (
     <>
+      {editModal && (
+        <TravelExUserModal
+          closeModal={() => setEditModal(false)}
+          modalIsOpen={editModal}
+          travelExUser={props.travelExUser}
+          fetchUsername={props.fetchUsername}
+          logout={logout}
+        />
+      )}
       <header>
         <Typography variant="h4" component={"h1"}>
           TravelEx
           <button onClick={logout}>LogOut</button>
+          <button onClick={() => setEditModal(true)}>edit</button>
         </Typography>
       </header>
 
