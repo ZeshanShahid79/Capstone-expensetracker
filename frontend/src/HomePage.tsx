@@ -7,13 +7,13 @@ import axios from "axios";
 import AddTravelerGroupForm from "./components/TravelerGroup/AddTravelerGroupForm/AddTravelerGroupForm";
 import AddTravelerForm from "./components/Traveler/AddTravelerForm/AddTravelerForm";
 import TravelerOverview from "./components/Traveler/TravelerOverview";
-import "./Homepage.css";
 import { MuiBottomNavigation } from "./MuiComponents/MuiBottomNavigation";
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, IconButton, Stack, Toolbar, Typography } from "@mui/material";
 import { TravelExUserModel } from "./TravelExUserModel";
 import TravelExUserModal from "./TravelExUserModal";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 
 type HomePageProps = {
   fetchUsername: () => void;
@@ -64,16 +64,28 @@ export default function HomePage(props: HomePageProps) {
       )}
       <header>
         <AppBar position={"sticky"}>
-          <Toolbar sx={{ height: 100 }}>
+          <Toolbar
+            sx={{
+              height: 100,
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
             <Typography variant="h3" color={"white"}>
               TravelEx
             </Typography>
-            <IconButton onClick={() => setEditModal(true)}>
-              <AssignmentIndIcon />
-            </IconButton>
-            <IconButton onClick={logout}>
-              <LogoutIcon />
-            </IconButton>
+            <LocalAtmIcon fontSize={"large"} />
+            <Stack
+              direction={"row"}
+              sx={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              <IconButton onClick={() => setEditModal(true)}>
+                <AssignmentIndIcon />
+              </IconButton>
+              <IconButton onClick={logout}>
+                <LogoutIcon />
+              </IconButton>
+            </Stack>
           </Toolbar>
         </AppBar>
       </header>

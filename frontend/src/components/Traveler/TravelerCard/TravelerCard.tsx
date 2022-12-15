@@ -1,11 +1,11 @@
 import { TravelerModel } from "../TravelerModel/TravelerModel";
 import { useState } from "react";
 import axios from "axios";
-import "./TravelerCard.css";
 import TravelerModal from "../TravelerModal";
-import { Alert, IconButton, Stack } from "@mui/material";
+import { Alert, Card, CardContent, IconButton, Stack } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import styled from "styled-components";
 
 type TravelerCardProps = {
   traveler: TravelerModel;
@@ -68,30 +68,36 @@ export default function TravelerCard(props: TravelerCardProps) {
             fetchAllTravelerGroups={props.fetchAllTravelerGroups}
           />
         )}
-        <section className={"traveler-card"}>
-          <h4>{props.traveler.name}</h4>
-          <footer>
-            <Stack spacing={2} direction={"row"}>
-              <IconButton
-                onClick={() => setEditModal(true)}
-                size={"small"}
-                color={"primary"}
-                type={"submit"}
-              >
-                {<EditIcon />}
-              </IconButton>
+        <Card sx={{ marginTop: 3 }}>
+          <CardContent>
+            <StyledButtonBox>
+              <h4>{props.traveler.name}</h4>
+              <Stack spacing={2} direction={"row"}>
+                <IconButton
+                  onClick={() => setEditModal(true)}
+                  size={"small"}
+                  color={"primary"}
+                  type={"submit"}
+                >
+                  {<EditIcon />}
+                </IconButton>
 
-              <IconButton
-                onClick={deleteTraveler}
-                size={"small"}
-                color={"error"}
-              >
-                {<DeleteForeverIcon />}
-              </IconButton>
-            </Stack>
-          </footer>
-        </section>
+                <IconButton
+                  onClick={deleteTraveler}
+                  size={"small"}
+                  color={"error"}
+                >
+                  {<DeleteForeverIcon />}
+                </IconButton>
+              </Stack>
+            </StyledButtonBox>
+          </CardContent>
+        </Card>
       </li>
     </div>
   );
 }
+const StyledButtonBox = styled.span`
+  display: flex;
+  justify-content: space-around;
+`;
