@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
+import { TravelerModel } from "../Traveler/TravelerModel";
 import axios from "axios";
 import {
   Alert,
@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { GroupMemberModel } from "../TravelerGroupModel/GroupMember";
+import { GroupMemberModel } from "./GroupMember";
 import styled from "styled-components";
 
 type AddTravelerProps = {

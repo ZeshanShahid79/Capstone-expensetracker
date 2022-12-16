@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import { TravelerGroupModel } from "../TravelerGroupModel/TravelerGroupModel";
-import { TravelerModel } from "../../Traveler/TravelerModel/TravelerModel";
-import TravelerGroupModal from "../TravelerGroupModal";
-import { Alert, IconButton, Stack } from "@mui/material";
+import { TravelerGroupModel } from "./TravelerGroupModel";
+import { TravelerModel } from "../Traveler/TravelerModel";
+import TravelerGroupModal from "./TravelerGroupModal";
+import {
+  Alert,
+  Box,
+  Card,
+  CardContent,
+  IconButton,
+  Stack,
+} from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -55,7 +62,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
   ]);
 
   return (
-    <li>
+    <div>
       {successMessage && (
         <Alert
           variant={"outlined"}
@@ -85,47 +92,56 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
         />
       )}
 
-      <section>
-        <h4>{props.travelerGroup.description}</h4>
-        <ul>
-          {props.travelerGroup.travelerList.map((traveler) => {
-            return (
-              <li key={traveler.id}>
-                <span>
-                  {traveler.name} {traveler.amount}€
-                </span>
+      <Card sx={{ marginTop: 3 }}>
+        <CardContent>
+          <span>
+            <h4>{props.travelerGroup.description}</h4>
+            <Stack>
+              {props.travelerGroup.travelerList.map((traveler) => {
+                return (
+                  <li key={traveler.id}>
+                    <span>
+                      {traveler.name} {traveler.amount}€
+                    </span>
 
-                {traveler.due !== null ? (
-                  <span>"bekommt von jeden"{traveler.due}</span>
-                ) : (
-                  ""
-                )}
-              </li>
-            );
-          })}
-          s
-        </ul>
-        <div>Total Amount: {travelerGroupAmount}</div>
-        <footer>
-          <Stack spacing={2} direction={"row"}>
-            <IconButton
-              onClick={() => setEditModal(true)}
-              size={"small"}
-              color={"primary"}
-            >
-              {<EditIcon />}
-            </IconButton>
+                    {traveler.due !== 0 ? (
+                      <Box border={"solid"} borderColor={"red"}>
+                        Due: {traveler.due}
+                      </Box>
+                    ) : (
+                      ""
+                    )}
+                  </li>
+                );
+              })}
+            </Stack>
+            <div>Total Amount: {travelerGroupAmount}</div>
 
-            <IconButton
-              onClick={deleteTravelerGroup}
-              size={"small"}
-              color={"error"}
+            <Stack
+              spacing={2}
+              direction={"row"}
+              justifyContent={"center"}
+              marginTop={3}
             >
-              {<DeleteForeverIcon />}
-            </IconButton>
-          </Stack>
-        </footer>
-      </section>
-    </li>
+              <IconButton
+                onClick={() => setEditModal(true)}
+                size={"small"}
+                color={"primary"}
+              >
+                {<EditIcon />}
+              </IconButton>
+
+              <IconButton
+                onClick={deleteTravelerGroup}
+                size={"small"}
+                color={"error"}
+              >
+                {<DeleteForeverIcon />}
+              </IconButton>
+            </Stack>
+          </span>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

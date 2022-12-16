@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { GroupMemberModel } from "./TravelerGroupModel/GroupMember";
+import { GroupMemberModel } from "./GroupMember";
 import axios from "axios";
+import { Button, IconButton, Stack, TextField } from "@mui/material";
 
 type CardInTgModalProps = {
   traveler: GroupMemberModel;
@@ -42,19 +43,31 @@ function CardInTgModal(props: CardInTgModalProps) {
   }
 
   return (
-    <div key={props.traveler.id}>
+    <>
       <p>{props.traveler.name}</p>
       <p>paid already: {props.traveler.amount}</p>
-      <input
+      <TextField
         type={"number"}
         onChange={handleNewAmount}
         value={`${newAmount}`}
+        size={"small"}
       />
-      <button onClick={handleSubmit}>Submit new Amount</button>
-      <button onClick={() => props.handleRemoveFromList(props.traveler.id)}>
-        <DeleteForeverIcon />
-      </button>
-    </div>
+      <Stack spacing={2} direction={"row"}>
+        <Button
+          onClick={handleSubmit}
+          size={"small"}
+          variant={"contained"}
+          color={"primary"}
+        >
+          Add amount
+        </Button>
+        <IconButton
+          onClick={() => props.handleRemoveFromList(props.traveler.id)}
+        >
+          <DeleteForeverIcon />
+        </IconButton>
+      </Stack>
+    </>
   );
 }
 

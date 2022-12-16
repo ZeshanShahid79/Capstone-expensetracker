@@ -1,5 +1,5 @@
-import { TravelerModel } from "./TravelerModel/TravelerModel";
-import TravelerCard from "./TravelerCard/TravelerCard";
+import { TravelerModel } from "./TravelerModel";
+import TravelerCard from "./TravelerCard";
 import { Box, Typography } from "@mui/material";
 import styled from "styled-components";
 
