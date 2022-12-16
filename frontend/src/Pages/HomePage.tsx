@@ -13,7 +13,6 @@ import { TravelExUserModel } from "./TravelExUserModel";
 import TravelExUserModal from "./TravelExUserModal";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 
 type HomePageProps = {
   fetchUsername: () => void;
@@ -74,7 +73,7 @@ export default function HomePage(props: HomePageProps) {
             <Typography variant="h3" color={"white"}>
               TravelEx
             </Typography>
-            <LocalAtmIcon fontSize={"large"} />
+            {/*<LocalAtmIcon fontSize={"large"} />*/}
             <Stack
               direction={"row"}
               sx={{ display: "flex", justifyContent: "flex-end" }}

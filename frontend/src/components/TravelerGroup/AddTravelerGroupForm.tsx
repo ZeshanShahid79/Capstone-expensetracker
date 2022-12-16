@@ -110,6 +110,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
         </Stack>
         <Stack spacing={2}>
           <TextField
+            sx={{ zIndex: 0 }}
             label={"Group Name"}
             placeholder={"Mallorca 2022"}
             value={description}
@@ -117,6 +118,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
             size={"small"}
           />
           <TextField
+            sx={{ zIndex: 0 }}
             label={"Select Traveller"}
             select
             value={""}

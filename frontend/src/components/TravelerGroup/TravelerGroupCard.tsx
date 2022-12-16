@@ -106,7 +106,7 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
 
                     {traveler.due !== 0 ? (
                       <Box border={"solid"} borderColor={"red"}>
-                        Due: {traveler.due}
+                        Due p.P.: {traveler.due}
                       </Box>
                     ) : (
                       ""
