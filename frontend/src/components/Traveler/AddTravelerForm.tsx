@@ -63,6 +63,7 @@ export default function AddTravelerForm(props: AddTravelerProps) {
       <StyledAddTravelerForm onSubmit={handleTravelerFrom}>
         <Stack spacing={2}>
           <TextField
+            sx={{ zIndex: 0 }}
             label={"Name"}
             placeholder={"Zeshan"}
             value={name}

@@ -1,11 +1,13 @@
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Modal from "react-modal";
 import axios from "axios";
-import { Alert, Button } from "@mui/material";
+import { Alert, Button, Stack, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { TravelExUserModel } from "./TravelExUserModel";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 type TravelerModalProps = {
   modalIsOpen: boolean;
@@ -74,12 +76,24 @@ export default function TravelerModal(props: TravelerModalProps) {
       .then(() => navigate("/"));
   }
 
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
   return (
     <Modal
       isOpen={props.modalIsOpen}
       onRequestClose={props.closeModal}
       ariaHideApp={false}
       contentLabel={"update Traveler"}
+      style={customStyles}
     >
       {successMessage && (
         <Alert
@@ -99,38 +113,55 @@ export default function TravelerModal(props: TravelerModalProps) {
           {errorMessage}
         </Alert>
       )}
-      <h1>Update TravelExUser</h1>
-      <form onSubmit={handleFormSubmit}>
-        <label>username:</label>
-        <input type={"text"} value={username} onChange={handleNewName} />
-        <Button
-          type={"submit"}
+      <Typography variant={"h6"} color={"primary"}>
+        Update TravelExUser
+      </Typography>
+      <StyledTravellExuserModalForm onSubmit={handleFormSubmit}>
+        <TextField
+          sx={{ marginTop: 2 }}
+          label={"Username"}
           size={"small"}
-          variant={"outlined"}
-          color={"success"}
-          endIcon={<EditIcon />}
-        >
-          update
-        </Button>
-        <Button
-          onClick={props.closeModal}
-          size={"small"}
-          variant={"contained"}
-          color={"error"}
-          endIcon={<CloseIcon />}
-        >
-          close
-        </Button>
+          value={username}
+          onChange={handleNewName}
+        />
+        <Stack spacing={2}>
+          <Button
+            type={"submit"}
+            size={"small"}
+            variant={"contained"}
+            color={"primary"}
+            endIcon={<EditIcon />}
+          >
+            update
+          </Button>
+          <Button
+            onClick={props.closeModal}
+            size={"small"}
+            variant={"outlined"}
+            color={"primary"}
+            endIcon={<CloseIcon />}
+          >
+            close
+          </Button>
+        </Stack>
         <Button
           onClick={deleteUer}
           size={"small"}
-          variant={"contained"}
+          variant={"outlined"}
           color={"error"}
-          endIcon={<CloseIcon />}
+          endIcon={<DeleteForeverIcon />}
         >
           Delete User
         </Button>
-      </form>
+      </StyledTravellExuserModalForm>
     </Modal>
   );
 }
+const StyledTravellExuserModalForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 12px;
+  height: 300px;
+`;
