@@ -57,7 +57,7 @@ export default function AddTravelerForm(props: AddTravelerProps) {
           {errorMessage}
         </Alert>
       )}
-      <Typography variant={"h5"} color={"primary"}>
+      <Typography variant={"h6"} color={"primary"}>
         Add Traveler
       </Typography>
       <StyledAddTravelerForm onSubmit={handleTravelerFrom}>
@@ -93,5 +93,5 @@ const StyledAddTravelerForm = styled.form`
 
 const StyledSection = styled.section`
   text-align: center;
-  margin-top: 10px;
+  margin-top: 16px;
 `;
