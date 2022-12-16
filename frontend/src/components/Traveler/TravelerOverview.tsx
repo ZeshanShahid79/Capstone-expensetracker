@@ -25,7 +25,7 @@ export default function TravelerOverview({
   });
   return (
     <StyledCardList>
-      <Typography variant={"h5"} color={"primary"}>
+      <Typography variant={"h6"} color={"primary"}>
         List of Persons
       </Typography>
       <Box m={2}>{travelerList}</Box>

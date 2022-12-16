@@ -29,7 +29,9 @@ export default function TravelerGroupOverview(
 
   return (
     <StyledGroupCardList>
-      <Typography variant="h6">Traveler Group</Typography>
+      <Typography variant="h6" color={"primary"}>
+        Traveler Group
+      </Typography>
       <Box m={2}>{GroupsList}</Box>
     </StyledGroupCardList>
   );

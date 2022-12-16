@@ -72,7 +72,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
     setSelectedTravelers([]);
   };
   return (
-    <section>
+    <StyledSection>
       {successMessage && (
         <Alert
           variant={"outlined"}
@@ -91,11 +91,11 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
           {errorMessage}
         </Alert>
       )}
-      <Typography variant={"h5"} color={"primary"}>
+      <Typography variant={"h6"} color={"primary"}>
         Add TravelerGroup
       </Typography>
       <StyledAddTravelerGroupForm onSubmit={handleTravelerFrom}>
-        <Typography variant={"h6"} color={"secondary"}>
+        <Typography variant={"subtitle1"} color={"secondary"}>
           Selected Travellers
         </Typography>
         <Stack>
@@ -141,7 +141,7 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
           </Button>
         </Stack>
       </StyledAddTravelerGroupForm>
-    </section>
+    </StyledSection>
   );
 }
 
@@ -156,4 +156,8 @@ const StyledAddTravelerGroupForm = styled.form`
   align-items: center;
   border-radius: 12px;
   height: 500px;
+`;
+const StyledSection = styled.section`
+  text-align: center;
+  margin-top: 16px;
 `;
