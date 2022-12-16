@@ -1,13 +1,26 @@
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Modal from "react-modal";
-import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
+import { TravelerGroupModel } from "./TravelerGroupModel";
 import axios from "axios";
-import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
-import { Alert, Button, MenuItem, TextField } from "@mui/material";
+import { TravelerModel } from "../Traveler/TravelerModel";
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
-import { GroupMemberModel } from "./TravelerGroupModel/GroupMember";
+import { GroupMemberModel } from "./GroupMember";
 import CardInTGModal from "./CardInTGModal";
+import styled from "styled-components";
 
 type TravelerGroupModalProps = {
   modalIsOpen: boolean;
@@ -63,7 +76,7 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
   }
 
   const handleSelectTravelerInUpdateForm = (
-    event: ChangeEvent<HTMLInputElement>
+    event: SelectChangeEvent<HTMLSelectElement>
   ) => {
     const id = event.target.value;
     const traveler = props.travelers.find((traveler) => traveler.id === id);
@@ -80,12 +93,26 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
     setTravelersInGroup(filteredList);
   };
 
+  const customStylesTg = {
+    content: {
+      height: "400px",
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      overflow: "scroll",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
   return (
     <Modal
       isOpen={props.modalIsOpen}
       onRequestClose={props.closeModal}
       ariaHideApp={false}
       contentLabel={"update Traveler"}
+      style={customStylesTg}
     >
       {successMessage && (
         <Alert
@@ -105,60 +132,77 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
           {errorMessageForGroupUpdate}
         </Alert>
       )}
-      <h1>Update TravelerGroup</h1>
-      <form onSubmit={handleFormSubmit}>
-        <label>GroupName:</label>
-
-        {travelersInGroup.map((traveler) => (
-          <CardInTGModal
-            key={traveler.id}
-            traveler={traveler}
-            travelerGroupId={props.travelerGroup.id}
-            handleRemoveFromList={handleRemoveFromList}
-            fetchAllTravelerGroups={props.fetchAllTravelerGroups}
-          />
-        ))}
-        <input
-          type={"text"}
+      <Typography variant={"h5"} color={"primary"} marginBottom={2}>
+        Update TravellerGroup
+      </Typography>
+      <StyledTravellerGroupModalForm onSubmit={handleFormSubmit}>
+        <TextField
+          sx={{ marginTop: 2 }}
+          label={"Group Name"}
+          size={"small"}
           value={description}
           onChange={handleNewDescription}
         />
+        <Box m={2}>
+          {travelersInGroup.map((traveler) => (
+            <Card sx={{ marginBottom: 2 }}>
+              <CardContent>
+                <CardInTGModal
+                  key={traveler.id}
+                  traveler={traveler}
+                  travelerGroupId={props.travelerGroup.id}
+                  handleRemoveFromList={handleRemoveFromList}
+                  fetchAllTravelerGroups={props.fetchAllTravelerGroups}
+                />
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+        <Stack spacing={2}>
+          <Select
+            label={"Select Traveller"}
+            value={""}
+            onChange={handleSelectTravelerInUpdateForm}
+            size={"small"}
+          >
+            {props.travelers.map((traveler) => {
+              return (
+                <MenuItem key={traveler.id} value={traveler.id}>
+                  {traveler.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
 
-        <TextField
-          select
-          label={"Select Traveller"}
-          value={""}
-          onChange={handleSelectTravelerInUpdateForm}
-          size={"small"}
-        >
-          {props.travelers.map((traveler) => {
-            return (
-              <MenuItem key={traveler.id} value={traveler.id}>
-                {traveler.name}
-              </MenuItem>
-            );
-          })}
-        </TextField>
-
-        <Button
-          type={"submit"}
-          size={"small"}
-          variant={"outlined"}
-          color={"success"}
-          endIcon={<EditIcon />}
-        >
-          update
-        </Button>
-        <Button
-          onClick={props.closeModal}
-          size={"small"}
-          variant={"contained"}
-          color={"error"}
-          endIcon={<CloseIcon />}
-        >
-          close
-        </Button>
-      </form>
+          <Button
+            type={"submit"}
+            size={"small"}
+            variant={"contained"}
+            color={"primary"}
+            endIcon={<EditIcon />}
+          >
+            update
+          </Button>
+          <Button
+            onClick={props.closeModal}
+            size={"small"}
+            variant={"outlined"}
+            color={"primary"}
+            endIcon={<CloseIcon />}
+          >
+            close
+          </Button>
+        </Stack>
+      </StyledTravellerGroupModalForm>
     </Modal>
   );
 }
+const StyledTravellerGroupModalForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  gap: 6px;
+  overflow-y: scroll;
+`;

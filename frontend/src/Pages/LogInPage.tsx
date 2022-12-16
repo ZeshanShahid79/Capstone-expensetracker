@@ -107,7 +107,7 @@ export default function LogInPage(props: LogInPageProps) {
             variant={"outlined"}
             color={"primary"}
           >
-            s Register
+            Register
           </Button>
         </Stack>
       </StyledLoginForm>

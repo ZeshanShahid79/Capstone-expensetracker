@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import HomePage from "./HomePage";
-import LogInPage from "./LogInPage";
+import HomePage from "./Pages/HomePage";
+import LogInPage from "./Pages/LogInPage";
 import axios from "axios";
-import { TravelExUserModel } from "./TravelExUserModel";
+import { TravelExUserModel } from "./Pages/TravelExUserModel";
 
 function App() {
   const [travelExUserLogIn, setTravelExUserLogIn] = useState();

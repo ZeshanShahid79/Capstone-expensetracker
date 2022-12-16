@@ -1,8 +1,9 @@
-import TravelerGroupCard from "./TravelerGroupCard/TravelerGroupCard";
-import { TravelerModel } from "../Traveler/TravelerModel/TravelerModel";
-import { TravelerGroupModel } from "./TravelerGroupModel/TravelerGroupModel";
-import { Typography } from "@mui/material";
+import TravelerGroupCard from "./TravelerGroupCard";
+import { TravelerModel } from "../Traveler/TravelerModel";
+import { TravelerGroupModel } from "./TravelerGroupModel";
+import { Box, Typography } from "@mui/material";
 import React from "react";
+import styled from "styled-components";
 
 type TravelerGroupOverviewProps = {
   travelerGroupList: TravelerGroupModel[];
@@ -27,9 +28,14 @@ export default function TravelerGroupOverview(
   });
 
   return (
-    <>
+    <StyledGroupCardList>
       <Typography variant="h6">Traveler Group</Typography>
-      <ul>{GroupsList}</ul>
-    </>
+      <Box m={2}>{GroupsList}</Box>
+    </StyledGroupCardList>
   );
 }
+const StyledGroupCardList = styled.ul`
+  padding: 0;
+  text-align: center;
+  overflow: scroll;
+`;

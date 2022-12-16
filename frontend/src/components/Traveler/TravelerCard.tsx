@@ -1,7 +1,7 @@
-import { TravelerModel } from "../TravelerModel/TravelerModel";
+import { TravelerModel } from "./TravelerModel";
 import { useState } from "react";
 import axios from "axios";
-import TravelerModal from "../TravelerModal";
+import TravelerModal from "./TravelerModal";
 import { Alert, Card, CardContent, IconButton, Stack } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
