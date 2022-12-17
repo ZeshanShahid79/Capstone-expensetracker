@@ -73,6 +73,9 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
   };
   return (
     <StyledSection>
+      <Typography variant={"h6"} color={"primary"}>
+        Add TravelerGroup
+      </Typography>
       {successMessage && (
         <Alert
           variant={"outlined"}
@@ -91,9 +94,6 @@ export default function AddTravelerGroupForm(props: AddTravelerProps) {
           {errorMessage}
         </Alert>
       )}
-      <Typography variant={"h6"} color={"primary"}>
-        Add TravelerGroup
-      </Typography>
       <StyledAddTravelerGroupForm onSubmit={handleTravelerFrom}>
         <Typography variant={"subtitle1"} color={"secondary"}>
           Selected Travellers

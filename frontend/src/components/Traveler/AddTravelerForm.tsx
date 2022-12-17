@@ -39,6 +39,9 @@ export default function AddTravelerForm(props: AddTravelerProps) {
   };
   return (
     <StyledSection>
+      <Typography variant={"h6"} color={"primary"}>
+        Add Traveler
+      </Typography>
       {successMessage && (
         <Alert
           variant={"outlined"}
@@ -57,9 +60,6 @@ export default function AddTravelerForm(props: AddTravelerProps) {
           {errorMessage}
         </Alert>
       )}
-      <Typography variant={"h6"} color={"primary"}>
-        Add Traveler
-      </Typography>
       <StyledAddTravelerForm onSubmit={handleTravelerFrom}>
         <Stack spacing={2}>
           <TextField

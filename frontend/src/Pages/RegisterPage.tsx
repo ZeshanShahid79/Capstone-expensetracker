@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
 import axios from "axios";
 import PasswordChecklist from "react-password-checklist";
-import { Alert } from "@mui/material";
+import { Alert, Button, Stack, TextField, Typography } from "@mui/material";
+import styled from "styled-components";
 
 type RegisterPageProps = {
   fetchUsername: () => void;
@@ -57,7 +58,7 @@ export default function RegisterPage(props: RegisterPageProps) {
   };
 
   return (
-    <>
+    <StyledRegister>
       {successMessage && (
         <Alert
           variant={"outlined"}
@@ -76,40 +77,58 @@ export default function RegisterPage(props: RegisterPageProps) {
           {errorMessage}
         </Alert>
       )}
-      <section>
-        <form onSubmit={handleRegisterSubmit}>
-          <div>
-            <label htmlFor={"username"}>Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Max Mustermann"
-              required
-            />
-            <label htmlFor={"password"}>Passwort:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Test123!"
-              required
-            />
+      <Typography variant={"h6"} color={"primary"}>
+        Registration
+      </Typography>
+      <StyledLoginForm onSubmit={handleRegisterSubmit}>
+        <Stack spacing={2}>
+          <TextField
+            color={"primary"}
+            label={"Username"}
+            value={username}
+            type="text"
+            id="Username"
+            size={"small"}
+            onChange={(event) => setUsername(event.target.value)}
+          />
 
-            <label htmlFor={"confirmPassword"}>Passwort nochmal:</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Test123!"
-              required
-            />
-          </div>
-          <button>Register</button>
-        </form>
+          <TextField
+            color={"primary"}
+            label={"Password"}
+            type="password"
+            value={password}
+            id="Password"
+            size={"small"}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <TextField
+            color={"primary"}
+            label={"Confirm Password"}
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            size={"small"}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+          />
+        </Stack>
+        <Stack spacing={2} direction={"column"}>
+          <Button
+            onClick={() => register()}
+            size={"small"}
+            variant={"contained"}
+            color={"primary"}
+          >
+            Register
+          </Button>
+          <Button
+            onClick={() => props.wouldLikeRegister(false)}
+            size={"small"}
+            variant={"outlined"}
+            color={"primary"}
+          >
+            Cancel
+          </Button>
+        </Stack>
         <div>
           <PasswordChecklist
             rules={["minLength", "specialChar", "number", "capital", "match"]}
@@ -125,10 +144,22 @@ export default function RegisterPage(props: RegisterPageProps) {
             }}
           />
         </div>
-        <div>
-          <button onClick={() => props.wouldLikeRegister(false)}>cancel</button>
-        </div>
-      </section>
-    </>
+      </StyledLoginForm>
+    </StyledRegister>
   );
 }
+const StyledLoginForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 12px;
+  height: 567px;
+`;
+
+const StyledRegister = styled.div`
+  padding: 0;
+  text-align: center;
+  overflow: scroll;
+  margin-top: 16px;
+`;
