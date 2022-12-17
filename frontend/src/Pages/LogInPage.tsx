@@ -58,8 +58,8 @@ export default function LogInPage(props: LogInPageProps) {
     );
   }
   return (
-    <>
-      <header>
+    <StyledLogin>
+      <StyledHeader>
         <AppBar position={"sticky"}>
           <Toolbar sx={{ height: 100 }}>
             <Typography variant="h3" color={"white"}>
@@ -67,12 +67,11 @@ export default function LogInPage(props: LogInPageProps) {
             </Typography>
           </Toolbar>
         </AppBar>
-      </header>
-
+      </StyledHeader>
+      <Typography variant={"h6"} color={"primary"}>
+        Login
+      </Typography>
       <StyledLoginForm onSubmit={handleLogInForm}>
-        <Typography variant={"h6"} color={"primary"}>
-          Login
-        </Typography>
         <Stack spacing={2}>
           <TextField
             color={"primary"}
@@ -111,7 +110,7 @@ export default function LogInPage(props: LogInPageProps) {
           </Button>
         </Stack>
       </StyledLoginForm>
-    </>
+    </StyledLogin>
   );
 }
 const StyledLoginForm = styled.form`
@@ -121,4 +120,13 @@ const StyledLoginForm = styled.form`
   align-items: center;
   border-radius: 12px;
   height: 567px;
+`;
+const StyledLogin = styled.div`
+  padding: 0;
+  text-align: center;
+  overflow: scroll;
+`;
+
+const StyledHeader = styled.header`
+  margin-bottom: 16px;
 `;

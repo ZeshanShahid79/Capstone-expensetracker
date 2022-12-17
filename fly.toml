@@ -1,4 +1,4 @@
-# fly.toml file generated for travelex on 2022-12-16T22:30:08+01:00
+# fly.toml file generated for travelex on 2022-12-17T12:43:20+01:00
 
 app = "travelex"
 kill_signal = "SIGINT"

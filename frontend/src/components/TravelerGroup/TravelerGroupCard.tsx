@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import styled from "styled-components";
 
 type TravelerCardProps = {
   travelerGroup: TravelerGroupModel;
@@ -96,22 +97,29 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
         <CardContent>
           <span>
             <h4>{props.travelerGroup.description}</h4>
-            <Stack>
+            <Stack spacing={2} marginBottom={2}>
               {props.travelerGroup.travelerList.map((traveler) => {
                 return (
-                  <li key={traveler.id}>
-                    <span>
-                      {traveler.name} {traveler.amount}€
-                    </span>
+                  <Card key={traveler.id}>
+                    <CardContent>
+                      <span>
+                        {traveler.name} {traveler.amount}€
+                      </span>
 
-                    {traveler.due !== 0 ? (
-                      <Box border={"solid"} borderColor={"red"}>
-                        Due p.P.: {traveler.due}
-                      </Box>
-                    ) : (
-                      ""
-                    )}
-                  </li>
+                      {traveler.due !== 0 ? (
+                        <Box
+                          display={"flex"}
+                          justifyContent={"center"}
+                          flexDirection={"row"}
+                        >
+                          <p>Due p.P. : </p>
+                          <StyledP> {traveler.due}€</StyledP>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+                    </CardContent>
+                  </Card>
                 );
               })}
             </Stack>
@@ -145,3 +153,6 @@ export default function TravelerGroupCard(props: TravelerCardProps) {
     </div>
   );
 }
+const StyledP = styled.p`
+  text-decoration: red underline;
+`;

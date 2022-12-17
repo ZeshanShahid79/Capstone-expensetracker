@@ -9,6 +9,8 @@ type CardInTgModalProps = {
   handleRemoveFromList: (id: string) => void;
   travelerGroupId: string;
   fetchAllTravelerGroups: () => void;
+  getBillForGroup: () => void;
+  closeModal: () => void;
 };
 
 function CardInTgModal(props: CardInTgModalProps) {
@@ -32,6 +34,8 @@ function CardInTgModal(props: CardInTgModalProps) {
       .then((response) => {
         if (response.status === 200) {
           props.fetchAllTravelerGroups();
+          props.getBillForGroup();
+          props.closeModal();
           return response.data;
         }
       })

@@ -153,6 +153,8 @@ export default function TravelerGroupModal(props: TravelerGroupModalProps) {
                   travelerGroupId={props.travelerGroup.id}
                   handleRemoveFromList={handleRemoveFromList}
                   fetchAllTravelerGroups={props.fetchAllTravelerGroups}
+                  getBillForGroup={props.getBillForGroup}
+                  closeModal={props.closeModal}
                 />
               </CardContent>
             </Card>
